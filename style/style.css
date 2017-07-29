@@ -1,0 +1,44 @@
+.menu{
+    height: 10vh;
+    background-color: #ccc;
+}
+
+.tools_canvas{
+    height: 90vh; 
+    width: 100%;
+}
+
+.tools{
+    height: 90vh; 
+    width: 10%;
+    background-color: #aaa;
+    float: left;
+}
+
+.btn{
+    height: 10vh;
+    margin: 2vh;
+    border-radius: 10px;
+    border-style: solid;
+    cursor: pointer;
+    background-color: #888;
+    text-align: center;
+}
+
+
+.canvas_deck{
+    margin-left: 10%;
+    height: 90vh; 
+    width: 90%;
+    background-color: #777;
+}
+
+svg{
+    position: absolute;
+    top: 15vh;
+    left: 15%;
+    background-color: #fff;
+    width: 80%; height: 500px;
+    cursor:  crosshair;
+}
+
