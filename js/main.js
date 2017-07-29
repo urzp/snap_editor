@@ -13,7 +13,8 @@ $(document).ready(function(){
 
     
     $( "#svg" ).click(function(event){    
-       //behavior.draw = false     
+       behavior.draw = false     
+        
     })
     
     
