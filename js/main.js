@@ -32,8 +32,8 @@ $(document).ready(function(){
     $("#svg").mousedown(function( event ){
         if (behavior.draw == true){
             if (behavior.type == 'line'){
-                active_figure = draw_line()
-                element
+                active_figure = canvas.draw("line")
+                
             }
             if (behavior.type == 'circle'){active_figure = draw_circle()} 
         }

@@ -1,5 +1,7 @@
 
-elements = []
+canvas = {
+    elements:[]
+}
 
 
 
@@ -10,6 +12,33 @@ function get_xy(){
     var y = event.pageY - y_el
     return {x: x, y: y}
 }
+
+
+
+canvas.draw = function(type){
+    var element = null
+    if (type == 'line'){
+       element = snap.line(get_xy().x, get_xy().y, get_xy().x, get_xy().y);   
+        element.attr({
+            stroke: "#000",
+            strokeWidth: '2',      
+        })
+
+    }
+    if (type == 'circle'){
+       element = snap.circle(get_xy().x, get_xy().y,4); 
+        element.attr({
+            fill:"#FFF",
+            stroke:"#000",
+            strokeWidth: '2'
+        })      
+    }    
+    
+    this.elements.push(element)
+    this.current_el = element
+    return element;  
+}
+
 
 function draw_end (element){ 
         
@@ -36,27 +65,6 @@ function draw_end (element){
        dw_frame.draw(element); 
 }
 
-
-
-
-function draw_line(){
-    var line = snap.line(get_xy().x, get_xy().y, get_xy().x, get_xy().y);   
-    line.attr({
-        stroke: "#000",
-        strokeWidth: '2',      
-    })     
-    return line;
-}
-
-function draw_circle(){
-    var circle = snap.circle(get_xy().x, get_xy().y,4); 
-    circle.attr({
-        fill:"#FFF",
-        stroke:"#000",
-        strokeWidth: '2'
-    })
-    return circle;
-}
 
 function drag_el(dx, dy, posx, posy){
     var posx = posx - parseInt(  $( "#svg" ).offset().left )
