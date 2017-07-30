@@ -31,7 +31,7 @@ dw_frame.init = function(){
     this.nodes.left_bottom = snap.circle();
     $.each(this.nodes,function(index,val){
         val.attr(dw_frame.attr_nodes)
-        val.attr({id: "node_"+index})
+        val.attr({id: "node_"+index, class:"frame_node"})
         val.drag(dw_frame.moveFunc)
     })
     

@@ -14,8 +14,6 @@ function get_xy(){
     return {x: x, y: y}
 }
 
-
-
 canvas.draw = function(type){
     var element = null
     if (type == 'line'){
@@ -39,7 +37,6 @@ canvas.draw = function(type){
     this.current_el = element
     return element;  
 }
-
 
 canvas.draw_end = function(){ 
         var element = this.current_el

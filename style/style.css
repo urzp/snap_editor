@@ -42,3 +42,6 @@ svg{
     cursor:  crosshair;
 }
 
+.frame_node{
+    cursor: e-resize;
+}

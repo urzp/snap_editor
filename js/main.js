@@ -1,5 +1,5 @@
 behavior = {}
-behavior.draw = true
+
 behavior.type = "circle"
 
 
@@ -13,33 +13,50 @@ $(document).ready(function(){
 
     
     $( "#svg" ).click(function(event){    
-       behavior.draw = false     
-       active_figure.drag(canvas.drag_el) 
+       //behavior.draw = false     
+       //active_figure.drag(canvas.drag_el) 
     })
     
     
     
     $("#svg").mousemove(function(event){
-        if ((event.which == 1)&&(behavior.draw == true)) {
+        if ((event.which == 1)&&(behavior.type != "pointer")) {
             canvas.draw_end()
             get_xy()
         } 
     })
     
+    
 
     
         
     $("#svg").mousedown(function( event ){
-        if (behavior.draw == true){
+        if( event.target.getAttribute("class") == "frame_node" ){
+            behavior.type = "pointer"
+        }
+        
+        if (behavior.type != "pointer"){
             active_figure = canvas.draw(behavior.type)     
         }
-         
-        
+
+             
     }) 
         
    
+    $(".pointer").click(function(){
+        behavior.type = "pointer"
+        $("svg").css("cursor","default")
+    })
     
+    $(".line").click(function(){
+        behavior.type = "line"
+        $("svg").css("cursor","crosshair")
+    })
 
+    $(".circle").click(function(){
+        behavior.type = "circle"
+    })
+    
     
     $( "#svg" ).dblclick(function(){
         
