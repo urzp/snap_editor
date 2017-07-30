@@ -1,4 +1,7 @@
 
+elements = []
+
+
 
 function get_xy(){
     var x_el = parseInt(  $( "#svg" ).offset().left )
@@ -32,6 +35,9 @@ function draw_end (element){
 
        dw_frame.draw(element); 
 }
+
+
+
 
 function draw_line(){
     var line = snap.line(get_xy().x, get_xy().y, get_xy().x, get_xy().y);   
