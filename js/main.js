@@ -1,6 +1,6 @@
 behavior = {}
 behavior.draw = true
-behavior.type = "line"
+behavior.type = "circle"
 
 
  
@@ -14,14 +14,14 @@ $(document).ready(function(){
     
     $( "#svg" ).click(function(event){    
        behavior.draw = false     
-       active_figure.drag(drag_el) 
+       active_figure.drag(canvas.drag_el) 
     })
     
     
     
     $("#svg").mousemove(function(event){
         if ((event.which == 1)&&(behavior.draw == true)) {
-            draw_end(active_figure)
+            canvas.draw_end()
             get_xy()
         } 
     })
@@ -31,11 +31,7 @@ $(document).ready(function(){
         
     $("#svg").mousedown(function( event ){
         if (behavior.draw == true){
-            if (behavior.type == 'line'){
-                active_figure = canvas.draw("line")
-                
-            }
-            if (behavior.type == 'circle'){active_figure = draw_circle()} 
+            active_figure = canvas.draw(behavior.type)     
         }
          
         

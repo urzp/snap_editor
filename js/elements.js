@@ -1,6 +1,7 @@
 
 canvas = {
-    elements:[]
+    elements:[],
+    current_el:{}
 }
 
 
@@ -40,8 +41,8 @@ canvas.draw = function(type){
 }
 
 
-function draw_end (element){ 
-        
+canvas.draw_end = function(){ 
+        var element = this.current_el
         if (element.type == "line"){
             element.attr({
                 x2: get_xy().x,
@@ -61,12 +62,10 @@ function draw_end (element){
           })
         }
         
-
        dw_frame.draw(element); 
 }
 
-
-function drag_el(dx, dy, posx, posy){
+canvas.drag_el = function(dx, dy, posx, posy){
     var posx = posx - parseInt(  $( "#svg" ).offset().left )
     var posy = posy - parseInt(  $( "#svg" ).offset().top )
     if (active_figure.type == "line"){ 
@@ -90,3 +89,5 @@ function drag_el(dx, dy, posx, posy){
     dw_frame.draw(active_figure); 
 
 }
+
+
