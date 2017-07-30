@@ -105,7 +105,7 @@ dw_frame.trasform_el = function(move_node){
    }
     if (element.type == "circle"){
         var r =Math.abs( element.attr("cx") - move_node.attr("cx") )
-        var ry =Math.abs( element.attr("cy") - move_node.attr("cy") )
+        //var ry =Math.abs( element.attr("cy") - move_node.attr("cy") )
         //if (rx>ry){var r = rx}else{var r = ry }
         element.attr({
             r: r

@@ -1,6 +1,6 @@
 behavior = {}
 behavior.draw = true
-behavior.type = "circle"
+behavior.type = "line"
 
 
  
@@ -14,7 +14,7 @@ $(document).ready(function(){
     
     $( "#svg" ).click(function(event){    
        behavior.draw = false     
-        
+       active_figure.drag(drag_el) 
     })
     
     
@@ -44,7 +44,7 @@ $(document).ready(function(){
     
     $( "#svg" ).dblclick(function(){
         
-        draw_frame(active_figure)
+        //draw_frame(active_figure)
     })
 
 
@@ -105,6 +105,30 @@ function draw_circle(){
     return circle;
 }
 
+function drag_el(dx, dy, posx, posy){
+    var posx = posx - parseInt(  $( "#svg" ).offset().left )
+    var posy = posy - parseInt(  $( "#svg" ).offset().top )
+    if (active_figure.type == "line"){ 
+        var x1 = parseInt( active_figure.attr('x1') )
+        var x2 = parseInt( active_figure.attr('x2') )
+        var y1 = parseInt( active_figure.attr('y1') )
+        var y2 = parseInt( active_figure.attr('y2') )
+        var cx = parseInt( (x2 - x1)/2 )
+        var cy = parseInt( (y2 - y1)/2 )
+        x1 = x1+(posx-x1-cx) 
+        y1 = y1+(posy - y1 - cy) 
+        x2 = x2+(posx -x2 + cx) 
+        y2 = y2+(posy - y2 + cy)   
+        console.log("x1="+x1+" x2="+x2)     
+        active_figure.attr({ x1: x1, x2: x2, y1:y1, y2:y2 }) 
+    }
+    if (active_figure.type == "circle"){ 
+        active_figure.attr({ cx: posx, cy:posy }) 
+    }
+
+    dw_frame.draw(active_figure); 
+
+}
 /*
 
 
