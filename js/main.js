@@ -37,6 +37,11 @@ $(document).ready(function(){
         
         if (behavior.type != "pointer"){
             active_figure = canvas.draw(behavior.type)     
+        }else{
+            var id_selected = event.target.getAttribute("id")
+            
+             canvas.select(id_selected)
+            
         }
 
              
@@ -46,6 +51,7 @@ $(document).ready(function(){
     $(".pointer").click(function(){
         behavior.type = "pointer"
         $("svg").css("cursor","default")
+        active_figure.drag(canvas.drag_el)
     })
     
     $(".line").click(function(){

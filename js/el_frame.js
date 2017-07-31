@@ -40,7 +40,8 @@ dw_frame.init = function(){
 }
 
 dw_frame.draw =  function(element){
-    dw_frame.current_el = element
+    this.current_el = element
+    //console.log(this.current_el)
     if (dw_frame.inited == false){dw_frame.init()}
     var box = element.getBBox();
     this.box = box;
@@ -60,6 +61,7 @@ dw_frame.moveFunc = function (dx, dy, posx, posy) {
     posx = posx - parseInt(  $( "#svg" ).offset().left )
     posy = posy - parseInt(  $( "#svg" ).offset().top )
     this.attr( { cx: posx , cy: posy } ); 
+    //console.log("test")
     dw_frame.trasform_el(this)
 };
 

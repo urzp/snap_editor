@@ -1,7 +1,8 @@
 
 canvas = {
     elements:[],
-    current_el:{}
+    current_el:{},
+    count:0
 }
 
 
@@ -16,11 +17,13 @@ function get_xy(){
 
 canvas.draw = function(type){
     var element = null
+    this.count++
     if (type == 'line'){
        element = snap.line(get_xy().x, get_xy().y, get_xy().x, get_xy().y);   
         element.attr({
             stroke: "#000",
-            strokeWidth: '2',      
+            strokeWidth: '2', 
+            id: this.count
         })
 
     }
@@ -29,7 +32,8 @@ canvas.draw = function(type){
         element.attr({
             fill:"#FFF",
             stroke:"#000",
-            strokeWidth: '2'
+            strokeWidth: '2',
+            id: this.count
         })      
     }    
     
@@ -84,6 +88,20 @@ canvas.drag_el = function(dx, dy, posx, posy){
     }
 
     dw_frame.draw(active_figure); 
+
+}
+
+canvas.select = function(id){
+    var found = this.elements.find(function(element){
+        if (element.attr("id") == id){return element}
+    })
+    if (found != null) {
+        this.current_el = found
+        dw_frame.draw(found);
+        return found     
+    }else{
+        return null
+    }
 
 }
 
