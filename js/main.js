@@ -1,28 +1,57 @@
 tool = {}
 
 tool.init = function(){
-    this.pointer(on)
+    this.css_pointer (true)
     this.type = "pointer"
-    
+}
+
+tool.select = function(name){
+    this.type = name
+    this.css_buttons(name)
+    switch (name){
+        case 'pointer':
+        this.css_pointer(true)
+        break
+        case 'line':
+        this.css_pointer(false)
+        break
+        case 'circle':
+        this.css_pointer(false)
+        break
+    }
 }
 
 tool.css_pointer  = function (on){
     if (on) {
         $("svg").css("cursor","default")  
         $(".figure").css("cursor", "move") 
-        $(".pointer").addClass("active")
     }else{
         $("svg").css("cursor","crosshair")
         $(".figure").css("cursor", "crosshair")
-        $(".pointer").removeClass("active") 
     } 
 }
  
+tool.css_buttons = function(name){
+    $(".pointer").removeClass("active") 
+    $(".line").removeClass("active") 
+    $(".circle").removeClass("active") 
 
+    switch (name){
+        case 'pointer':
+        $(".pointer").addClass("active") 
+        break
+        case 'line':
+        $(".line").addClass("active") 
+        break
+        case 'circle':
+        $(".circle").addClass("active") 
+        break
+    }
+}
 
 
 $(document).ready(function(){
-
+    tool.init()
     snap = Snap("#svg");
     
     
@@ -63,20 +92,10 @@ $(document).ready(function(){
     }) 
         
    
-    $(".pointer").click(function(){
-        tool.type = "pointer"
-        tool.css_pointer(true)   
-    })
-    
-    $(".line").click(function(){
-        tool.type = "line"
-        tool.css_pointer(false)
-    })
+    $(".pointer").click(function(){ tool.select('pointer') })   
+    $(".line").click(function(){ tool.select('line') })
+    $(".circle").click(function(){ tool.select('circle') })
 
-    $(".circle").click(function(){
-        tool.type = "circle"
-        tool.css_pointer(false)
-    })
     
     
     $( "#svg" ).dblclick(function(){
