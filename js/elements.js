@@ -22,8 +22,7 @@ canvas.draw = function(type){
        element = snap.line(get_xy().x, get_xy().y, get_xy().x, get_xy().y);   
         element.attr({
             stroke: "#000",
-            strokeWidth: '2', 
-            id: this.count
+            strokeWidth: '2' 
         })
 
     }
@@ -32,11 +31,11 @@ canvas.draw = function(type){
         element.attr({
             fill:"#FFF",
             stroke:"#000",
-            strokeWidth: '2',
-            id: this.count
+            strokeWidth: '2' 
         })      
     }    
     
+    element.attr({id: this.count, class: "figure"})
     this.elements.push(element)
     this.current_el = element
     return element;  
@@ -69,6 +68,7 @@ canvas.draw_end = function(){
 canvas.drag_el = function(dx, dy, posx, posy){
     var posx = posx - parseInt(  $( "#svg" ).offset().left )
     var posy = posy - parseInt(  $( "#svg" ).offset().top )
+    
     if (active_figure.type == "line"){ 
         var x1 = parseInt( active_figure.attr('x1') )
         var x2 = parseInt( active_figure.attr('x2') )
@@ -80,7 +80,7 @@ canvas.drag_el = function(dx, dy, posx, posy){
         y1 = y1+(posy - y1 - cy) 
         x2 = x2+(posx -x2 + cx) 
         y2 = y2+(posy - y2 + cy)   
-        console.log("x1="+x1+" x2="+x2)     
+        //console.log("x1="+x1+" x2="+x2)     
         active_figure.attr({ x1: x1, x2: x2, y1:y1, y2:y2 }) 
     }
     if (active_figure.type == "circle"){ 
