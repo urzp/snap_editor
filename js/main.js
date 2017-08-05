@@ -2,7 +2,17 @@ behavior = {}
 
 behavior.type = "circle"
 
-
+behavior.css_pointer  = function (on){
+    if (on) {
+        $("svg").css("cursor","default")  
+        $(".figure").css("cursor", "move") 
+        $(".pointer").addClass("active")
+    }else{
+        $("svg").css("cursor","crosshair")
+        $(".figure").css("cursor", "crosshair")
+        $(".pointer").removeClass("active") 
+    } 
+}
  
 
 $(document).ready(function(){
@@ -40,9 +50,7 @@ $(document).ready(function(){
         }else{
             var id_selected = event.target.getAttribute("id")    
              active_figure =canvas.select(id_selected)
-             if (active_figure != null) {
-                active_figure.drag(canvas.drag_el)
-             }
+             if (active_figure != null) { active_figure.drag(canvas.drag_el) }
         }
 
              
@@ -51,16 +59,17 @@ $(document).ready(function(){
    
     $(".pointer").click(function(){
         behavior.type = "pointer"
-        $("svg").css("cursor","default")      
+        behavior.css_pointer(true)   
     })
     
     $(".line").click(function(){
         behavior.type = "line"
-        $("svg").css("cursor","crosshair")
+        behavior.css_pointer(false)
     })
 
     $(".circle").click(function(){
         behavior.type = "circle"
+        behavior.css_pointer(false)
     })
     
     
@@ -72,6 +81,8 @@ $(document).ready(function(){
 
     
 })
+
+
 
 
 /*

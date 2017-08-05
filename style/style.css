@@ -46,6 +46,6 @@ svg{
     cursor: e-resize;
 }
 
-.figure{
-    
+.active{
+    background-color: #bbb;
 }
