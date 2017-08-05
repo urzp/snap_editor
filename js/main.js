@@ -1,8 +1,12 @@
-behavior = {}
+tool = {}
 
-behavior.type = "circle"
+tool.init = function(){
+    this.pointer(on)
+    this.type = "pointer"
+    
+}
 
-behavior.css_pointer  = function (on){
+tool.css_pointer  = function (on){
     if (on) {
         $("svg").css("cursor","default")  
         $(".figure").css("cursor", "move") 
@@ -15,6 +19,8 @@ behavior.css_pointer  = function (on){
 }
  
 
+
+
 $(document).ready(function(){
 
     snap = Snap("#svg");
@@ -23,14 +29,14 @@ $(document).ready(function(){
 
     
     $( "#svg" ).click(function(event){    
-       //behavior.draw = false     
+       //tool.draw = false     
        //active_figure.drag(canvas.drag_el) 
     })
     
     
     
     $("#svg").mousemove(function(event){
-        if ((event.which == 1)&&(behavior.type != "pointer")) {
+        if ((event.which == 1)&&(tool.type != "pointer")) {
             canvas.draw_end()
             get_xy()
         } 
@@ -42,11 +48,11 @@ $(document).ready(function(){
         
     $("#svg").mousedown(function( event ){
         if( event.target.getAttribute("class") == "frame_node" ){
-            behavior.type = "pointer"
+            tool.type = "pointer"
         }
         
-        if (behavior.type != "pointer"){
-            active_figure = canvas.draw(behavior.type)     
+        if (tool.type != "pointer"){
+            active_figure = canvas.draw(tool.type)     
         }else{
             var id_selected = event.target.getAttribute("id")    
              active_figure =canvas.select(id_selected)
@@ -58,18 +64,18 @@ $(document).ready(function(){
         
    
     $(".pointer").click(function(){
-        behavior.type = "pointer"
-        behavior.css_pointer(true)   
+        tool.type = "pointer"
+        tool.css_pointer(true)   
     })
     
     $(".line").click(function(){
-        behavior.type = "line"
-        behavior.css_pointer(false)
+        tool.type = "line"
+        tool.css_pointer(false)
     })
 
     $(".circle").click(function(){
-        behavior.type = "circle"
-        behavior.css_pointer(false)
+        tool.type = "circle"
+        tool.css_pointer(false)
     })
     
     
