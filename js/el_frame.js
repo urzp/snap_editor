@@ -54,7 +54,18 @@ dw_frame.draw =  function(element){
     this.edges.right.attr({ x1:box.x+box.w, y1:box.y, x2:box.x+box.w, y2:box.y+box.h })
     this.edges.bottom.attr({ x1:box.x+box.w, y1:box.y+box.h, x2:box.x, y2:box.y+box.h })
     this.edges.left.attr({ x1:box.x, y1:box.y+box.h, x2:box.x, y2:box.y })
-       
+      
+    this.move_forvard()   
+}
+
+dw_frame.move_forvard = function(){
+    var last_el = canvas.last_element()
+    $.each(this.nodes,function(index,val){
+        last_el.after(val)
+    })
+    $.each(this.edges,function(index,val){
+        last_el.after(val)
+    })
 }
 
 dw_frame.moveFunc = function (dx, dy, posx, posy) {

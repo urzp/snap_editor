@@ -5,7 +5,10 @@ canvas = {
     count:0
 }
 
-
+canvas.last_element = function(){
+    var index = this.elements.length -1
+    return this.elements[index]
+}
 
 function get_xy(){
     var x_el = parseInt(  $( "#svg" ).offset().left )
