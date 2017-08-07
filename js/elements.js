@@ -6,8 +6,18 @@ canvas = {
 }
 
 canvas.last_element = function(){
-    var index = this.elements.length -1
-    return this.elements[index]
+    var count_el = parseInt( snap.node.childElementCount )
+    for(var i = count_el -1; i>1; i--){
+        var last_el = snap.node.children[i]
+        
+        if (last_el.attributes.class.value == "figure"){
+          var last_el_id = last_el.attributes.id.value  
+          var index = parseInt( last_el_id ) -1
+          i = 0
+          return this.elements[index]
+        }
+    }  
+    
 }
 
 function get_xy(){
@@ -65,6 +75,7 @@ canvas.draw_end = function(){
           })
         }
         
+
        dw_frame.draw(element); 
 }
 
@@ -100,6 +111,7 @@ canvas.select = function(id){
     })
     if (found != null) {
         this.current_el = found
+        found.before(this.last_element()) 
         dw_frame.draw(found);
         return found     
     }else{

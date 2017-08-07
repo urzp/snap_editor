@@ -3,12 +3,14 @@ dw_frame ={
     attr_nodes:{     
         fill:"#FFF",
         stroke:"#30839b",
-        strokeWidth: '2'
+        strokeWidth: '2',
+        class:"frame_node"
     },
     edges:{},
     attr_edges:{
        stroke: "#30839b",
        strokeWidth: '1', 
+       class:"frame_node",
        'stroke-dasharray': '5,5' 
     },
     inited: false,
@@ -31,7 +33,7 @@ dw_frame.init = function(){
     this.nodes.left_bottom = snap.circle();
     $.each(this.nodes,function(index,val){
         val.attr(dw_frame.attr_nodes)
-        val.attr({id: "node_"+index, class:"frame_node"})
+        val.attr({id: "node_"+index})
         val.drag(dw_frame.moveFunc)
     })
     
