@@ -34,6 +34,7 @@ $(document).ready(function(){
         }else{
             var id_selected = event.target.getAttribute("id")    
              active_figure =canvas.select(id_selected)
+             canvas.get_grap_pos()
              if (active_figure != null) { active_figure.drag(canvas.drag_el) }
         }        
     }) 
