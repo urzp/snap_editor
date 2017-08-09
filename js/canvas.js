@@ -11,21 +11,6 @@ canvas.init = function(){
     this.events()
 }
 
-canvas.last_element = function(){
-    var count_el = parseInt( snap.node.childElementCount )
-    for(var i = count_el -1; i>1; i--){
-        var last_el = snap.node.children[i]
-        
-        if (last_el.attributes.class.value == "figure"){
-          var last_el_id = last_el.attributes.id.value  
-          var index = parseInt( last_el_id ) -1
-          i = 0
-          return this.elements[index]
-        }
-    }  
-    
-}
-
 function get_xy(){
     var x_el = parseInt(  $( "#svg" ).offset().left )
     var y_el = parseInt(  $( "#svg" ).offset().top )
@@ -97,15 +82,6 @@ canvas.draw_end = function(shift){
        get_xy(); 
 }
 
-canvas.drag_el = function(dx, dy, posx, posy){
-    if(canvas.current_el != null){
-        var posx = posx - parseInt(  $( "#svg" ).offset().left )
-        var posy = posy - parseInt(  $( "#svg" ).offset().top )
-        canvas.get_center(canvas.current_el)
-        canvas.draw_from_center(posx, posy)
-    }
-}
-
 canvas.draw_from_center = function(posx, posy){
         if (canvas.current_el.type == "line"){ 
             var x1 = parseInt( canvas.current_el.attr('x1') )
@@ -128,6 +104,15 @@ canvas.draw_from_center = function(posx, posy){
         dw_frame.draw(canvas.current_el); 
 }
 
+canvas.drag_el = function(dx, dy, posx, posy){
+    if(canvas.current_el != null){
+        var posx = posx - parseInt(  $( "#svg" ).offset().left )
+        var posy = posy - parseInt(  $( "#svg" ).offset().top )
+        canvas.get_center(canvas.current_el)
+        canvas.draw_from_center(posx, posy)
+    }
+}
+
 canvas.move = function(derection){
     if(this.current_el != null){
        this.catch_el_pos = {x:0, y:0} 
@@ -139,8 +124,26 @@ canvas.move = function(derection){
        if(derection == UP)   { cy--}
        if(derection == DOWN) { cy++}
        canvas.drag_el(null, null, cx, cy)
-
     }
+}
+
+canvas.select = function(id){
+    var found = this.elements.find(function(element){
+        if (element.attr("id") == id){return element}
+    })
+    if (found != null) {
+        this.current_el = found
+        found.before(this.last_element()) 
+        dw_frame.draw(found);
+        return found     
+    }else{
+        return null
+    }
+}
+
+canvas.unselect = function(){
+   this.current_el = null
+   dw_frame.remove() 
 }
 
 canvas.get_grap_pos = function(){
@@ -175,21 +178,17 @@ canvas.get_center = function(element){
     }
 }
 
-canvas.select = function(id){
-    var found = this.elements.find(function(element){
-        if (element.attr("id") == id){return element}
-    })
-    if (found != null) {
-        this.current_el = found
-        found.before(this.last_element()) 
-        dw_frame.draw(found);
-        return found     
-    }else{
-        return null
-    }
-}
-
-canvas.unselect = function(){
-   this.current_el = null
-   dw_frame.remove() 
+canvas.last_element = function(){
+    var count_el = parseInt( snap.node.childElementCount )
+    for(var i = count_el -1; i>1; i--){
+        var last_el = snap.node.children[i]
+        
+        if (last_el.attributes.class.value == "figure"){
+          var last_el_id = last_el.attributes.id.value  
+          var index = parseInt( last_el_id ) -1
+          i = 0
+          return this.elements[index]
+        }
+    }  
+    
 }
