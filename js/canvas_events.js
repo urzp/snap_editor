@@ -7,7 +7,15 @@ canvas.events = function(){
     })   
     
     $("#svg").mousemove(function(event){
-        if ( check_draw_event() ) { canvas.draw_end() } 
+
+        if ( check_draw_event() ) {
+			
+			if(event.shiftKey){
+				canvas.draw_end(true)
+			}else{
+				canvas.draw_end(false)
+			}
+         } 
     })
         
     $("#svg").mousedown(function( event ){
@@ -22,7 +30,7 @@ canvas.events = function(){
     }) 
 
     $(document).keydown(function(e) {
-    	//console.log(e.keyCode)
+    	console.log(e.keyCode)
         if ( e.keyCode == KEY_UP ){
         	canvas.move(UP)
         }
@@ -38,6 +46,9 @@ canvas.events = function(){
         if ( e.keyCode == KEY_ESC ){
         	tool.select('pointer')
         	canvas.unselect()
+        }
+        if ( e.keyCode == KEY_SHIFT ){
+        	event.stopPropagation();
         }
     })
 

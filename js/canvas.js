@@ -60,13 +60,18 @@ canvas.draw = function(type){
     return element;  
 }
 
-canvas.draw_end = function(){ 
+canvas.draw_end = function(shift){ 
         var element = this.current_el
         if (element.type == "line"){
-            element.attr({
-                x2: get_xy().x,
-                y2: get_xy().y
-           })      
+            if (shift){
+                
+            }else{
+                element.attr({
+                    x2: get_xy().x,
+                    y2: get_xy().y
+                }) 
+            }
+     
         }
         if (element.type == "circle"){
           var cx = parseInt(this.current_el.attr("cx")) 
