@@ -6,7 +6,10 @@ canvas = {
 
 }
 
-
+canvas.init = function(){
+    snap = Snap("#svg");
+    this.events()
+}
 
 canvas.last_element = function(){
     var count_el = parseInt( snap.node.childElementCount )
