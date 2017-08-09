@@ -22,6 +22,7 @@ canvas.events = function(){
     }) 
 
     $(document).keydown(function(e) {
+    	//console.log(e.keyCode)
         if ( e.keyCode == KEY_UP ){
         	canvas.move(UP)
         }
@@ -33,6 +34,10 @@ canvas.events = function(){
         }
         if ( e.keyCode == KEY_RIGHT ){
         	canvas.move(RIGHT)
+        }
+        if ( e.keyCode == KEY_ESC ){
+        	tool.select('pointer')
+        	canvas.unselect()
         }
     })
 

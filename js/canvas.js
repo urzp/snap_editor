@@ -174,4 +174,7 @@ canvas.select = function(id){
 
 }
 
-
+canvas.unselect = function(){
+   this.current_el = null
+   dw_frame.remove() 
+}
