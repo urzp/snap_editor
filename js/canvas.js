@@ -79,8 +79,6 @@ canvas.draw_end = function(shift){
                 x2: x,
                 y2: y
             }) 
-            
-     
         }
         if (element.type == "circle"){
           var cx = parseInt(this.current_el.attr("cx")) 
