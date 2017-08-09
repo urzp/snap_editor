@@ -63,14 +63,23 @@ canvas.draw = function(type){
 canvas.draw_end = function(shift){ 
         var element = this.current_el
         if (element.type == "line"){
+            var xy = get_xy()
+            var x =xy.x
+            var y =xy.y
+            var x1 = parseInt( element.attr("x1") )
+            var y1 = parseInt( element.attr("y1") )
             if (shift){
-                
-            }else{
-                element.attr({
-                    x2: get_xy().x,
-                    y2: get_xy().y
-                }) 
+                if (Math.abs(x - x1) > Math.abs(y - y1)){
+                   y = y1
+                }else{
+                    x = x1
+                }
             }
+            element.attr({
+                x2: x,
+                y2: y
+            }) 
+            
      
         }
         if (element.type == "circle"){
