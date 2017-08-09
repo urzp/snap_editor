@@ -21,7 +21,20 @@ canvas.events = function(){
         }        
     }) 
 
-
+    $(document).keydown(function(e) {
+        if ( e.keyCode == KEY_UP ){
+        	canvas.move(UP)
+        }
+        if ( e.keyCode == KEY_DOWN ){
+        	canvas.move(DOWN)
+        }
+        if ( e.keyCode == KEY_LEFT ){
+        	canvas.move(LEFT)
+        }
+        if ( e.keyCode == KEY_RIGHT ){
+        	canvas.move(RIGHT)
+        }
+    })
 
     check_use_frame = function(){
 	   if( event.target.getAttribute("class") == "frame_node"  ){

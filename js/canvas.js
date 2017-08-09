@@ -112,6 +112,21 @@ canvas.drag_el = function(dx, dy, posx, posy){
     }
 }
 
+canvas.move = function(derection){
+    if(this.current_el != null){
+       this.catch_el_pos = {x:0, y:0} 
+       canvas.get_center(canvas.current_el)
+       var cx = this.current_el_center.x +  parseInt(  $( "#svg" ).offset().left )
+       var cy = this.current_el_center.y +  parseInt(  $( "#svg" ).offset().top )
+       if(derection == LEFT) { cx--}
+       if(derection == RIGHT){ cx++}
+       if(derection == UP)   { cy--}
+       if(derection == DOWN) { cy++}
+       canvas.drag_el(null, null, cx, cy)
+
+    }
+}
+
 canvas.get_grap_pos = function(){
     if (canvas.current_el){
         var cursor = get_xy()
