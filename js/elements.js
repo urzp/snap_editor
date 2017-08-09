@@ -3,6 +3,7 @@ canvas = {
     elements:[],
     current_el:{},
     count:0
+    
 }
 
 canvas.last_element = function(){
@@ -63,8 +64,8 @@ canvas.draw_end = function(){
            })      
         }
         if (element.type == "circle"){
-          var cx = parseInt(active_figure.attr("cx")) 
-          var cy = parseInt(active_figure.attr("cy")) 
+          var cx = parseInt(canvas.current_el.attr("cx")) 
+          var cy = parseInt(canvas.current_el.attr("cy")) 
           var x = get_xy().x
           var y = get_xy().y
           if (cx>x){var rx = cx - x}else{var rx = x - cx }
@@ -82,34 +83,34 @@ canvas.draw_end = function(){
 canvas.drag_el = function(dx, dy, posx, posy){
     var posx = posx - parseInt(  $( "#svg" ).offset().left )
     var posy = posy - parseInt(  $( "#svg" ).offset().top )
-    canvas.get_center(active_figure)
-    if (active_figure.type == "line"){ 
-        var x1 = parseInt( active_figure.attr('x1') )
-        var x2 = parseInt( active_figure.attr('x2') )
-        var y1 = parseInt( active_figure.attr('y1') )
-        var y2 = parseInt( active_figure.attr('y2') )
+    canvas.get_center(canvas.current_el)
+    if (canvas.current_el.type == "line"){ 
+        var x1 = parseInt( canvas.current_el.attr('x1') )
+        var x2 = parseInt( canvas.current_el.attr('x2') )
+        var y1 = parseInt( canvas.current_el.attr('y1') )
+        var y2 = parseInt( canvas.current_el.attr('y2') )
         var cx = parseInt( (x2 - x1)/2  )
         var cy = parseInt( (y2 - y1)/2  )
         x1 = x1+(posx - x1 - cx) - canvas.catch_el_pos.x
         y1 = y1+(posy - y1 - cy) - canvas.catch_el_pos.y
         x2 = x2+(posx - x2 + cx)  - canvas.catch_el_pos.x
         y2 = y2+(posy  - y2 + cy) - canvas.catch_el_pos.y 
-        active_figure.attr({ x1: x1, x2: x2, y1:y1, y2:y2 }) 
+        canvas.current_el.attr({ x1: x1, x2: x2, y1:y1, y2:y2 }) 
     }
-    if (active_figure.type == "circle"){ 
+    if (canvas.current_el.type == "circle"){ 
         var rel_cur_x = posx - canvas.catch_el_pos.x
         var rel_cur_y = posy - canvas.catch_el_pos.y
-        active_figure.attr({ cx: rel_cur_x, cy:rel_cur_y }) 
+        canvas.current_el.attr({ cx: rel_cur_x, cy:rel_cur_y }) 
     }
 
-    dw_frame.draw(active_figure); 
+    dw_frame.draw(canvas.current_el); 
 
 }
 
 canvas.get_grap_pos = function(){
-    if (active_figure){
+    if (canvas.current_el){
         var cursor = get_xy()
-        this.get_center(active_figure)
+        this.get_center(canvas.current_el)
         var rel_cur_x = cursor.x - canvas.current_el_center.x 
         var rel_cur_y = cursor.y - canvas.current_el_center.y
         this.catch_el_pos = {x:rel_cur_x, y:rel_cur_y }
@@ -129,9 +130,9 @@ canvas.get_center = function(element){
             this.current_el_center = {x:cx, y:cy }
             return this.current_el_center
         }
-        if (active_figure.type == "circle"){
-            var cx = parseInt( active_figure.attr("cx") )
-            var cy = parseInt( active_figure.attr("cy") )
+        if (canvas.current_el.type == "circle"){
+            var cx = parseInt( canvas.current_el.attr("cx") )
+            var cy = parseInt( canvas.current_el.attr("cy") )
             this.current_el_center = {x:cx, y:cy }
             return this.current_el_center
         }  

@@ -30,12 +30,12 @@ $(document).ready(function(){
             tool.select('pointer')
         }     
         if (tool.type != "pointer"){
-            active_figure = canvas.draw(tool.type)     
+            canvas.draw(tool.type)     
         }else{
             var id_selected = event.target.getAttribute("id")    
-             active_figure =canvas.select(id_selected)
-             canvas.get_grap_pos()
-             if (active_figure != null) { active_figure.drag(canvas.drag_el) }
+            canvas.select(id_selected)
+            canvas.get_grap_pos()
+            if (canvas.current_el != null) { canvas.current_el.drag(canvas.drag_el) }
         }        
     }) 
         
