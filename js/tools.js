@@ -8,6 +8,7 @@ tool.init = function(){
 tool.buttons_events = function(){
     $(".pointer").click(function(){ tool.select('pointer') })   
     $(".line").click(function(){ tool.select('line') })
+    $(".rec").click(function(){ tool.select('rectangle') }) 
     $(".circle").click(function(){ tool.select('circle') })  
 }
 
@@ -19,6 +20,9 @@ tool.select = function(name){
         this.css_pointer(true)
         break
         case 'line':
+        this.css_pointer(false)
+        break
+        case 'rectangle':
         this.css_pointer(false)
         break
         case 'circle':
@@ -39,7 +43,8 @@ tool.css_pointer  = function (on){
  
 tool.css_buttons = function(name){
     $(".pointer").removeClass("active") 
-    $(".line").removeClass("active") 
+    $(".line").removeClass("active")
+    $(".rec").removeClass("active")  
     $(".circle").removeClass("active") 
 
     switch (name){
@@ -48,6 +53,9 @@ tool.css_buttons = function(name){
         break
         case 'line':
         $(".line").addClass("active") 
+        break
+        case 'rectangle':
+        $(".rec").addClass("active") 
         break
         case 'circle':
         $(".circle").addClass("active") 
