@@ -3,7 +3,7 @@ canvas = {
     elements:[],
     current_el:{},
     count:0
-    
+
 }
 
 canvas.last_element = function(){
@@ -64,8 +64,8 @@ canvas.draw_end = function(){
            })      
         }
         if (element.type == "circle"){
-          var cx = parseInt(canvas.current_el.attr("cx")) 
-          var cy = parseInt(canvas.current_el.attr("cy")) 
+          var cx = parseInt(this.current_el.attr("cx")) 
+          var cy = parseInt(this.current_el.attr("cy")) 
           var x = get_xy().x
           var y = get_xy().y
           if (cx>x){var rx = cx - x}else{var rx = x - cx }

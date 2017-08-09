@@ -2,6 +2,13 @@ tool = {}
 
 tool.init = function(){
     this.select("pointer")
+    this.buttons_events()
+}
+
+tool.buttons_events = function(){
+    $(".pointer").click(function(){ tool.select('pointer') })   
+    $(".line").click(function(){ tool.select('line') })
+    $(".circle").click(function(){ tool.select('circle') })  
 }
 
 tool.select = function(name){

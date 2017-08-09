@@ -1,29 +1,23 @@
-
+const MOUSE_LEFT = 1
 
 $(document).ready(function(){
     tool.init()
     snap = Snap("#svg");
     
-    
-
-    
     $( "#svg" ).click(function(event){    
-       //tool.draw = false     
-       //active_figure.drag(canvas.drag_el) 
+    })
+
+
+    $( "#svg" ).dblclick(function(){
     })
     
     
-    
     $("#svg").mousemove(function(event){
-        if ((event.which == 1)&&(tool.type != "pointer")) {
+        if ((event.which == MOUSE_LEFT)&&(tool.type != "pointer")) {
             canvas.draw_end()
             get_xy()
         } 
     })
-    
-    
-
-    
         
     $("#svg").mousedown(function( event ){
         if( event.target.getAttribute("class") == "frame_node" ){
@@ -38,64 +32,6 @@ $(document).ready(function(){
             if (canvas.current_el != null) { canvas.current_el.drag(canvas.drag_el) }
         }        
     }) 
-        
-   
-    $(".pointer").click(function(){ tool.select('pointer') })   
-    $(".line").click(function(){ tool.select('line') })
-    $(".circle").click(function(){ tool.select('circle') })
-
-    
-    
-    $( "#svg" ).dblclick(function(){
-        
-        //draw_frame(active_figure)
-    })
-
-
-    
+  
 })
 
-
-
-
-/*
-
-
-    
-    $( "#svg" ).click(function(event){    
-             
-    })
-    
-    
-    
-    $("#svg").mousemove(function(event){
-        if (event.which == 1) {
-            draw_end(active_figure)
-        }else{
-            remove_frame(active_figure)
-        }    
-    })
-    
-
-        
-    $("#svg").mousedown(function( event ){
-        
-        active_figure = draw_line();  
-        
-    }) 
-        
-   
-    
-
-    
-    $( "#svg" ).dblclick(function(){
-        
-        draw_frame(active_figure)
-    })
-    
-  */ 
-
-
-    //drw_box.remove()
-    //line.transform("r90 200 150")
-    //line.data('name',"first_line")
