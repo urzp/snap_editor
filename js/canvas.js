@@ -30,6 +30,14 @@ canvas.draw = function(type){
         })
 
     }
+    if (type == 'rectangle'){
+       element = snap.rect(get_xy().x, get_xy().y, 10, 10); 
+        element.attr({
+            fill:"#FFF",
+            stroke:"#000",
+            strokeWidth: '2' 
+        })      
+    } 
     if (type == 'circle'){
        element = snap.circle(get_xy().x, get_xy().y,4); 
         element.attr({
@@ -47,8 +55,8 @@ canvas.draw = function(type){
 
 canvas.draw_end = function(shift){ 
         var element = this.current_el
+        var xy = get_xy()
         if (element.type == "line"){
-            var xy = get_xy()
             var x =xy.x
             var y =xy.y
             var x1 = parseInt( element.attr("x1") )
@@ -63,6 +71,16 @@ canvas.draw_end = function(shift){
             element.attr({
                 x2: x,
                 y2: y
+            }) 
+        }
+        if (element.type == "rect"){
+            var x = parseInt( canvas.current_el.attr('x') )
+            var y = parseInt( canvas.current_el.attr('y') )
+            var width =  xy.x - x
+            var height =  xy.y - y
+            element.attr({
+                width: width ,
+                height: height
             }) 
         }
         if (element.type == "circle"){
