@@ -149,8 +149,8 @@ canvas.move = function(derection){
     if(this.current_el != null){
        this.catch_el_pos = {x:0, y:0} 
        canvas.get_center(canvas.current_el)
-       var cx = this.current_el_center.x 
-       var cy = this.current_el_center.y 
+       var cx = this.current_el_center.x + parseInt(  $( "#svg" ).offset().left )
+       var cy = this.current_el_center.y + parseInt(  $( "#svg" ).offset().top )
        if(derection == LEFT) { cx--}
        if(derection == RIGHT){ cx++}
        if(derection == UP)   { cy--}
