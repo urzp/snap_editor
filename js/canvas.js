@@ -22,8 +22,9 @@ function get_xy(){
 canvas.draw = function(type){
     var element = null
     this.count++
+    var cursor = get_xy()
     if (type == 'line'){
-       element = snap.line(get_xy().x, get_xy().y, get_xy().x, get_xy().y);   
+       element = snap.line(cursor.x, cursor.y, cursor.x, cursor.y);   
         element.attr({
             stroke: "#000",
             strokeWidth: '2' 
@@ -31,15 +32,17 @@ canvas.draw = function(type){
 
     }
     if (type == 'rectangle'){
-       element = snap.rect(get_xy().x, get_xy().y, 10, 10); 
+       element = snap.rect(cursor.x, cursor.y, 10, 10); 
         element.attr({
             fill:"#FFF",
             stroke:"#000",
-            strokeWidth: '2' 
+            strokeWidth: '2', 
+            x_start: cursor.x,
+            y_start: cursor.y,
         })      
     } 
     if (type == 'circle'){
-       element = snap.circle(get_xy().x, get_xy().y,4); 
+       element = snap.circle(cursor.x, cursor.y,4); 
         element.attr({
             fill:"#FFF",
             stroke:"#000",
@@ -55,10 +58,10 @@ canvas.draw = function(type){
 
 canvas.draw_end = function(shift){ 
         var element = this.current_el
-        var xy = get_xy()
+        var cursor = get_xy()
         if (element.type == "line"){
-            var x =xy.x
-            var y =xy.y
+            var x =cursor.x
+            var y =cursor.y
             var x1 = parseInt( element.attr("x1") )
             var y1 = parseInt( element.attr("y1") )
             if (shift){
@@ -74,10 +77,12 @@ canvas.draw_end = function(shift){
             }) 
         }
         if (element.type == "rect"){
-            var x = parseInt( canvas.current_el.attr('x') )
-            var y = parseInt( canvas.current_el.attr('y') )
-            var width =  xy.x - x
-            var height =  xy.y - y
+            var x_start = parseInt( canvas.current_el.attr('x_start') )
+            var y_start = parseInt( canvas.current_el.attr('y_start') )
+            var width =  Math.abs(cursor.x - x_start)
+            var height = Math.abs( cursor.y - y_start)
+            if (cursor.x < x_start) { element.attr({x:cursor.x}) }
+            if (cursor.y < y_start) { element.attr({y:cursor.y}) }
             element.attr({
                 width: width ,
                 height: height
