@@ -27,7 +27,9 @@ canvas.draw = function(type){
        element = snap.line(cursor.x, cursor.y, cursor.x, cursor.y);   
         element.attr({
             stroke: "#000",
-            strokeWidth: '2' 
+            strokeWidth: '2',
+            x_start: cursor.x,
+            y_start: cursor.y,
         })
 
     }
@@ -46,7 +48,9 @@ canvas.draw = function(type){
         element.attr({
             fill:"#FFF",
             stroke:"#000",
-            strokeWidth: '2' 
+            strokeWidth: '2',
+            x_start: cursor.x,
+            y_start: cursor.y, 
         })      
     }    
     
@@ -119,6 +123,11 @@ canvas.draw_from_center = function(posx, posy){
             y2 = y2+(posy  - y2 + cy) - canvas.catch_el_pos.y 
             canvas.current_el.attr({ x1: x1, x2: x2, y1:y1, y2:y2 }) 
         }
+        if (canvas.current_el.type == "rect"){ 
+            var x = posx - canvas.catch_el_pos.x
+            var y = posy - canvas.catch_el_pos.y
+            canvas.current_el.attr({x: x, y:y})
+        }
         if (canvas.current_el.type == "circle"){ 
             var rel_cur_x = posx - canvas.catch_el_pos.x
             var rel_cur_y = posy - canvas.catch_el_pos.y
@@ -190,6 +199,10 @@ canvas.get_center = function(element){
             var y2 = parseInt( element.attr('y2') )
             cx = parseInt( (x2 - x1)/2 + x1 )
             cy = parseInt( (y2 - y1)/2 + y1)
+        }
+        if (element.type == "rect"){
+            cx = parseInt( element.attr('x') )
+            cy = parseInt( element.attr('y') )
         }
         if (canvas.current_el.type == "circle"){
             cx = parseInt( canvas.current_el.attr("cx") )
