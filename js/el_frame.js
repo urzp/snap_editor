@@ -91,13 +91,54 @@ dw_frame.remove = function(){
 
 dw_frame.trasform_el = function(move_node){
     var element = this.current_el
+    var left_top = { x: parseInt(this.nodes.left_top.attr("cx")),
+                     y: parseInt(this.nodes.left_top.attr("cy")) }
+    var right_top = { x: parseInt(this.nodes.right_top.attr("cx")),
+                      y: parseInt(this.nodes.right_top.attr("cy")) } 
+    var right_bottom = { x: parseInt(this.nodes.right_bottom.attr("cx")),
+                         y: parseInt(this.nodes.right_bottom.attr("cy")) }
+    var left_bottom = { x: parseInt(this.nodes.left_bottom.attr("cx")),
+                      y: parseInt(this.nodes.left_bottom.attr("cy")) }                                                       
     if (element.type == "line"){
         switch( move_node.attr("id") ){
             case  "node_left_top":
                 element.attr({
-                    x1: this.nodes.left_top.attr("cx"),
-                    y1: this.nodes.left_top.attr("cy")
+                    x1: left_top.x,
+                    y1: left_top.y
                 })
+                break
+            case "node_right_bottom":
+                element.attr({
+                    x2: right_bottom.x,
+                    y2: right_bottom.y
+                })
+                break
+            case "node_left_bottom":
+                element.attr({
+                    x1: left_bottom.x,
+                    y1: left_bottom.y
+                })
+                break
+            case "node_right_top":
+                element.attr({
+                    x2: right_top.x,
+                    y2: right_top.y
+                })
+        }        
+   }
+   if (element.type == "rect"){
+        switch( move_node.attr("id") ){
+            case  "node_left_top":
+                var width = Math.abs(right_top.x - left_top.x)
+                var height = Math.abs(right_bottom.y - left_top.y)
+                if ((width > 0)&(height > 0)){
+                element.attr({
+                    width: width,
+                    height: height,
+                    x: left_top.x,
+                    y: left_top.y
+                })
+                }
                 break
             case "node_right_bottom":
                 element.attr({
@@ -116,7 +157,7 @@ dw_frame.trasform_el = function(move_node){
                     x2: this.nodes.right_top.attr("cx"),
                     y2: this.nodes.right_top.attr("cy")
                 })
-        }        
+        }  
    }
     if (element.type == "circle"){
         var r =Math.abs( element.attr("cx") - move_node.attr("cx") )
