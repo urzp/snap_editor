@@ -129,9 +129,9 @@ dw_frame.trasform_el = function(move_node){
    if (element.type == "rect"){
         switch( move_node.attr("id") ){
             case  "node_left_top":
-                var width = Math.abs(right_top.x - left_top.x)
-                var height = Math.abs(right_bottom.y - left_top.y)
-                if ((width > 0)&(height > 0)){
+                var width = right_top.x - left_top.x
+                var height = right_bottom.y - left_top.y
+                if ((width>0)&(height>0)){
                 element.attr({
                     width: width,
                     height: height,
