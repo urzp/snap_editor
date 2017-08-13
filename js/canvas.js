@@ -85,6 +85,9 @@ canvas.draw_end = function(shift){
             var y_start = parseInt( canvas.current_el.attr('y_start') )
             var width =  Math.abs(cursor.x - x_start)
             var height = Math.abs( cursor.y - y_start)
+            if (shift){
+                if (height > width) {width = height} else {height = width}
+            }
             if (cursor.x < x_start) { element.attr({x:cursor.x}) }
             if (cursor.y < y_start) { element.attr({y:cursor.y}) }
             element.attr({
