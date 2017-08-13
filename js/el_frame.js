@@ -141,22 +141,37 @@ dw_frame.trasform_el = function(move_node){
                 }
                 break
             case "node_right_bottom":
+                var width = right_bottom.x - left_bottom.x
+                var height = right_bottom.y - right_top.y
+                if ((width>0)&(height>0)){
                 element.attr({
-                    x2: this.nodes.right_bottom.attr("cx"),
-                    y2: this.nodes.right_bottom.attr("cy")
+                    width: width,
+                    height: height,
                 })
+                }
                 break
             case "node_left_bottom":
+                var width = right_bottom.x - left_bottom.x
+                var height = left_bottom.y - left_top.y
+                if ((width>0)&(height>0)){
                 element.attr({
-                    x1: this.nodes.left_bottom.attr("cx"),
-                    y1: this.nodes.left_bottom.attr("cy")
+                    width: width,
+                    height: height,
+                    x: left_bottom.x,
+                    y: left_top.y
                 })
+                }
                 break
             case "node_right_top":
+                var width = right_top.x - left_top.x
+                var height = right_bottom.y - right_top.y
+                if ((width>0)&(height>0)){
                 element.attr({
-                    x2: this.nodes.right_top.attr("cx"),
-                    y2: this.nodes.right_top.attr("cy")
+                    width: width,
+                    height: height,
+                    y: right_top.y
                 })
+                }
         }  
    }
     if (element.type == "circle"){
