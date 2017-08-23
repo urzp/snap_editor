@@ -23,6 +23,7 @@ dw_frame.init = function(){
     this.edges.right = snap.line();
     this.edges.bottom = snap.line();
     this.edges.left = snap.line();
+    this.edges.rotate = snap.line();
     $.each(this.edges,function(index,val){
         val.attr(dw_frame.attr_edges) 
     })
@@ -31,6 +32,7 @@ dw_frame.init = function(){
     this.nodes.right_top = snap.circle();
     this.nodes.right_bottom = snap.circle();
     this.nodes.left_bottom = snap.circle();
+    this.nodes.rotate = snap.circle();
     $.each(this.nodes,function(index,val){
         val.attr(dw_frame.attr_nodes)
         val.attr({id: "node_"+index})
@@ -43,7 +45,7 @@ dw_frame.init = function(){
 
 dw_frame.draw =  function(element){
     this.current_el = element
-    //console.log(this.current_el)
+    //console.log(this.current_el) 
     if (dw_frame.inited == false){dw_frame.init()}
     var box = element.getBBox();
     this.box = box;
@@ -51,11 +53,13 @@ dw_frame.draw =  function(element){
     this.nodes.right_top.attr({cx:box.x+box.w,cy:box.y, r:4 })
     this.nodes.right_bottom.attr({cx:box.x+box.w,cy:box.y+box.h, r:4 })
     this.nodes.left_bottom.attr({cx:box.x,cy:box.y+box.h, r:4 }) 
+    this.nodes.rotate.attr({cx:box.x+box.w/2,cy:box.y - 30, r:4 }) 
     
     this.edges.top.attr({ x1:box.x, y1:box.y, x2:box.x+box.w, y2:box.y})
     this.edges.right.attr({ x1:box.x+box.w, y1:box.y, x2:box.x+box.w, y2:box.y+box.h })
     this.edges.bottom.attr({ x1:box.x+box.w, y1:box.y+box.h, x2:box.x, y2:box.y+box.h })
     this.edges.left.attr({ x1:box.x, y1:box.y+box.h, x2:box.x, y2:box.y })
+    this.edges.rotate.attr({ x1:box.x+box.w/2, y1:box.y, x2:box.x+box.w/2, y2:box.y - 30 })
       
     this.move_forvard()   
 }
@@ -98,7 +102,9 @@ dw_frame.trasform_el = function(move_node){
     var right_bottom = { x: parseInt(this.nodes.right_bottom.attr("cx")),
                          y: parseInt(this.nodes.right_bottom.attr("cy")) }
     var left_bottom = { x: parseInt(this.nodes.left_bottom.attr("cx")),
-                      y: parseInt(this.nodes.left_bottom.attr("cy")) }                                                       
+                      y: parseInt(this.nodes.left_bottom.attr("cy")) } 
+    var rotate = { x: parseInt(this.nodes.rotate.attr("cx")),
+                      y: parseInt(this.nodes.rotate.attr("cy")) }                                                       
     if (element.type == "line"){
         switch( move_node.attr("id") ){
             case  "node_left_top":
@@ -124,6 +130,12 @@ dw_frame.trasform_el = function(move_node){
                     x2: right_top.x,
                     y2: right_top.y
                 })
+            case "node_rotate":
+                var cxy = canvas.get_center(element)
+                var ang = rotate.x - cxy.x 
+                var transform = "rotate("+ang+","+cxy.x+","+cxy.y+")"
+                element.attr({transform:transform})
+                break    
         }        
    }
    if (element.type == "rect"){
@@ -172,6 +184,7 @@ dw_frame.trasform_el = function(move_node){
                     y: right_top.y
                 })
                 }
+                break
         }  
    }
     if (element.type == "circle"){

@@ -36,7 +36,7 @@ canvas.draw = function(type){
     if (type == 'rectangle'){
        element = snap.rect(cursor.x, cursor.y, 10, 10); 
         element.attr({
-            fill:"#FFF",
+            fill:"none",
             stroke:"#000",
             strokeWidth: '2', 
             x_start: cursor.x,
@@ -46,7 +46,7 @@ canvas.draw = function(type){
     if (type == 'circle'){
        element = snap.circle(cursor.x, cursor.y,4); 
         element.attr({
-            fill:"#FFF",
+            fill:"none",
             stroke:"#000",
             strokeWidth: '2',
             x_start: cursor.x,
