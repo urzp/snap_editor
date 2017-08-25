@@ -26,6 +26,7 @@ canvas.draw = function(type){
     if (type == 'line'){
        element = snap.line(cursor.x, cursor.y, cursor.x, cursor.y);   
         element.attr({
+            angle: 0,
             stroke: "#000",
             strokeWidth: '2',
             x_start: cursor.x,
@@ -37,6 +38,7 @@ canvas.draw = function(type){
        element = snap.rect(cursor.x, cursor.y, 10, 10); 
         element.attr({
             fill:"none",
+            angle: 0,
             stroke:"#000",
             strokeWidth: '2', 
             x_start: cursor.x,
@@ -47,6 +49,7 @@ canvas.draw = function(type){
        element = snap.circle(cursor.x, cursor.y,4); 
         element.attr({
             fill:"none",
+            angle: 0,
             stroke:"#000",
             strokeWidth: '2',
             x_start: cursor.x,
