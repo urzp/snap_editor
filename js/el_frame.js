@@ -23,7 +23,6 @@ dw_frame.init = function(){
     this.edges.right = snap.line();
     this.edges.bottom = snap.line();
     this.edges.left = snap.line();
-    this.edges.rotate = snap.line();
     $.each(this.edges,function(index,val){
         val.attr(dw_frame.attr_edges) 
     })
@@ -53,7 +52,7 @@ dw_frame.draw =  function(element){
     this.nodes.right_top.attr({cx:box.x2,cy:box.y2, r:4 })
     this.nodes.right_bottom.attr({cx:box.x3,cy:box.y3, r:4 })
     this.nodes.left_bottom.attr({cx:box.x4,cy:box.y4, r:4 }) 
-    this.nodes.rotate.attr({cx:box.x5,cy:box.y5, r:4 }) 
+    this.nodes.rotate.attr({cx:box.x5,cy:box.y5, r:6}) 
     
     this.edges.top.attr({ x1:box.x1, y1:box.y1, x2:box.x2, y2:box.y2})
     this.edges.right.attr({ x1:box.x2, y1:box.y2, x2:box.x3, y2:box.y3 })
@@ -66,47 +65,60 @@ dw_frame.draw =  function(element){
 
 dw_frame.get_frame = function(element){
     var box ={} 
+    var point = {}
     var cxy = canvas.get_center(element)
-    var cx = cxy.x
-    var cy = cxy.y
     var angle = element.attr("angle")
-    var angle_r = angle*Math.PI/180
+
 
     if (element.type == "line"){
-        var x, y, r
-        x = parseInt(element.attr("x1"))
-        y = parseInt(element.attr("y1"))
-        r = Math.round(Math.sqrt( (cx-x)**2 + (cy-y)**2 ))
-        box.x1 = cx + parseInt(Math.cos( Math.PI - Math.asin ((y-cy)/r) + angle_r ) * r)
-        box.y1 = cy + parseInt(Math.sin( Math.PI - Math.asin ((y-cy)/r) + angle_r ) * r)
+        
+        
+        point.x = parseInt(element.attr("x1"))
+        point.y = parseInt(element.attr("y1"))
+        new_point = this.rotate_pont(cxy, point, angle)
+        box.x1 = new_point.x
+        box.y1 = new_point.y
 
-        x = parseInt(element.attr("x2"))
-        y = parseInt(element.attr("y1"))
-        r = Math.round(Math.sqrt( (cx-x)**2 + (cy-y)**2 ))
-        box.x2 = cx - parseInt(Math.cos( Math.PI - Math.asin ((y-cy)/r) - angle_r ) * r)
-        box.y2 = cy + parseInt(Math.sin( Math.PI - Math.asin ((y-cy)/r) - angle_r ) * r)
+        point.x = parseInt(element.attr("x2"))
+        point.y = parseInt(element.attr("y1"))
+        new_point = this.rotate_pont(cxy, point, angle)
+        box.x2 = new_point.x
+        box.y2 = new_point.y
 
-        x = parseInt(element.attr("x2"))
-        y = parseInt(element.attr("y2"))
-        r = Math.round(Math.sqrt( (cx-x)**2 + (cy-y)**2 ))
-        box.x3 = cx - parseInt(Math.cos( Math.PI - Math.asin ((y-cy)/r) - angle_r ) * r)
-        box.y3 = cy + parseInt(Math.sin( Math.PI - Math.asin ((y-cy)/r) - angle_r ) * r)
+        point.x = parseInt(element.attr("x2"))
+        point.y = parseInt(element.attr("y2"))
+        new_point = this.rotate_pont(cxy, point, angle)
+        box.x3 = new_point.x
+        box.y3 = new_point.y
 
-        x = parseInt(element.attr("x1"))
-        y = parseInt(element.attr("y2"))
-        r = Math.round(Math.sqrt( (cx-x)**2 + (cy-y)**2 ))
-        box.x4 = cx + parseInt(Math.cos( Math.PI - Math.asin ((y-cy)/r) + angle_r ) * r)
-        box.y4 = cy + parseInt(Math.sin( Math.PI - Math.asin ((y-cy)/r) + angle_r ) * r)
+        point.x = parseInt(element.attr("x1"))
+        point.y = parseInt(element.attr("y2"))
+        new_point = this.rotate_pont(cxy, point, angle)
+        box.x4 = new_point.x
+        box.y4 = new_point.y
 
-
-        box.x5 = cx 
-        box.y5 = cy 
-
-
+        box.x5 = cxy.x
+        box.y5 = cxy.y 
 
     }
     this.box = box
     return box
+}
+
+dw_frame.rotate_pont = function(centr, point, angle){
+    var angle_r = angle*Math.PI/180
+    var cx, cy, x, y, r, rel_centr
+    cx = centr.x
+    cy = centr.y
+    x = point.x
+    y = point.y
+    r = Math.round(Math.sqrt( (cx-x)**2 + (cy-y)**2 ))
+    if ( (cx - x ) >= 0 ) { rel_centr = 1 } else { rel_centr = -1 }
+    var new_point = {  
+        x: cx + rel_centr * parseInt(Math.cos( Math.PI - Math.asin ((y-cy)/r) + rel_centr * angle_r ) * r),
+        y: cy + parseInt(Math.sin( Math.PI - Math.asin ((y-cy)/r) + rel_centr * angle_r ) * r)
+    }
+    return new_point
 }
 
 /*
