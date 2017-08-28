@@ -24,8 +24,10 @@ canvas.events = function(){
             canvas.draw(tool.type)     
         }else{      
             canvas.select( event.target.getAttribute("id"))
-            canvas.get_grap_pos()
-            canvas.current_el.drag(canvas.drag_el)
+            console.log("drag")
+            //canvas.get_grap_pos()
+            //canvas.current_el.drag(canvas.drag_el)
+
         }        
     }) 
 

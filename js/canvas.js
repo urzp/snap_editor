@@ -31,7 +31,29 @@ canvas.draw = function(type){
             strokeWidth: '2',
             x_start: cursor.x,
             y_start: cursor.y,
+            transform: "matrix(1 0 0 1 0 0)"
         })
+
+         dragMove = function(dx, dy, ev, x, y) {
+                
+                var transform = origTransform + (origTransform ? "T" : "t") + [dx, dy]
+
+                element.attr({
+                    transform: transform
+                });
+
+                //transform="translate("+dx+","+dy+")"
+                //canvas.current_el.attr({transform:transform})
+                
+                dw_frame.draw(canvas.current_el)     
+        }
+
+        beforeMove = function(){
+            origTransform = element.transform().local
+        }
+
+        element.drag(dragMove, beforeMove) 
+
 
     }
     if (type == 'rectangle'){
@@ -43,7 +65,8 @@ canvas.draw = function(type){
             strokeWidth: '2', 
             x_start: cursor.x,
             y_start: cursor.y,
-        })      
+        })    
+
     } 
     if (type == 'circle'){
        element = snap.circle(cursor.x, cursor.y,4); 
@@ -142,12 +165,12 @@ canvas.draw_from_center = function(posx, posy){
         dw_frame.draw(canvas.current_el); 
 }
 
-canvas.drag_el = function(dx, dy, posx, posy){
+canvas.drag_el = function(dx, dy){
     if(canvas.current_el != null){
-        var posx = posx - parseInt(  $( "#svg" ).offset().left )
-        var posy = posy - parseInt(  $( "#svg" ).offset().top )
-        canvas.get_center(canvas.current_el)
-        canvas.draw_from_center(posx, posy)
+        
+        transform="translate("+dx+","+dy+")"
+        canvas.current_el.attr({transform:transform})
+        dw_frame.draw(canvas.current_el)     
     }
 }
 

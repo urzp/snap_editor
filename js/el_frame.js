@@ -121,33 +121,7 @@ dw_frame.rotate_pont = function(centr, point, angle){
     return new_point
 }
 
-/*
-dw_frame.rotate = function(angle, element){
-    var cxy = canvas.get_center(element)
-    var box = element.getBBox()
-    var xy
-    var angle_r = angle*Math.PI/180
-    //xy = this.new_coordinats(cxy, box.x, box.y, angle)
 
-    this.box.x = box.x
-    this.box.y = box.y
-    this.box.x2 = box.x + Math.cos(angle_r) * box.w
-    this.box.y2 = box.y + Math.sin(angle_r) * box.w
-    this.box.w = box.w
-}
-
-dw_frame.new_coordinats = function(cxy, x, y, angle){
-    var cx = cxy.x
-    var cy = cxy.y
-    var angle_r = angle*Math.PI/180
-    var r = Math.round(Math.sqrt( (cx-x)**2 + (cy-y)**2 ))
-    
-    var x_new = cx + Math.cos( Math.PI - Math.asin ((y-cy)/r) - angle_r ) * r
-    var y_new = cy + Math.sin( Math.PI - Math.asin ((y-cy)/r) - angle_r ) * r
-    console.log(Math.asin ((y-cy)/r))
-    return {x: x_new, y: y_new }
-}
-*/
 
 dw_frame.move_forvard = function(){
     var last_el = canvas.last_element()
@@ -179,7 +153,12 @@ dw_frame.remove = function(){
 }
 
 dw_frame.trasform_el = function(move_node){
+    var point = {}
+    var new_point = {}
     var element = this.current_el
+    var cxy = canvas.get_center(element)
+    var angle = parseInt(element.attr("angle"))*(-1)
+
     var left_top = { x: parseInt(this.nodes.left_top.attr("cx")),
                      y: parseInt(this.nodes.left_top.attr("cy")) }
     var right_top = { x: parseInt(this.nodes.right_top.attr("cx")),
@@ -193,7 +172,7 @@ dw_frame.trasform_el = function(move_node){
     if (element.type == "line"){
         switch( move_node.attr("id") ){
             case  "node_left_top":
-                element.attr({
+                 element.attr({
                     x1: left_top.x,
                     y1: left_top.y
                 })
@@ -218,9 +197,11 @@ dw_frame.trasform_el = function(move_node){
             case "node_rotate":
                 var cxy = canvas.get_center(element)
                 var ang = rotate.x - cxy.x 
-                var transform = "rotate("+ang+","+cxy.x+","+cxy.y+")"
-                element.attr({transform:transform})
-                element.attr({angle:ang})
+
+                element.matrix.rotate(ang, cxy.x, cxy.y)
+                //var transform = "rotate("+ang+","+cxy.x+","+cxy.y+")"
+                //element.attr({transform:transform})
+                //element.attr({angle:ang})
                 break    
         }        
    }
