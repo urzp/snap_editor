@@ -42,9 +42,6 @@ canvas.draw = function(type){
                     transform: transform
                 });
 
-                //transform="translate("+dx+","+dy+")"
-                //canvas.current_el.attr({transform:transform})
-                
                 dw_frame.draw(canvas.current_el)     
         }
 
@@ -188,6 +185,13 @@ canvas.move = function(derection){
     }
 }
 
+canvas.rotate = function(element , dx ){
+    var cxy = canvas.get_center(element)
+    var ang = dx - cxy.x 
+    var transform = origTransform + (origTransform ? "r" : "r") + ang
+    element.attr({transform: transform })
+}
+
 canvas.select = function(id){
     var found = this.elements.find(function(element){
         if (element.attr("id") == id){return element}
@@ -237,8 +241,13 @@ canvas.get_center = function(element){
             cx = parseInt( canvas.current_el.attr("cx") )
             cy = parseInt( canvas.current_el.attr("cy") )
         } 
+        //cx = cx + parseInt( element.matrix.e )
+        //cy = cy + parseInt( element.matrix.f )
+        //console.log(element.matrix.e)
 
-        this.current_el_center = {x:cx, y:cy }
+        var box = element.getBBox()
+
+        this.current_el_center = {x:box.cx, y:box.cy }
         return this.current_el_center 
     }
 }
@@ -256,4 +265,18 @@ canvas.last_element = function(){
         }
     }  
     
+}
+
+canvas.matrix_data = function(){
+    var matrix =this.current_el.matrix
+    console.log("angle "+ this.current_el.attr("angle")) 
+    console.log("matrix")
+    console.log("a:" + deg(Math.acos(matrix.a)) +" "+ matrix.a )
+    console.log("b:" + deg(Math.asin(matrix.b)) +" "+ matrix.b )
+    console.log("c:" + deg(Math.asin(matrix.c)) +" "+ matrix.c )
+    console.log("d:" + deg(Math.acos(matrix.d)) +" "+ matrix.d )
+}
+
+deg = function(angle){
+    return angle * (180 / Math.PI);
 }

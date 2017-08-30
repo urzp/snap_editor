@@ -35,7 +35,7 @@ dw_frame.init = function(){
     $.each(this.nodes,function(index,val){
         val.attr(dw_frame.attr_nodes)
         val.attr({id: "node_"+index})
-        val.drag(dw_frame.moveFunc)
+        val.drag(dw_frame.moveFunc, dw_frame.beforeMove )
     })
     
     
@@ -48,6 +48,9 @@ dw_frame.draw =  function(element){
     if (dw_frame.inited == false){dw_frame.init()}
     this.get_frame(element)
     var box = this.get_frame(element)
+    var box1 =  element.getBBox()
+
+
     this.nodes.left_top.attr({cx:box.x1,cy:box.y1, r:4 })   
     this.nodes.right_top.attr({cx:box.x2,cy:box.y2, r:4 })
     this.nodes.right_bottom.attr({cx:box.x3,cy:box.y3, r:4 })
@@ -68,34 +71,31 @@ dw_frame.get_frame = function(element){
     var point = {}
     var cxy = canvas.get_center(element)
     var angle = element.attr("angle")
+    var angle_r = angle*Math.PI/180
 
 
     if (element.type == "line"){
         
-        
-        point.x = parseInt(element.attr("x1"))
-        point.y = parseInt(element.attr("y1"))
-        new_point = this.rotate_pont(cxy, point, angle)
-        box.x1 = new_point.x
-        box.y1 = new_point.y
+        var box1 =  element.getBBox()
+        var x1 = parseInt(element.attr("x1")) 
+        var y1 = parseInt(element.attr("y1")) 
+        var x2 = parseInt(element.attr("x2")) 
+        var y2 = parseInt(element.attr("y2")) 
 
-        point.x = parseInt(element.attr("x2"))
-        point.y = parseInt(element.attr("y1"))
-        new_point = this.rotate_pont(cxy, point, angle)
-        box.x2 = new_point.x
-        box.y2 = new_point.y
+        var matrix = element.matrix
+        var h = y2 - y1 
 
-        point.x = parseInt(element.attr("x2"))
-        point.y = parseInt(element.attr("y2"))
-        new_point = this.rotate_pont(cxy, point, angle)
-        box.x3 = new_point.x
-        box.y3 = new_point.y
+        box.x1 = matrix.e + x1*matrix.a - y1*matrix.b
+        box.y1 = matrix.f + y1*matrix.a + x1*matrix.b
 
-        point.x = parseInt(element.attr("x1"))
-        point.y = parseInt(element.attr("y2"))
-        new_point = this.rotate_pont(cxy, point, angle)
-        box.x4 = new_point.x
-        box.y4 = new_point.y
+        box.x3 = matrix.e + x2*matrix.a - y2*matrix.b
+        box.y3 = matrix.f + y2*matrix.a + x2*matrix.b
+
+        box.x2 = box.x3 + h*matrix.b
+        box.y2 = box.y3 - h*matrix.a
+
+        box.x4 = box.x1 - h*matrix.b
+        box.y4 = box.y1 + h*matrix.a
 
         box.x5 = cxy.x
         box.y5 = cxy.y 
@@ -133,11 +133,14 @@ dw_frame.move_forvard = function(){
     })
 }
 
+dw_frame.beforeMove = function(){
+    origTransform = dw_frame.current_el.transform().local
+}
+
 dw_frame.moveFunc = function (dx, dy, posx, posy) {
     posx = posx - parseInt(  $( "#svg" ).offset().left )
     posy = posy - parseInt(  $( "#svg" ).offset().top )
     this.attr( { cx: posx , cy: posy } ); 
-    //console.log("test")
     dw_frame.trasform_el(this)
 };
 
@@ -153,11 +156,10 @@ dw_frame.remove = function(){
 }
 
 dw_frame.trasform_el = function(move_node){
-    var point = {}
-    var new_point = {}
+
     var element = this.current_el
-    var cxy = canvas.get_center(element)
-    var angle = parseInt(element.attr("angle"))*(-1)
+
+
 
     var left_top = { x: parseInt(this.nodes.left_top.attr("cx")),
                      y: parseInt(this.nodes.left_top.attr("cy")) }
@@ -168,7 +170,9 @@ dw_frame.trasform_el = function(move_node){
     var left_bottom = { x: parseInt(this.nodes.left_bottom.attr("cx")),
                       y: parseInt(this.nodes.left_bottom.attr("cy")) } 
     var rotate = { x: parseInt(this.nodes.rotate.attr("cx")),
-                      y: parseInt(this.nodes.rotate.attr("cy")) }                                                       
+                      y: parseInt(this.nodes.rotate.attr("cy")) }     
+
+
     if (element.type == "line"){
         switch( move_node.attr("id") ){
             case  "node_left_top":
@@ -195,14 +199,9 @@ dw_frame.trasform_el = function(move_node){
                     y2: right_top.y
                 })
             case "node_rotate":
-                var cxy = canvas.get_center(element)
-                var ang = rotate.x - cxy.x 
-
-                element.matrix.rotate(ang, cxy.x, cxy.y)
-                //var transform = "rotate("+ang+","+cxy.x+","+cxy.y+")"
-                //element.attr({transform:transform})
-                //element.attr({angle:ang})
-                break    
+                
+                canvas.rotate(element, rotate.x)
+            break    
         }        
    }
    if (element.type == "rect"){
@@ -252,15 +251,20 @@ dw_frame.trasform_el = function(move_node){
                 })
                 }
                 break
+
         }  
    }
     if (element.type == "circle"){
-        var r =Math.abs( element.attr("cx") - move_node.attr("cx") )
-        //var ry =Math.abs( element.attr("cy") - move_node.attr("cy") )
-        //if (rx>ry){var r = rx}else{var r = ry }
-        element.attr({
-            r: r
-        })
+        switch( move_node.attr("id") ){
+            case  "node_left_top":
+                var r =Math.abs( element.attr("cx") - move_node.attr("cx") )
+                //var ry =Math.abs( element.attr("cy") - move_node.attr("cy") )
+                //if (rx>ry){var r = rx}else{var r = ry }
+                element.attr({
+                    r: r
+                })
+            break
+        }
        
     }
   
