@@ -102,8 +102,28 @@ dw_frame.get_frame = function(element){
         box.x5 = cxy.x
         box.y5 = cxy.y 
 
-        box.x6 = matrix.e
-        box.y6 = matrix.f
+    }
+    if (element.type == "rect"){
+        var box1 =  element.getBBox()
+        var x = parseInt(element.attr("x")) 
+        var y = parseInt(element.attr("y")) 
+        var w = parseInt(element.attr("width")) 
+        var h = parseInt(element.attr("height")) 
+
+        box.x1 = x
+        box.y1 = y
+
+        box.x2 = x + w
+        box.y2 = y 
+
+        box.x3 = x + w
+        box.y3 = y + h
+
+        box.x4 = x
+        box.y4 = y + h       
+
+        box.x5 = cxy.x
+        box.y5 = cxy.y 
 
     }
     this.box = box

@@ -19,20 +19,7 @@ function get_xy(){
     return {x: x, y: y}
 }
 
-canvas.draw = function(type){
-    var element = null
-    this.count++
-    var cursor = get_xy()
-    if (type == 'line'){
-       element = snap.line(cursor.x, cursor.y, cursor.x, cursor.y);   
-        element.attr({
-            angle: 0,
-            stroke: "#000",
-            strokeWidth: '2',
-            x_start: cursor.x,
-            y_start: cursor.y,
-            transform: "matrix(1 0 0 1 0 0)"
-        })
+canvas.dragable = function(element){
 
          dragMove = function(dx, dy, ev, x, y) {
                 
@@ -52,6 +39,27 @@ canvas.draw = function(type){
         element.drag(dragMove, beforeMove) 
 
 
+}
+
+canvas.draw = function(type){
+    var element = null
+    this.count++
+    var cursor = get_xy()
+    if (type == 'line'){
+       element = snap.line(cursor.x, cursor.y, cursor.x, cursor.y);   
+        element.attr({
+            angle: 0,
+            stroke: "#000",
+            strokeWidth: '2',
+            x_start: cursor.x,
+            y_start: cursor.y,
+            transform: "matrix(1 0 0 1 0 0)"
+        })
+
+        
+
+
+
     }
     if (type == 'rectangle'){
        element = snap.rect(cursor.x, cursor.y, 10, 10); 
@@ -63,6 +71,8 @@ canvas.draw = function(type){
             x_start: cursor.x,
             y_start: cursor.y,
         })    
+
+        
 
     } 
     if (type == 'circle'){
@@ -80,6 +90,7 @@ canvas.draw = function(type){
     element.attr({id: this.count, class: "figure"})
     this.elements.push(element)
     this.current_el = element
+    this.dragable(element)
     return element;  
 }
 
