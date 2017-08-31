@@ -109,18 +109,19 @@ dw_frame.get_frame = function(element){
         var y = parseInt(element.attr("y")) 
         var w = parseInt(element.attr("width")) 
         var h = parseInt(element.attr("height")) 
+        var matrix = element.matrix
 
-        box.x1 = x
-        box.y1 = y
+        box.x1 = matrix.e + x*matrix.a - y*matrix.b
+        box.y1 = matrix.f + y*matrix.a + x*matrix.b
 
-        box.x2 = x + w
-        box.y2 = y 
+        box.x2 = box.x1 + w*matrix.a
+        box.y2 = box.y1 + w*matrix.b 
 
-        box.x3 = x + w
-        box.y3 = y + h
+        box.x3 = box.x2 - h*matrix.b
+        box.y3 = box.y2 + h*matrix.a
 
-        box.x4 = x
-        box.y4 = y + h       
+        box.x4 = box.x1 - h*matrix.b
+        box.y4 = box.y1 + h*matrix.a       
 
         box.x5 = cxy.x
         box.y5 = cxy.y 
