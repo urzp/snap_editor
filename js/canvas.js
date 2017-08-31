@@ -267,15 +267,43 @@ canvas.last_element = function(){
     
 }
 
+canvas.canculate_rel_point = function(point,element){
+    var matrix = element.matrix
+    var cxy = this.get_center(element)
+    var mdx = cxy.x + (matrix.e-cxy.x)*matrix.a + (matrix.f - cxy.y)*matrix.b 
+    var mdy = cxy.y + (matrix.f-cxy.y)*matrix.a - (matrix.e - cxy.x)*matrix.b 
+    var new_x = cxy.x + (point.x - cxy.x)*matrix.a + (point.y - cxy.y)*matrix.b - mdx
+    var new_y = cxy.y + (point.y - cxy.y)*matrix.a - (point.x - cxy.x)*matrix.b - mdy
+    return {x:new_x, y:new_y}
+}
+
+
 canvas.matrix_data = function(){
+    var cxy = this.get_center(this.current_el)
     var matrix =this.current_el.matrix
+    
+    var x1rot = parseInt( dw_frame.nodes.left_top.attr("cx") )
+    var y1rot = parseInt( dw_frame.nodes.left_top.attr("cy") )
+
+    var mdx = parseInt( cxy.x + (matrix.e-cxy.x)*matrix.a + (matrix.f - cxy.y)*matrix.b )
+    var mdy = parseInt( cxy.y + (matrix.f-cxy.y)*matrix.a - (matrix.e - cxy.x)*matrix.b )
+
+    var nx = parseInt( cxy.x + (x1rot-cxy.x)*matrix.a + (y1rot - cxy.y)*matrix.b ) 
+    var ny = parseInt( cxy.y + (y1rot - cxy.y)*matrix.a - (x1rot-cxy.x)*matrix.b )
+
     console.log("angle "+ this.current_el.attr("angle")) 
+    console.log("x1 "+ this.current_el.attr("x1") + "  x1rot " + x1rot + " nx "+ nx + " mdx " + mdx) 
+    console.log("y1 "+ this.current_el.attr("y1") + "  y1rot " + y1rot + " ny "+ ny + " mdy " + mdy) 
     console.log("matrix")
     console.log("a:" + deg(Math.acos(matrix.a)) +" "+ matrix.a )
     console.log("b:" + deg(Math.asin(matrix.b)) +" "+ matrix.b )
     console.log("c:" + deg(Math.asin(matrix.c)) +" "+ matrix.c )
     console.log("d:" + deg(Math.acos(matrix.d)) +" "+ matrix.d )
+    console.log("e:" + matrix.e )
+    console.log("f:" + matrix.f )
 }
+
+
 
 deg = function(angle){
     return angle * (180 / Math.PI);

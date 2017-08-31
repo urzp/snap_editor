@@ -32,6 +32,7 @@ dw_frame.init = function(){
     this.nodes.right_bottom = snap.circle();
     this.nodes.left_bottom = snap.circle();
     this.nodes.rotate = snap.circle();
+
     $.each(this.nodes,function(index,val){
         val.attr(dw_frame.attr_nodes)
         val.attr({id: "node_"+index})
@@ -56,6 +57,7 @@ dw_frame.draw =  function(element){
     this.nodes.right_bottom.attr({cx:box.x3,cy:box.y3, r:4 })
     this.nodes.left_bottom.attr({cx:box.x4,cy:box.y4, r:4 }) 
     this.nodes.rotate.attr({cx:box.x5,cy:box.y5, r:6}) 
+
     
     this.edges.top.attr({ x1:box.x1, y1:box.y1, x2:box.x2, y2:box.y2})
     this.edges.right.attr({ x1:box.x2, y1:box.y2, x2:box.x3, y2:box.y3 })
@@ -99,6 +101,9 @@ dw_frame.get_frame = function(element){
 
         box.x5 = cxy.x
         box.y5 = cxy.y 
+
+        box.x6 = matrix.e
+        box.y6 = matrix.f
 
     }
     this.box = box
@@ -174,11 +179,19 @@ dw_frame.trasform_el = function(move_node){
 
 
     if (element.type == "line"){
+        var matrix = element.matrix
+        var cxy = canvas.get_center(element)
+        var x1 = parseInt(element.attr("x1")) 
+        var y1 = parseInt(element.attr("y1")) 
+        var x2 = parseInt(element.attr("x2")) 
+        var y2 = parseInt(element.attr("y2")) 
+
         switch( move_node.attr("id") ){
             case  "node_left_top":
+                var new_point = canvas.canculate_rel_point(left_top, element)
                  element.attr({
-                    x1: left_top.x,
-                    y1: left_top.y
+                    x1: new_point.x,  
+                    y1: new_point.y 
                 })
                 break
             case "node_right_bottom":
@@ -199,7 +212,6 @@ dw_frame.trasform_el = function(move_node){
                     y2: right_top.y
                 })
             case "node_rotate":
-                
                 canvas.rotate(element, rotate.x)
             break    
         }        
@@ -251,6 +263,9 @@ dw_frame.trasform_el = function(move_node){
                 })
                 }
                 break
+            case "node_rotate":
+                canvas.rotate(element, rotate.x)
+                break    
 
         }  
    }
