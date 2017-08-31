@@ -180,6 +180,7 @@ dw_frame.trasform_el = function(move_node){
 
     if (element.type == "line"){
         var matrix = element.matrix
+        var new_point
         var cxy = canvas.get_center(element)
         var x1 = parseInt(element.attr("x1")) 
         var y1 = parseInt(element.attr("y1")) 
@@ -188,29 +189,33 @@ dw_frame.trasform_el = function(move_node){
 
         switch( move_node.attr("id") ){
             case  "node_left_top":
-                var new_point = canvas.canculate_rel_point(left_top, element)
+                new_point = canvas.canculate_rel_point(left_top, element)
                  element.attr({
                     x1: new_point.x,  
                     y1: new_point.y 
                 })
                 break
             case "node_right_bottom":
+                new_point = canvas.canculate_rel_point(right_bottom, element)
                 element.attr({
-                    x2: right_bottom.x,
-                    y2: right_bottom.y
+                    x2: new_point.x,
+                    y2: new_point.y 
                 })
                 break
             case "node_left_bottom":
+                new_point = canvas.canculate_rel_point(left_bottom, element)
                 element.attr({
-                    x1: left_bottom.x,
-                    y1: left_bottom.y
+                    x1: new_point.x,
+                    y1: new_point.y
                 })
                 break
             case "node_right_top":
+                new_point = canvas.canculate_rel_point(right_top, element)
                 element.attr({
-                    x2: right_top.x,
-                    y2: right_top.y
+                    x2: new_point.x,
+                    y2: new_point.y
                 })
+                break 
             case "node_rotate":
                 canvas.rotate(element, rotate.x)
             break    
