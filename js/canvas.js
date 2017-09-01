@@ -146,53 +146,29 @@ canvas.draw_end = function(shift){
        get_xy(); 
 }
 
-canvas.draw_from_center = function(posx, posy){
-        if (canvas.current_el.type == "line"){ 
-            var x1 = parseInt( canvas.current_el.attr('x1') )
-            var x2 = parseInt( canvas.current_el.attr('x2') )
-            var y1 = parseInt( canvas.current_el.attr('y1') )
-            var y2 = parseInt( canvas.current_el.attr('y2') )
-            var cx = parseInt( (x2 - x1)/2  )
-            var cy = parseInt( (y2 - y1)/2  )
-            x1 = x1+(posx - x1 - cx) - canvas.catch_el_pos.x
-            y1 = y1+(posy - y1 - cy) - canvas.catch_el_pos.y
-            x2 = x2+(posx - x2 + cx)  - canvas.catch_el_pos.x
-            y2 = y2+(posy  - y2 + cy) - canvas.catch_el_pos.y 
-            canvas.current_el.attr({ x1: x1, x2: x2, y1:y1, y2:y2 }) 
-        }
-        if (canvas.current_el.type == "rect"){ 
-            var x = posx - canvas.catch_el_pos.x
-            var y = posy - canvas.catch_el_pos.y
-            canvas.current_el.attr({x: x, y:y})
-        }
-        if (canvas.current_el.type == "circle"){ 
-            var rel_cur_x = posx - canvas.catch_el_pos.x
-            var rel_cur_y = posy - canvas.catch_el_pos.y
-            canvas.current_el.attr({ cx: rel_cur_x, cy:rel_cur_y }) 
-        }
-        dw_frame.draw(canvas.current_el); 
-}
+
 
 canvas.drag_el = function(dx, dy){
     if(canvas.current_el != null){
-        
-        transform="translate("+dx+","+dy+")"
-        canvas.current_el.attr({transform:transform})
-        dw_frame.draw(canvas.current_el)     
+        var element = canvas.current_el
+        origTransform = element.transform().local
+        var transform = origTransform + (origTransform ? "T" : "t") + [dx, dy]
+        element.attr({transform:transform})
+        dw_frame.draw(element)     
     }
 }
 
 canvas.move = function(derection){
+
     if(this.current_el != null){
-       this.catch_el_pos = {x:0, y:0} 
-       canvas.get_center(canvas.current_el)
-       var cx = this.current_el_center.x + parseInt(  $( "#svg" ).offset().left )
-       var cy = this.current_el_center.y + parseInt(  $( "#svg" ).offset().top )
+       var cx = 0//this.current_el_center.x + parseInt(  $( "#svg" ).offset().left )
+       var cy = 0//this.current_el_center.y + parseInt(  $( "#svg" ).offset().top )
        if(derection == LEFT) { cx--}
        if(derection == RIGHT){ cx++}
        if(derection == UP)   { cy--}
        if(derection == DOWN) { cy++}
-       canvas.drag_el(null, null, cx, cy)
+        console.log("cx "+cx+ " cy "+cy)
+       canvas.drag_el(cx, cy)
     }
 }
 
@@ -234,33 +210,9 @@ canvas.get_grap_pos = function(){
 }
 
 canvas.get_center = function(element){
-    if(element){
-        var cx, cy
-        if (element.type == "line"){
-            var x1 = parseInt( element.attr('x1') )
-            var x2 = parseInt( element.attr('x2') )
-            var y1 = parseInt( element.attr('y1') )
-            var y2 = parseInt( element.attr('y2') )
-            cx = parseInt( (x2 - x1)/2 + x1 )
-            cy = parseInt( (y2 - y1)/2 + y1)
-        }
-        if (element.type == "rect"){
-            cx = parseInt( element.attr('x') )
-            cy = parseInt( element.attr('y') )
-        }
-        if (canvas.current_el.type == "circle"){
-            cx = parseInt( canvas.current_el.attr("cx") )
-            cy = parseInt( canvas.current_el.attr("cy") )
-        } 
-        //cx = cx + parseInt( element.matrix.e )
-        //cy = cy + parseInt( element.matrix.f )
-        //console.log(element.matrix.e)
-
-        var box = element.getBBox()
-
-        this.current_el_center = {x:box.cx, y:box.cy }
-        return this.current_el_center 
-    }
+    var box = element.getBBox()
+    this.current_el_center = {x:box.cx, y:box.cy }
+    return this.current_el_center 
 }
 
 canvas.last_element = function(){

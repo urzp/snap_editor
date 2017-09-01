@@ -32,7 +32,6 @@ canvas.events = function(){
     }) 
 
     $(document).keydown(function(e) {
-    	console.log(e.keyCode)
         if ( e.keyCode == KEY_UP ){
         	canvas.move(UP)
         }

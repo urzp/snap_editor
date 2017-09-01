@@ -45,7 +45,6 @@ dw_frame.init = function(){
 
 dw_frame.draw =  function(element){
     this.current_el = element
-    //console.log(this.current_el) 
     if (dw_frame.inited == false){dw_frame.init()}
     this.get_frame(element)
     var box = this.get_frame(element)
@@ -180,6 +179,7 @@ dw_frame.trasform_el = function(move_node){
 
     var element = this.current_el
     var matrix = element.matrix
+    var cxy = canvas.get_center(element)
 
     var left_top = { x: parseInt(this.nodes.left_top.attr("cx")),
                      y: parseInt(this.nodes.left_top.attr("cy")) }
@@ -196,7 +196,6 @@ dw_frame.trasform_el = function(move_node){
     if (element.type == "line"){
         
         var new_point
-        var cxy = canvas.get_center(element)
         var x1 = parseInt(element.attr("x1")) 
         var y1 = parseInt(element.attr("y1")) 
         var x2 = parseInt(element.attr("x2")) 
@@ -237,13 +236,12 @@ dw_frame.trasform_el = function(move_node){
         }        
    }
    if (element.type == "rect"){
-        var matrix = element.matrix
-        var new_point
-        var cxy = canvas.get_center(element)
+
         var x = parseInt(element.attr("x")) 
         var y = parseInt(element.attr("y")) 
         var w = parseInt(element.attr("width")) 
         var h = parseInt(element.attr("height")) 
+
         switch( move_node.attr("id") ){
             case  "node_left_top":
                 
@@ -308,14 +306,10 @@ dw_frame.trasform_el = function(move_node){
         element.attr({
             r: r
         }) 
-
-       
+   
     }
   
-    
-        dw_frame.draw(element)
-
-    
+     dw_frame.draw(element)
 }
 
 
