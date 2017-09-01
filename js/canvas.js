@@ -30,8 +30,6 @@ canvas.dragable = function(element){
         }
 
         element.drag(dragMove, beforeMove) 
-
-
 }
 
 canvas.draw = function(type){
@@ -184,8 +182,15 @@ canvas.select = function(id){
 }
 
 canvas.unselect = function(){
-   this.current_el = null
-   dw_frame.remove() 
+    this.current_el = null
+    dw_frame.remove() 
+}
+
+canvas.delete = function(){
+    this.current_el.remove() 
+    this.current_el.attr({unused: true})
+    this.current_el = null
+    dw_frame.remove() 
 }
 
 canvas.get_center = function(element){
