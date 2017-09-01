@@ -243,49 +243,61 @@ dw_frame.trasform_el = function(move_node){
         }        
    }
    if (element.type == "rect"){
+        var matrix = element.matrix
+        var new_point
+        var cxy = canvas.get_center(element)
+        var x = parseInt(element.attr("x")) 
+        var y = parseInt(element.attr("y")) 
+        var w = parseInt(element.attr("width")) 
+        var h = parseInt(element.attr("height")) 
         switch( move_node.attr("id") ){
             case  "node_left_top":
-                var width = right_top.x - left_top.x
-                var height = right_bottom.y - left_top.y
+                
+                var point_rel = canvas.canculate_rel_point(left_top, element)
+                var width = w  + (x - point_rel.x)
+                var height = h + (y - point_rel.y)
                 if ((width>0)&(height>0)){
-                element.attr({
-                    width: width,
-                    height: height,
-                    x: left_top.x,
-                    y: left_top.y
-                })
+                    element.attr({
+                        width: width,
+                        height: height,
+                        x: point_rel.x,
+                        y: point_rel.y
+                    })
                 }
+               
                 break
             case "node_right_bottom":
-                var width = right_bottom.x - left_bottom.x
-                var height = right_bottom.y - right_top.y
+                var point_rel = canvas.canculate_rel_point(right_bottom, element)
+                var width = point_rel.x - x
+                var height =  point_rel.y - y
                 if ((width>0)&(height>0)){
-                element.attr({
-                    width: width,
-                    height: height,
-                })
+                    element.attr({
+                        width: width,
+                        height: height,
+                    })
                 }
                 break
             case "node_left_bottom":
-                var width = right_bottom.x - left_bottom.x
-                var height = left_bottom.y - left_top.y
+                var point_rel = canvas.canculate_rel_point(left_bottom, element)
+                var width = w + ( x - point_rel.x )
+                var height =  point_rel.y - y
                 if ((width>0)&(height>0)){
-                element.attr({
-                    width: width,
-                    height: height,
-                    x: left_bottom.x,
-                    y: left_top.y
-                })
+                    element.attr({
+                        width: width,
+                        height: height,
+                        x: point_rel.x,
+                    })
                 }
                 break
             case "node_right_top":
-                var width = right_top.x - left_top.x
-                var height = right_bottom.y - right_top.y
+                var point_rel = canvas.canculate_rel_point(right_top, element)
+                var width = point_rel.x - x
+                var height = h + (y - point_rel.y)
                 if ((width>0)&(height>0)){
                 element.attr({
                     width: width,
                     height: height,
-                    y: right_top.y
+                    y: point_rel.y
                 })
                 }
                 break
@@ -309,7 +321,27 @@ dw_frame.trasform_el = function(move_node){
        
     }
   
-    dw_frame.draw(element)
+    
+        dw_frame.draw(element)
+
+    
 }
 
 
+dw_frame.coordinats = function(){
+    var left_top = { x: parseInt(this.nodes.left_top.attr("cx")),
+                     y: parseInt(this.nodes.left_top.attr("cy")) }
+    var right_top = { x: parseInt(this.nodes.right_top.attr("cx")),
+                      y: parseInt(this.nodes.right_top.attr("cy")) } 
+    var right_bottom = { x: parseInt(this.nodes.right_bottom.attr("cx")),
+                         y: parseInt(this.nodes.right_bottom.attr("cy")) }
+    var left_bottom = { x: parseInt(this.nodes.left_bottom.attr("cx")),
+                      y: parseInt(this.nodes.left_bottom.attr("cy")) } 
+    var rotate = { x: parseInt(this.nodes.rotate.attr("cx")),
+                      y: parseInt(this.nodes.rotate.attr("cy")) }   
+
+    console.log( "left_top " + "x: " + left_top.x + " y: " + left_top.y)
+    console.log( "right_top " + "x: " + right_top.x + " y: " + right_top.y)
+    console.log( "right_bottom " + "x: " + right_bottom.x + " y: " + right_bottom.y)
+    console.log( "left_bottom " + "x: " + left_bottom.x + " y: " + left_bottom.y)
+}

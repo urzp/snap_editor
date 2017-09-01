@@ -283,9 +283,23 @@ canvas.canculate_rel_point = function(point,element){
     var cxy = this.get_center(element)
     var mdx = cxy.x + (matrix.e-cxy.x)*matrix.a + (matrix.f - cxy.y)*matrix.b 
     var mdy = cxy.y + (matrix.f-cxy.y)*matrix.a - (matrix.e - cxy.x)*matrix.b 
-    var new_x = cxy.x + (point.x - cxy.x)*matrix.a + (point.y - cxy.y)*matrix.b - mdx
-    var new_y = cxy.y + (point.y - cxy.y)*matrix.a - (point.x - cxy.x)*matrix.b - mdy
+    var new_x = parseInt(cxy.x + (point.x - cxy.x)*matrix.a + (point.y - cxy.y)*matrix.b - mdx)
+    var new_y = parseInt(cxy.y + (point.y - cxy.y)*matrix.a - (point.x - cxy.x)*matrix.b - mdy)
     return {x:new_x, y:new_y}
+}
+
+
+
+canvas.canculate_matrix_transf = function(element){
+    var matrix = element.matrix
+    var cxy = this.get_center(element)
+    var mdx = cxy.x + (matrix.e-cxy.x)*matrix.a + (matrix.f - cxy.y)*matrix.b 
+    var mdy = cxy.y + (matrix.f-cxy.y)*matrix.a - (matrix.e - cxy.x)*matrix.b 
+    return {x:mdx, y:mdy}
+}
+
+canvas.canculate_distanse = function(point1,point2){
+    return Math.sqrt(  (point1.x-point2.x)*(point1.x-point2.x) + (point1.y-point2.y)*(point1.y-point2.y)  )
 }
 
 
@@ -303,8 +317,8 @@ canvas.matrix_data = function(){
     var ny = parseInt( cxy.y + (y1rot - cxy.y)*matrix.a - (x1rot-cxy.x)*matrix.b )
 
     console.log("angle "+ this.current_el.attr("angle")) 
-    console.log("x1 "+ this.current_el.attr("x1") + "  x1rot " + x1rot + " nx "+ nx + " mdx " + mdx) 
-    console.log("y1 "+ this.current_el.attr("y1") + "  y1rot " + y1rot + " ny "+ ny + " mdy " + mdy) 
+    console.log("x1 "+ this.current_el.attr("x") + "  x1rot " + x1rot + " nx "+ nx + " mdx " + mdx) 
+    console.log("y1 "+ this.current_el.attr("y") + "  y1rot " + y1rot + " ny "+ ny + " mdy " + mdy) 
     console.log("matrix")
     console.log("a:" + deg(Math.acos(matrix.a)) +" "+ matrix.a )
     console.log("b:" + deg(Math.asin(matrix.b)) +" "+ matrix.b )
@@ -315,6 +329,36 @@ canvas.matrix_data = function(){
 }
 
 
+
+canvas.test_move = function(nx,ny){
+    var element =this.current_el
+    var matrix = element.matrix
+    var new_point
+    var cxy = canvas.get_center(element)
+    var x = parseInt(element.attr("x")) 
+    var y = parseInt(element.attr("y")) 
+    var w = parseInt(element.attr("width")) 
+    var h = parseInt(element.attr("height")) 
+
+    //var new_point = {x: x - dx, y: y - dy}
+    var new_point = {x:nx, y:ny}
+
+    var new_point_rel = canvas.canculate_rel_point(new_point, element)
+
+    
+    width = w  + (x - new_point_rel.x)
+    height = h + (y - new_point_rel.y)
+
+   
+    element.attr({
+        width: width,
+        height: height,
+        x: new_point_rel.x,
+        y: new_point_rel.y
+    })
+
+
+}
 
 deg = function(angle){
     return angle * (180 / Math.PI);
