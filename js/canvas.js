@@ -11,13 +11,6 @@ canvas.init = function(){
     this.events()
 }
 
-function get_xy(){
-    var x_el = parseInt(  $( "#svg" ).offset().left )
-    var y_el = parseInt(  $( "#svg" ).offset().top )
-    var x = event.pageX - x_el
-    var y = event.pageY - y_el
-    return {x: x, y: y}
-}
 
 canvas.dragable = function(element){
 
@@ -55,9 +48,6 @@ canvas.draw = function(type){
             y_start: cursor.y,
             transform: "matrix(1 0 0 1 0 0)"
         })
-
-        
-
 
 
     }
@@ -161,8 +151,8 @@ canvas.drag_el = function(dx, dy){
 canvas.move = function(derection){
 
     if(this.current_el != null){
-       var cx = 0//this.current_el_center.x + parseInt(  $( "#svg" ).offset().left )
-       var cy = 0//this.current_el_center.y + parseInt(  $( "#svg" ).offset().top )
+       var cx = 0
+       var cy = 0
        if(derection == LEFT) { cx--}
        if(derection == RIGHT){ cx++}
        if(derection == UP)   { cy--}
@@ -196,17 +186,6 @@ canvas.select = function(id){
 canvas.unselect = function(){
    this.current_el = null
    dw_frame.remove() 
-}
-
-canvas.get_grap_pos = function(){
-    if (canvas.current_el){
-        var cursor = get_xy()
-        this.get_center(canvas.current_el)
-        var rel_cur_x = cursor.x - canvas.current_el_center.x 
-        var rel_cur_y = cursor.y - canvas.current_el_center.y
-        this.catch_el_pos = {x:rel_cur_x, y:rel_cur_y }
-        return this.catch_el_pos
-    }
 }
 
 canvas.get_center = function(element){
@@ -255,7 +234,13 @@ canvas.canculate_distanse = function(point1,point2){
 }
 
 
-
+get_xy = function(){
+    var x_el = parseInt(  $( "#svg" ).offset().left )
+    var y_el = parseInt(  $( "#svg" ).offset().top )
+    var x = event.pageX - x_el
+    var y = event.pageY - y_el
+    return {x: x, y: y}
+}
 
 deg = function(angle){
     return angle * (180 / Math.PI);
