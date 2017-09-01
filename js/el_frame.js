@@ -72,9 +72,6 @@ dw_frame.get_frame = function(element){
     var box ={} 
     var point = {}
     var cxy = canvas.get_center(element)
-    var angle = element.attr("angle")
-    var angle_r = angle*Math.PI/180
-
 
     if (element.type == "line"){
         
@@ -122,6 +119,24 @@ dw_frame.get_frame = function(element){
 
         box.x4 = box.x1 - h*matrix.b
         box.y4 = box.y1 + h*matrix.a       
+
+        box.x5 = cxy.x
+        box.y5 = cxy.y 
+
+    }
+    if (element.type == "circle"){
+        var box1 =  element.getBBox()
+        box.x1 = box1.x
+        box.y1 = box1.y
+
+        box.x2 = box1.x2
+        box.y2 = box1.y
+
+        box.x3 = box1.x2
+        box.y3 = box1.y2
+
+        box.x4 = box1.x
+        box.y4 = box1.y2    
 
         box.x5 = cxy.x
         box.y5 = cxy.y 
@@ -308,16 +323,13 @@ dw_frame.trasform_el = function(move_node){
         }  
    }
     if (element.type == "circle"){
-        switch( move_node.attr("id") ){
-            case  "node_left_top":
-                var r =Math.abs( element.attr("cx") - move_node.attr("cx") )
-                //var ry =Math.abs( element.attr("cy") - move_node.attr("cy") )
-                //if (rx>ry){var r = rx}else{var r = ry }
-                element.attr({
-                    r: r
-                })
-            break
-        }
+
+        var cxy = canvas.get_center(element)
+        var r =Math.abs( cxy.x - move_node.attr("cx") )
+        element.attr({
+            r: r
+        }) 
+
        
     }
   
