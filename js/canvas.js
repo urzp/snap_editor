@@ -303,6 +303,14 @@ canvas.canculate_distanse = function(point1,point2){
 }
 
 
+
+
+deg = function(angle){
+    return angle * (180 / Math.PI);
+}
+
+//************************* TESTS FUNCTIONS ************************************
+
 canvas.matrix_data = function(){
     var cxy = this.get_center(this.current_el)
     var matrix =this.current_el.matrix
@@ -358,8 +366,4 @@ canvas.test_move = function(nx,ny){
     })
 
 
-}
-
-deg = function(angle){
-    return angle * (180 / Math.PI);
 }

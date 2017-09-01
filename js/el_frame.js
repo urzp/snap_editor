@@ -70,18 +70,16 @@ dw_frame.draw =  function(element){
 
 dw_frame.get_frame = function(element){
     var box ={} 
-    var point = {}
     var cxy = canvas.get_center(element)
+    var matrix = element.matrix
+    var box1 =  element.getBBox()
 
-    if (element.type == "line"){
-        
-        var box1 =  element.getBBox()
+    if (element.type == "line"){ 
+
         var x1 = parseInt(element.attr("x1")) 
         var y1 = parseInt(element.attr("y1")) 
         var x2 = parseInt(element.attr("x2")) 
         var y2 = parseInt(element.attr("y2")) 
-
-        var matrix = element.matrix
         var h = y2 - y1 
 
         box.x1 = matrix.e + x1*matrix.a - y1*matrix.b
@@ -101,12 +99,11 @@ dw_frame.get_frame = function(element){
 
     }
     if (element.type == "rect"){
-        var box1 =  element.getBBox()
+
         var x = parseInt(element.attr("x")) 
         var y = parseInt(element.attr("y")) 
         var w = parseInt(element.attr("width")) 
         var h = parseInt(element.attr("height")) 
-        var matrix = element.matrix
 
         box.x1 = matrix.e + x*matrix.a - y*matrix.b
         box.y1 = matrix.f + y*matrix.a + x*matrix.b
@@ -125,7 +122,7 @@ dw_frame.get_frame = function(element){
 
     }
     if (element.type == "circle"){
-        var box1 =  element.getBBox()
+
         box.x1 = box1.x
         box.y1 = box1.y
 
@@ -145,23 +142,6 @@ dw_frame.get_frame = function(element){
     this.box = box
     return box
 }
-
-dw_frame.rotate_pont = function(centr, point, angle){
-    var angle_r = angle*Math.PI/180
-    var cx, cy, x, y, r, rel_centr
-    cx = centr.x
-    cy = centr.y
-    x = point.x
-    y = point.y
-    r = Math.round(Math.sqrt( (cx-x)**2 + (cy-y)**2 ))
-    if ( (cx - x ) >= 0 ) { rel_centr = 1 } else { rel_centr = -1 }
-    var new_point = {  
-        x: cx + rel_centr * parseInt(Math.cos( Math.PI - Math.asin ((y-cy)/r) + rel_centr * angle_r ) * r),
-        y: cy + parseInt(Math.sin( Math.PI - Math.asin ((y-cy)/r) + rel_centr * angle_r ) * r)
-    }
-    return new_point
-}
-
 
 
 dw_frame.move_forvard = function(){
@@ -199,8 +179,7 @@ dw_frame.remove = function(){
 dw_frame.trasform_el = function(move_node){
 
     var element = this.current_el
-
-
+    var matrix = element.matrix
 
     var left_top = { x: parseInt(this.nodes.left_top.attr("cx")),
                      y: parseInt(this.nodes.left_top.attr("cy")) }
@@ -215,7 +194,7 @@ dw_frame.trasform_el = function(move_node){
 
 
     if (element.type == "line"){
-        var matrix = element.matrix
+        
         var new_point
         var cxy = canvas.get_center(element)
         var x1 = parseInt(element.attr("x1")) 
