@@ -136,6 +136,35 @@ dw_frame.get_frame = function(element){
         box.y5 = cxy.y; 
 
     }
+    if (element.type == "ellipse"){
+
+        var rx = parseInt(element.attr("rx")); 
+        var ry = parseInt(element.attr("ry")); 
+        var x1 = parseInt(cxy.x - rx)
+        var y1 = parseInt(cxy.y - ry)
+        var x2 = parseInt(cxy.x + rx)
+        var y2 = parseInt(cxy.y - ry)
+        var x3 = parseInt(cxy.x + rx)
+        var y3 = parseInt(cxy.y + ry)
+        var x4 = parseInt(cxy.x - rx)
+        var y4 = parseInt(cxy.y + ry)
+
+        box.x1 = matrix.e + x1*matrix.a - y1*matrix.b;
+        box.y1 = matrix.f + y1*matrix.a + x1*matrix.b;
+
+        box.x2 = matrix.e + x2*matrix.a - y2*matrix.b;
+        box.y2 = matrix.f + y2*matrix.a + x2*matrix.b;
+
+        box.x3 = matrix.e + x3*matrix.a - y3*matrix.b;
+        box.y3 = matrix.f + y3*matrix.a + x3*matrix.b;
+
+        box.x4 = matrix.e + x4*matrix.a - y4*matrix.b;
+        box.y4 = matrix.f + y4*matrix.a + x4*matrix.b;    
+
+        box.x5 = cxy.x;
+        box.y5 = cxy.y; 
+
+    }
     this.box = box;
     return box;
 }
@@ -306,11 +335,54 @@ dw_frame.trasform_el = function(move_node){
         }; 
     };
     if (element.type == "circle"){
-        var cxy = canvas.get_center(element);
         var r =Math.abs( cxy.x - move_node.attr("cx") );
         element.attr({
             r: r
         }); 
+    };
+    if (element.type == "ellipse"){
+        switch( move_node.attr("id") ){
+            case  "node_left_top":
+            var new_point = canvas.canculate_rel_point(left_top, element)
+            var rx = Math.abs(cxy.x - new_point.x);
+            var ry = Math.abs(cxy.y - new_point.y);
+            element.attr({
+                rx: rx,  
+                ry: ry 
+            })
+            break
+             case  "node_right_bottom":
+            var new_point = canvas.canculate_rel_point(right_bottom, element)
+            var rx = Math.abs(cxy.x - new_point.x);
+            var ry = Math.abs(cxy.y - new_point.y);
+            element.attr({
+                rx: rx,  
+                ry: ry 
+            })
+            break
+            case  "node_left_bottom":
+            var new_point = canvas.canculate_rel_point(left_bottom, element)
+            var rx = Math.abs(cxy.x - new_point.x);
+            var ry = Math.abs(cxy.y - new_point.y);
+            element.attr({
+                rx: rx,  
+                ry: ry 
+            })
+            break
+            case  "node_right_top":
+            var new_point = canvas.canculate_rel_point(right_top, element)
+            var rx = Math.abs(cxy.x - new_point.x);
+            var ry = Math.abs(cxy.y - new_point.y);
+            element.attr({
+                rx: rx,  
+                ry: ry 
+            })
+            break
+            case "node_rotate":
+            canvas.rotate(element, rotate.x);
+            break    
+        };
+
     };
     dw_frame.draw(element);
 }
