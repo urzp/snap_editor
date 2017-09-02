@@ -39,7 +39,6 @@ canvas.draw = function(type){
     if (type == 'line'){
      element = snap.line(cursor.x, cursor.y, cursor.x, cursor.y);   
      element.attr({
-        angle: 0,
         stroke: "#000",
         strokeWidth: '2',
         x_start: cursor.x,
@@ -53,7 +52,6 @@ canvas.draw = function(type){
      element = snap.rect(cursor.x, cursor.y, 10, 10); 
      element.attr({
         fill:"none",
-        angle: 0,
         stroke:"#000",
         strokeWidth: '2', 
         x_start: cursor.x,
@@ -67,7 +65,6 @@ canvas.draw = function(type){
      element = snap.circle(cursor.x, cursor.y,4); 
      element.attr({
         fill:"none",
-        angle: 0,
         stroke:"#000",
         strokeWidth: '2',
         x_start: cursor.x,
@@ -76,10 +73,9 @@ canvas.draw = function(type){
  } 
 
   if (type == 'ellipse'){
-     element = snap.ellipse(cursor.x, cursor.y,4); 
+     element = snap.ellipse(cursor.x, cursor.y,4,4); 
      element.attr({
         fill:"none",
-        angle: 0,
         stroke:"#000",
         strokeWidth: '2',
         x_start: cursor.x,
@@ -141,6 +137,18 @@ if (element.type == "circle"){
           r:r
       })
   }
+if (element.type == "ellipse"){
+  var cx = parseInt(this.current_el.attr("cx")) 
+  var cy = parseInt(this.current_el.attr("cy")) 
+  var x = get_xy().x
+  var y = get_xy().y
+  var rx = Math.abs(cx - x)
+  var ry = Math.abs(cy - y)
+  element.attr({
+      rx:rx,
+      ry,ry
+  })
+  }  
 
   dw_frame.draw(element);
   get_xy(); 
@@ -159,25 +167,24 @@ canvas.drag_el = function(dx, dy){
 }
 
 canvas.move = function(derection){
-
     if(this.current_el != null){
-     var cx = 0
-     var cy = 0
-     if(derection == LEFT) { cx--}
-         if(derection == RIGHT){ cx++}
-             if(derection == UP)   { cy--}
-                 if(derection == DOWN) { cy++}
-                    console.log("cx "+cx+ " cy "+cy)
-                canvas.drag_el(cx, cy)
-            }
-        }
+       var cx = 0;
+       var cy = 0;
+       if(derection == LEFT) { cx--};
+       if(derection == RIGHT){ cx++};
+       if(derection == UP)   { cy--};
+       if(derection == DOWN) { cy++};
+       console.log("cx "+cx+ " cy "+cy);
+       canvas.drag_el(cx, cy);
+   }
+}
 
-        canvas.rotate = function(element , dx ){
-            var cxy = canvas.get_center(element)
-            var ang = dx - cxy.x 
-            var transform = origTransform + (origTransform ? "r" : "r") + ang
-            element.attr({transform: transform })
-        }
+canvas.rotate = function(element , dx ){
+    var cxy = canvas.get_center(element);
+    var ang = dx - cxy.x; 
+    var transform = origTransform + (origTransform ? "r" : "r") + ang;
+    element.attr({transform: transform });
+}
 
         canvas.select = function(id){
             var found = this.elements.find(function(element){
