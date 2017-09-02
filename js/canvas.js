@@ -161,9 +161,7 @@ canvas.rotate = function(element , dx ){
 };
 
 canvas.select = function(id){
-    var found = this.elements.find(function(element){
-        if (element.attr("id") == id){return element};
-    });
+    var found = this.elements.find(function(element){ if (element.attr("id") == id){return element}; });
     if (found != null) {
         this.current_el = found;
         found.before(this.last_element()); 
@@ -175,75 +173,72 @@ canvas.select = function(id){
     };
 };
 
-        canvas.unselect = function(){
-            this.current_el = null;
-            dw_frame.remove(); 
-        };
+canvas.unselect = function(){
+    this.current_el = null;
+    dw_frame.remove(); 
+};
 
-        canvas.delete = function(){
-            this.current_el.remove(); 
-            this.current_el.attr({unused: true});
-            this.current_el = null;
-            dw_frame.remove(); 
-        };
+canvas.delete = function(){
+    this.current_el.remove(); 
+    this.current_el.attr({unused: true});
+    this.current_el = null;
+    dw_frame.remove(); 
+};
 
-        canvas.get_center = function(element){
-            var box = element.getBBox();
-            this.current_el_center = {x:box.cx, y:box.cy };
-            return this.current_el_center; 
-        };
+canvas.get_center = function(element){
+    var box = element.getBBox();
+    this.current_el_center = {x:box.cx, y:box.cy };
+    return this.current_el_center; 
+};
 
-        canvas.last_element = function(){
-            var count_el = parseInt( snap.node.childElementCount );
-            for(var i = count_el -1; i>1; i--){
-                var last_el = snap.node.children[i];
+canvas.last_element = function(){
+    var count_el = parseInt( snap.node.childElementCount );
+    for(var i = count_el -1; i>1; i--){
+        var last_el = snap.node.children[i];
 
-                if (last_el.attributes.class.value == "figure"){
-                  var last_el_id = last_el.attributes.id.value;  
-                  var index = parseInt( last_el_id ) -1;
-                  i = 0;
-                  return this.elements[index];
-              };
-          };  
-
+        if (last_el.attributes.class.value == "figure"){
+          var last_el_id = last_el.attributes.id.value;  
+          var index = parseInt( last_el_id ) -1;
+          i = 0;
+          return this.elements[index];
       };
+  };  
 
-      canvas.canculate_rel_point = function(point,element){
-        var matrix = element.matrix;
-        var cxy = this.get_center(element);
-        var mdx = cxy.x + (matrix.e-cxy.x)*matrix.a + (matrix.f - cxy.y)*matrix.b; 
-        var mdy = cxy.y + (matrix.f-cxy.y)*matrix.a - (matrix.e - cxy.x)*matrix.b; 
-        var new_x = parseInt(cxy.x + (point.x - cxy.x)*matrix.a + (point.y - cxy.y)*matrix.b - mdx);
-        var new_y = parseInt(cxy.y + (point.y - cxy.y)*matrix.a - (point.x - cxy.x)*matrix.b - mdy);
-        return {x:new_x, y:new_y};
-    };
+};
 
+canvas.canculate_rel_point = function(point,element){
+    var matrix = element.matrix;
+    var cxy = this.get_center(element);
+    var mdx = cxy.x + (matrix.e-cxy.x)*matrix.a + (matrix.f - cxy.y)*matrix.b; 
+    var mdy = cxy.y + (matrix.f-cxy.y)*matrix.a - (matrix.e - cxy.x)*matrix.b; 
+    var new_x = parseInt(cxy.x + (point.x - cxy.x)*matrix.a + (point.y - cxy.y)*matrix.b - mdx);
+    var new_y = parseInt(cxy.y + (point.y - cxy.y)*matrix.a - (point.x - cxy.x)*matrix.b - mdy);
+    return {x:new_x, y:new_y};
+};
 
+canvas.canculate_matrix_transf = function(element){
+    var matrix = element.matrix;
+    var cxy = this.get_center(element);
+    var mdx = cxy.x + (matrix.e-cxy.x)*matrix.a + (matrix.f - cxy.y)*matrix.b; 
+    var mdy = cxy.y + (matrix.f-cxy.y)*matrix.a - (matrix.e - cxy.x)*matrix.b; 
+    return {x:mdx, y:mdy};
+};
 
-    canvas.canculate_matrix_transf = function(element){
-        var matrix = element.matrix;
-        var cxy = this.get_center(element);
-        var mdx = cxy.x + (matrix.e-cxy.x)*matrix.a + (matrix.f - cxy.y)*matrix.b; 
-        var mdy = cxy.y + (matrix.f-cxy.y)*matrix.a - (matrix.e - cxy.x)*matrix.b; 
-        return {x:mdx, y:mdy};
-    };
+canvas.canculate_distanse = function(point1,point2){
+    return Math.sqrt(  (point1.x-point2.x)*(point1.x-point2.x) + (point1.y-point2.y)*(point1.y-point2.y) );
+};
 
-    canvas.canculate_distanse = function(point1,point2){
-        return Math.sqrt(  (point1.x-point2.x)*(point1.x-point2.x) + (point1.y-point2.y)*(point1.y-point2.y) );
-    };
+get_xy = function(){
+    var x_el = parseInt(  $( "#svg" ).offset().left );
+    var y_el = parseInt(  $( "#svg" ).offset().top  );
+    var x = event.pageX - x_el;
+    var y = event.pageY - y_el;
+    return {x: x, y: y};
+};
 
-
-    get_xy = function(){
-        var x_el = parseInt(  $( "#svg" ).offset().left );
-        var y_el = parseInt(  $( "#svg" ).offset().top  );
-        var x = event.pageX - x_el;
-        var y = event.pageY - y_el;
-        return {x: x, y: y};
-    };
-
-    deg = function(angle){
-        return angle * (180 / Math.PI);
-    };
+deg = function(angle){
+    return angle * (180 / Math.PI);
+};
 
 //************************* TESTS FUNCTIONS ************************************
 
@@ -300,6 +295,5 @@ canvas.test_move = function(nx,ny){
         x: new_point_rel.x,
         y: new_point_rel.y
     });
-
 
 };
