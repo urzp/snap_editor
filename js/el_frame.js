@@ -8,14 +8,14 @@ dw_frame ={
     },
     edges:{},
     attr_edges:{
-       stroke: "#30839b",
-       strokeWidth: '1', 
-       class:"frame_node",
-       'stroke-dasharray': '5,5' 
-    },
-    inited: false,
-    current_el: null,
-    box: {}
+     stroke: "#30839b",
+     strokeWidth: '1', 
+     class:"frame_node",
+     'stroke-dasharray': '5,5' 
+ },
+ inited: false,
+ current_el: null,
+ box: {}
 }
 
 dw_frame.init = function(){
@@ -46,7 +46,7 @@ dw_frame.init = function(){
 dw_frame.draw =  function(element){
     this.current_el = element
     if (dw_frame.inited == false){dw_frame.init()}
-    this.get_frame(element)
+        this.get_frame(element)
     var box = this.get_frame(element)
     var box1 =  element.getBBox()
 
@@ -63,7 +63,7 @@ dw_frame.draw =  function(element){
     this.edges.bottom.attr({ x1:box.x3, y1:box.y3, x2:box.x4, y2:box.y4 })
     this.edges.left.attr({ x1:box.x4, y1:box.y4, x2:box.x1, y2:box.y1 })
     
-      
+    
     this.move_forvard()   
 }
 
@@ -182,15 +182,15 @@ dw_frame.trasform_el = function(move_node){
     var cxy = canvas.get_center(element)
 
     var left_top = { x: parseInt(this.nodes.left_top.attr("cx")),
-                     y: parseInt(this.nodes.left_top.attr("cy")) }
+    y: parseInt(this.nodes.left_top.attr("cy")) }
     var right_top = { x: parseInt(this.nodes.right_top.attr("cx")),
-                      y: parseInt(this.nodes.right_top.attr("cy")) } 
+    y: parseInt(this.nodes.right_top.attr("cy")) } 
     var right_bottom = { x: parseInt(this.nodes.right_bottom.attr("cx")),
-                         y: parseInt(this.nodes.right_bottom.attr("cy")) }
+    y: parseInt(this.nodes.right_bottom.attr("cy")) }
     var left_bottom = { x: parseInt(this.nodes.left_bottom.attr("cx")),
-                      y: parseInt(this.nodes.left_bottom.attr("cy")) } 
+    y: parseInt(this.nodes.left_bottom.attr("cy")) } 
     var rotate = { x: parseInt(this.nodes.rotate.attr("cx")),
-                      y: parseInt(this.nodes.rotate.attr("cy")) }     
+    y: parseInt(this.nodes.rotate.attr("cy")) }     
 
 
     if (element.type == "line"){
@@ -203,39 +203,39 @@ dw_frame.trasform_el = function(move_node){
 
         switch( move_node.attr("id") ){
             case  "node_left_top":
-                new_point = canvas.canculate_rel_point(left_top, element)
-                 element.attr({
-                    x1: new_point.x,  
-                    y1: new_point.y 
-                })
-                break
+            new_point = canvas.canculate_rel_point(left_top, element)
+            element.attr({
+                x1: new_point.x,  
+                y1: new_point.y 
+            })
+            break
             case "node_right_bottom":
-                new_point = canvas.canculate_rel_point(right_bottom, element)
-                element.attr({
-                    x2: new_point.x,
-                    y2: new_point.y 
-                })
-                break
+            new_point = canvas.canculate_rel_point(right_bottom, element)
+            element.attr({
+                x2: new_point.x,
+                y2: new_point.y 
+            })
+            break
             case "node_left_bottom":
-                new_point = canvas.canculate_rel_point(left_bottom, element)
-                element.attr({
-                    x1: new_point.x,
-                    y1: new_point.y
-                })
-                break
+            new_point = canvas.canculate_rel_point(left_bottom, element)
+            element.attr({
+                x1: new_point.x,
+                y1: new_point.y
+            })
+            break
             case "node_right_top":
-                new_point = canvas.canculate_rel_point(right_top, element)
-                element.attr({
-                    x2: new_point.x,
-                    y2: new_point.y
-                })
-                break 
+            new_point = canvas.canculate_rel_point(right_top, element)
+            element.attr({
+                x2: new_point.x,
+                y2: new_point.y
+            })
+            break 
             case "node_rotate":
-                canvas.rotate(element, rotate.x)
+            canvas.rotate(element, rotate.x)
             break    
         }        
-   }
-   if (element.type == "rect"){
+    }
+    if (element.type == "rect"){
 
         var x = parseInt(element.attr("x")) 
         var y = parseInt(element.attr("y")) 
@@ -244,61 +244,61 @@ dw_frame.trasform_el = function(move_node){
 
         switch( move_node.attr("id") ){
             case  "node_left_top":
-                
-                var point_rel = canvas.canculate_rel_point(left_top, element)
-                var width = w  + (x - point_rel.x)
-                var height = h + (y - point_rel.y)
-                if ((width>0)&(height>0)){
-                    element.attr({
-                        width: width,
-                        height: height,
-                        x: point_rel.x,
-                        y: point_rel.y
-                    })
-                }
-               
-                break
+            
+            var point_rel = canvas.canculate_rel_point(left_top, element)
+            var width = w  + (x - point_rel.x)
+            var height = h + (y - point_rel.y)
+            if ((width>0)&(height>0)){
+                element.attr({
+                    width: width,
+                    height: height,
+                    x: point_rel.x,
+                    y: point_rel.y
+                })
+            }
+            
+            break
             case "node_right_bottom":
-                var point_rel = canvas.canculate_rel_point(right_bottom, element)
-                var width = point_rel.x - x
-                var height =  point_rel.y - y
-                if ((width>0)&(height>0)){
-                    element.attr({
-                        width: width,
-                        height: height,
-                    })
-                }
-                break
+            var point_rel = canvas.canculate_rel_point(right_bottom, element)
+            var width = point_rel.x - x
+            var height =  point_rel.y - y
+            if ((width>0)&(height>0)){
+                element.attr({
+                    width: width,
+                    height: height,
+                })
+            }
+            break
             case "node_left_bottom":
-                var point_rel = canvas.canculate_rel_point(left_bottom, element)
-                var width = w + ( x - point_rel.x )
-                var height =  point_rel.y - y
-                if ((width>0)&(height>0)){
-                    element.attr({
-                        width: width,
-                        height: height,
-                        x: point_rel.x,
-                    })
-                }
-                break
+            var point_rel = canvas.canculate_rel_point(left_bottom, element)
+            var width = w + ( x - point_rel.x )
+            var height =  point_rel.y - y
+            if ((width>0)&(height>0)){
+                element.attr({
+                    width: width,
+                    height: height,
+                    x: point_rel.x,
+                })
+            }
+            break
             case "node_right_top":
-                var point_rel = canvas.canculate_rel_point(right_top, element)
-                var width = point_rel.x - x
-                var height = h + (y - point_rel.y)
-                if ((width>0)&(height>0)){
+            var point_rel = canvas.canculate_rel_point(right_top, element)
+            var width = point_rel.x - x
+            var height = h + (y - point_rel.y)
+            if ((width>0)&(height>0)){
                 element.attr({
                     width: width,
                     height: height,
                     y: point_rel.y
                 })
-                }
-                break
+            }
+            break
             case "node_rotate":
-                canvas.rotate(element, rotate.x)
-                break    
+            canvas.rotate(element, rotate.x)
+            break    
 
         }  
-   }
+    }
     if (element.type == "circle"){
 
         var cxy = canvas.get_center(element)
@@ -306,24 +306,24 @@ dw_frame.trasform_el = function(move_node){
         element.attr({
             r: r
         }) 
-   
+        
     }
-  
-     dw_frame.draw(element)
+    
+    dw_frame.draw(element)
 }
 
 
 dw_frame.coordinats = function(){
     var left_top = { x: parseInt(this.nodes.left_top.attr("cx")),
-                     y: parseInt(this.nodes.left_top.attr("cy")) }
+    y: parseInt(this.nodes.left_top.attr("cy")) }
     var right_top = { x: parseInt(this.nodes.right_top.attr("cx")),
-                      y: parseInt(this.nodes.right_top.attr("cy")) } 
+    y: parseInt(this.nodes.right_top.attr("cy")) } 
     var right_bottom = { x: parseInt(this.nodes.right_bottom.attr("cx")),
-                         y: parseInt(this.nodes.right_bottom.attr("cy")) }
+    y: parseInt(this.nodes.right_bottom.attr("cy")) }
     var left_bottom = { x: parseInt(this.nodes.left_bottom.attr("cx")),
-                      y: parseInt(this.nodes.left_bottom.attr("cy")) } 
+    y: parseInt(this.nodes.left_bottom.attr("cy")) } 
     var rotate = { x: parseInt(this.nodes.rotate.attr("cx")),
-                      y: parseInt(this.nodes.rotate.attr("cy")) }   
+    y: parseInt(this.nodes.rotate.attr("cy")) }   
 
     console.log( "left_top " + "x: " + left_top.x + " y: " + left_top.y)
     console.log( "right_top " + "x: " + right_top.x + " y: " + right_top.y)
