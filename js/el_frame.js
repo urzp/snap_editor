@@ -137,17 +137,18 @@ dw_frame.get_frame = function(element){
 
     }
     if (element.type == "ellipse"){
-
+        var x =  parseInt(element.attr("cx"));
+        var y =  parseInt(element.attr("cy"));
         var rx = parseInt(element.attr("rx")); 
         var ry = parseInt(element.attr("ry")); 
-        var x1 = parseInt(cxy.x - rx)
-        var y1 = parseInt(cxy.y - ry)
-        var x2 = parseInt(cxy.x + rx)
-        var y2 = parseInt(cxy.y - ry)
-        var x3 = parseInt(cxy.x + rx)
-        var y3 = parseInt(cxy.y + ry)
-        var x4 = parseInt(cxy.x - rx)
-        var y4 = parseInt(cxy.y + ry)
+        var x1 = parseInt(x - rx)
+        var y1 = parseInt(y - ry)
+        var x2 = parseInt(x + rx)
+        var y2 = parseInt(y - ry)
+        var x3 = parseInt(x + rx)
+        var y3 = parseInt(y + ry)
+        var x4 = parseInt(x - rx)
+        var y4 = parseInt(y + ry)
 
         box.x1 = matrix.e + x1*matrix.a - y1*matrix.b;
         box.y1 = matrix.f + y1*matrix.a + x1*matrix.b;
@@ -341,11 +342,13 @@ dw_frame.trasform_el = function(move_node){
         }); 
     };
     if (element.type == "ellipse"){
+        var x =  parseInt(element.attr("cx"));
+        var y =  parseInt(element.attr("cy"));
         switch( move_node.attr("id") ){
             case  "node_left_top":
             var new_point = canvas.canculate_rel_point(left_top, element)
-            var rx = Math.abs(cxy.x - new_point.x);
-            var ry = Math.abs(cxy.y - new_point.y);
+            var rx = Math.abs(x - new_point.x);
+            var ry = Math.abs(y - new_point.y);
             element.attr({
                 rx: rx,  
                 ry: ry 
@@ -353,8 +356,8 @@ dw_frame.trasform_el = function(move_node){
             break
              case  "node_right_bottom":
             var new_point = canvas.canculate_rel_point(right_bottom, element)
-            var rx = Math.abs(cxy.x - new_point.x);
-            var ry = Math.abs(cxy.y - new_point.y);
+            var rx = Math.abs(x - new_point.x);
+            var ry = Math.abs(y - new_point.y);
             element.attr({
                 rx: rx,  
                 ry: ry 
@@ -362,8 +365,8 @@ dw_frame.trasform_el = function(move_node){
             break
             case  "node_left_bottom":
             var new_point = canvas.canculate_rel_point(left_bottom, element)
-            var rx = Math.abs(cxy.x - new_point.x);
-            var ry = Math.abs(cxy.y - new_point.y);
+            var rx = Math.abs(x - new_point.x);
+            var ry = Math.abs(y - new_point.y);
             element.attr({
                 rx: rx,  
                 ry: ry 
@@ -371,8 +374,8 @@ dw_frame.trasform_el = function(move_node){
             break
             case  "node_right_top":
             var new_point = canvas.canculate_rel_point(right_top, element)
-            var rx = Math.abs(cxy.x - new_point.x);
-            var ry = Math.abs(cxy.y - new_point.y);
+            var rx = Math.abs(x - new_point.x);
+            var ry = Math.abs(y - new_point.y);
             element.attr({
                 rx: rx,  
                 ry: ry 
