@@ -13,6 +13,13 @@ dw_frame ={
        class:"frame_node",
        'stroke-dasharray': '5,5' 
    },
+   edits:{},
+    attr_edits:{
+        fill:"#FFF",
+       stroke: "#C7AA29",
+       strokeWidth: '2', 
+       class:"frame_node"
+   },
    inited: false,
    current_el: null,
    box: {}
@@ -33,9 +40,20 @@ dw_frame.init = function(){
     this.nodes.left_bottom = snap.circle();
     this.nodes.rotate = snap.circle();
 
+
     $.each(this.nodes,function(index,val){
         val.attr(dw_frame.attr_nodes);
         val.attr({id: "node_"+index});
+        val.drag(dw_frame.moveFunc, dw_frame.beforeMove );
+    });
+
+    this.edits.begin = snap.circle();
+    this.edits.end = snap.circle();
+    this.edits.spetial_1 = snap.circle();
+
+    $.each(this.edits,function(index,val){
+        val.attr(dw_frame.attr_edits);
+        val.attr({id: "edits_"+index});
         val.drag(dw_frame.moveFunc, dw_frame.beforeMove );
     });
     
@@ -54,13 +72,17 @@ dw_frame.draw =  function(element){
     this.nodes.right_top.attr({cx:box.x2,cy:box.y2, r:4 });
     this.nodes.right_bottom.attr({cx:box.x3,cy:box.y3, r:4 });
     this.nodes.left_bottom.attr({cx:box.x4,cy:box.y4, r:4 }); 
-    this.nodes.rotate.attr({cx:box.x5,cy:box.y5, r:6}); 
+    if ( box.x5 ) this.nodes.rotate.attr({cx:box.x5,cy:box.y5, r:6}); 
 
     
     this.edges.top.attr({ x1:box.x1, y1:box.y1, x2:box.x2, y2:box.y2});
     this.edges.right.attr({ x1:box.x2, y1:box.y2, x2:box.x3, y2:box.y3 });
     this.edges.bottom.attr({ x1:box.x3, y1:box.y3, x2:box.x4, y2:box.y4 });
     this.edges.left.attr({ x1:box.x4, y1:box.y4, x2:box.x1, y2:box.y1 });
+
+    if ( box.beg_x ) { this.edits.begin.attr({cx:box.beg_x,cy:box.beg_y, r:4 });}
+    if ( box.end_x ) { this.edits.end.attr({cx:box.end_x,cy:box.end_y, r:4 });  } 
+    if ( box.sp1_x ) { this.edits.spetial_1.attr({cx:box.sp1_x,cy:box.sp1_y, r:4 });  }
     
     this.move_forvard();   
 };
@@ -166,6 +188,44 @@ dw_frame.get_frame = function(element){
         box.y5 = cxy.y; 
 
     }
+    if (element.type == "path"){
+        var bbox = element.getBBox()
+        var arc_params = canvas.arc_get_params(element.attr("d"))
+
+        var m_xy = arc_params.m_xy
+        var r_xy = arc_params.r_xy
+        var end_xy = arc_params.end_xy
+        var x_rotation = arc_params.x_rotation
+        var large_arc = arc_params.large_arc
+        var sweep = arc_params.sweep
+        var sp1_x = cxy.x  + ( box1.x2 - cxy.x + 15 )*Math.sin(rad(x_rotation)) 
+        var sp1_y = cxy.y - (cxy.y - box1.y + 15 )*Math.cos(rad(x_rotation)) 
+    
+        box.x1 = box1.x;
+        box.y1 = box1.y;
+
+        box.x2 = box1.x2;
+        box.y2 = box1.y;
+
+        box.x3 = box1.x2;
+        box.y3 = box1.y2;
+
+        box.x4 = box1.x;
+        box.y4 = box1.y2; 
+
+        box.x5 = cxy.x;
+        box.y5 = cxy.y; 
+
+        box.beg_x = matrix.e + m_xy.x*matrix.a - m_xy.y*matrix.b
+        box.beg_y = matrix.f + m_xy.y*matrix.a + m_xy.x*matrix.b;
+
+        box.end_x =  matrix.e + end_xy.x*matrix.a - end_xy.y*matrix.b
+        box.end_y =  matrix.f + end_xy.y*matrix.a + end_xy.x*matrix.b;
+
+        box.sp1_x = sp1_x;
+        box.sp1_y = sp1_y; 
+
+    }
     this.box = box;
     return box;
 }
@@ -177,6 +237,9 @@ dw_frame.move_forvard = function(){
         last_el.after(val);
     });
     $.each(this.edges,function(index,val){
+        last_el.after(val);
+    });
+    $.each(this.edits,function(index,val){
         last_el.after(val);
     });
 };
@@ -198,6 +261,9 @@ dw_frame.remove = function(){
         val.remove();
     })
     $.each(this.nodes,function(index,val){
+        val.remove();
+    })
+    $.each(this.edits,function(index,val){
         val.remove();
     })
     this.inited = false;
@@ -228,8 +294,19 @@ dw_frame.trasform_el = function(move_node){
     var rotate = { 
         x: parseInt(this.nodes.rotate.attr("cx")),
         y: parseInt(this.nodes.rotate.attr("cy"))
-    };     
-
+    }; 
+    var begin = {
+        x: parseInt(this.edits.begin.attr("cx")),
+        y: parseInt(this.edits.begin.attr("cy"))
+    }   
+    var end = {
+        x: parseInt(this.edits.end.attr("cx")),
+        y: parseInt(this.edits.end.attr("cy"))
+    }  
+    var sp1 = {
+        x: parseInt(this.edits.spetial_1.attr("cx")),
+        y: parseInt(this.edits.spetial_1.attr("cy"))
+    }
 
     if (element.type == "line"){
 
@@ -387,6 +464,46 @@ dw_frame.trasform_el = function(move_node){
         };
 
     };
+    if (element.type == "path"){
+        var arc_params = canvas.arc_get_params(element.attr("d"))
+        var m_xy = arc_params.m_xy
+        var r_xy = arc_params.r_xy
+        var end_xy = arc_params.end_xy
+        var x_rotation = arc_params.x_rotation
+        var large_arc = arc_params.large_arc
+        var sweep = arc_params.sweep
+        var box = element.getBBox()
+
+        switch( move_node.attr("id") ){
+            case  "node_left_top":
+
+                r_xy.x = Math.abs(cxy.x - left_top.x)
+                r_xy.y = Math.abs(cxy.y - left_top.y)
+
+                //console.log(r_xy)
+
+                var d = canvas.arc_set_params(null, r_xy, null, null, null, null, element.attr("d"))
+                element.attr({d:d})
+
+            break
+            case  "edits_begin":
+                var d = canvas.arc_set_params(begin, null, null, null, null, null, element.attr("d"))
+                element.attr({d:d})
+            break
+            case  "edits_end":
+                var d = canvas.arc_set_params(null, null, null, null, null, end, element.attr("d"))
+                element.attr({d:d})
+            break
+            case  "edits_spetial_1":
+                var r = canvas.canculate_distanse(cxy , sp1)
+                var ang = parseInt(deg( Math.asin((sp1.x - cxy.x)/r) ) )
+                var d = canvas.arc_set_params(null, null, ang, null, null, null, element.attr("d"))
+                element.attr({d:d})
+            break
+
+        }
+
+    }
     dw_frame.draw(element);
 }
 

@@ -68,11 +68,11 @@ canvas.draw = function(type){
    if (type == 'arc'){
         var m_xy = {x:cursor.x, y:cursor.y}
         var end_xy = {x:cursor.x + 50, y:cursor.y }
-        var r_xy = {x:10, y:5}
+        var r_xy = {x:3, y:3}
         var x_rotation = 0
-        var large_arc = 0
+        var large_arc = 1
         var sweep = 1 
-        var d = this.arc_params(m_xy, r_xy, x_rotation, large_arc, sweep, end_xy)
+        var d = this.arc_set_params(m_xy, r_xy, x_rotation, large_arc, sweep, end_xy)
         element = snap.path(d); 
         element.attr({
         fill:"none",
@@ -140,10 +140,9 @@ canvas.draw_end = function(shift){
     }; 
     if (element.type == "path"){
         var d = this.current_el.attr("d"); 
-        console.log(d)
         var x = get_xy().x;
         var y = get_xy().y;
-        d = canvas.arc_params(null, null, null, null, null, {x:x, y:y}, d )
+        d = canvas.arc_set_params(null, null, null, null, null, {x:x, y:y}, d )
         element.attr({
             d:d });
     }; 
@@ -184,6 +183,7 @@ canvas.rotate = function(element , dx ){
 };
 
 canvas.select = function(id){
+
     var found = this.elements.find(function(element){ if (element.attr("id") == id){return element}; });
     if (found != null) {
         this.current_el = found;
@@ -261,6 +261,10 @@ get_xy = function(){
 
 deg = function(angle){
     return angle * (180 / Math.PI);
+};
+
+rad = function(angle){
+    return angle * ( Math.PI/ 180);
 };
 
 //************************* TESTS FUNCTIONS ************************************
