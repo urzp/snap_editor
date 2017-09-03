@@ -18,3 +18,4 @@
 
 canvas стр 133 заменить на модуль функцию if()
 Расставить ; для  line reindent
+cavas стр    37     x_start: cursor.x,  y_start: cursor.y,

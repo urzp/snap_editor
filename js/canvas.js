@@ -64,7 +64,21 @@ canvas.draw = function(type){
         strokeWidth: '2',
         x_start: cursor.x,
         y_start: cursor.y, });      
-   };      
+   }; 
+   if (type == 'arc'){
+        var m_xy = {x:cursor.x, y:cursor.y}
+        var end_xy = {x:cursor.x + 50, y:cursor.y }
+        var r_xy = {x:10, y:5}
+        var x_rotation = 0
+        var large_arc = 0
+        var sweep = 1 
+        var d = this.arc_params(m_xy, r_xy, x_rotation, large_arc, sweep, end_xy)
+        element = snap.path(d); 
+        element.attr({
+        fill:"none",
+        stroke:"#000",
+        strokeWidth: '2' });      
+   };       
 
    element.attr({id: this.count, class: "figure"});
    this.elements.push(element);
@@ -123,6 +137,15 @@ canvas.draw_end = function(shift){
         element.attr({
             rx:rx,
             ry,ry });
+    }; 
+    if (element.type == "path"){
+        var d = this.current_el.attr("d"); 
+        console.log(d)
+        var x = get_xy().x;
+        var y = get_xy().y;
+        d = canvas.arc_params(null, null, null, null, null, {x:x, y:y}, d )
+        element.attr({
+            d:d });
     }; 
     dw_frame.draw(element);
     get_xy(); 
