@@ -9,16 +9,13 @@ canvas.events = function(){
     $("#svg").mousemove(function(event){
 
         if ( check_draw_event() ) {
-         
-         if(event.shiftKey){
-            canvas.draw_end(true)
-        }else{
-            canvas.draw_end(false)
-        }
-    } 
-})
+            if(event.shiftKey){canvas.draw_end(true)
+            }else{ canvas.draw_end(false)}
+        } 
+    })
     
     $("#svg").mousedown(function( event ){
+        print_pos_mose()
         if( check_use_frame() ){ tool.select('pointer') }     
             if (check_tool_not_pointer() ){ 
                 canvas.draw(tool.type)     
@@ -83,4 +80,9 @@ canvas.events = function(){
 
    }
 
+}
+
+print_pos_mose = function(){
+    mose = get_xy()
+    console.log("x " + mose.x + " y " + mose.y)
 }

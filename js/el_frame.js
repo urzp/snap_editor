@@ -472,13 +472,17 @@ dw_frame.trasform_el = function(move_node){
         var x_rotation = arc_params.x_rotation
         var large_arc = arc_params.large_arc
         var sweep = arc_params.sweep
+        var r_xmin = ( end_xy.x - m_xy.x ) / 2 - 2
+
         var box = element.getBBox()
 
         switch( move_node.attr("id") ){
             case  "node_left_top":
+                mose = get_xy()
 
-                r_xy.x = Math.abs(cxy.x - left_top.x)
-                r_xy.y = Math.abs(cxy.y - left_top.y)
+                r_xy.x = Math.abs(m_xy.x - mose.x)
+                if (r_xy.x <= r_xmin ) {r_xy.x = r_xmin}
+                r_xy.y = Math.abs(m_xy.y - mose.y)
 
                 //console.log(r_xy)
 

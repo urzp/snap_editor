@@ -68,7 +68,7 @@ canvas.draw = function(type){
    if (type == 'arc'){
         var m_xy = {x:cursor.x, y:cursor.y}
         var end_xy = {x:cursor.x + 50, y:cursor.y }
-        var r_xy = {x:3, y:3}
+        var r_xy = {x:1, y:1}
         var x_rotation = 0
         var large_arc = 1
         var sweep = 1 
@@ -139,10 +139,17 @@ canvas.draw_end = function(shift){
             ry,ry });
     }; 
     if (element.type == "path"){
-        var d = this.current_el.attr("d"); 
-        var x = get_xy().x;
-        var y = get_xy().y;
-        d = canvas.arc_set_params(null, null, null, null, null, {x:x, y:y}, d )
+
+        var d = element.attr("d"); 
+        var xy = get_xy()
+        var x = xy.x;
+        var y = xy.y;
+        var params = canvas.arc_get_params(d)
+        var m_xy = params.m_xy
+        var r_xy = params.r_xy
+                
+        r_xy.x = 5//canvas.canculate_distanse(m_xy, xy) 
+        d = canvas.arc_set_params(null, r_xy, null, null, null, {x:x, y:y}, d )
         element.attr({
             d:d });
     }; 
@@ -150,7 +157,14 @@ canvas.draw_end = function(shift){
     get_xy(); 
 };
 
+canvas.tets_arc = function(x,y){
+    var d = this.current_el.attr("d"); 
+    var params = canvas.arc_get_params(d)
+    var r_xy = { x:x, y:y}
+    d = canvas.arc_set_params(null, r_xy, null, null, null, null, d )
+    this.current_el.attr({ d:d });
 
+}
 
 canvas.drag_el = function(dx, dy){
     if(canvas.current_el != null){
