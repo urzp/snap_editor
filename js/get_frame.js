@@ -12,17 +12,23 @@ dw_frame.get_frame = function(element){
         var y2 = parseInt(element.attr("y2"));
         var h = y2 - y1; 
 
-        box.x1 = matrix.e + x1*matrix.a - y1*matrix.b;
-        box.y1 = matrix.f + y1*matrix.a + x1*matrix.b;
+        //box.x1 = matrix.e + x1*matrix.a - y1*matrix.b;
+        //box.y1 = matrix.f + y1*matrix.a + x1*matrix.b;
 
-        box.x3 = matrix.e + x2*matrix.a - y2*matrix.b;
-        box.y3 = matrix.f + y2*matrix.a + x2*matrix.b;
+        //box.x3 = matrix.e + x2*matrix.a - y2*matrix.b;
+        //box.y3 = matrix.f + y2*matrix.a + x2*matrix.b;
 
-        box.x2 = box.x3 + h*matrix.b;
-        box.y2 = box.y3 - h*matrix.a;
+        //box.x2 = box.x3 + h*matrix.b;
+        //box.y2 = box.y3 - h*matrix.a;
 
-        box.x4 = box.x1 - h*matrix.b;
-        box.y4 = box.y1 + h*matrix.a;
+        //box.x4 = box.x1 - h*matrix.b;
+        //box.y4 = box.y1 + h*matrix.a;
+
+        box.beg_x = matrix.e + x1*matrix.a - y1*matrix.b;
+        box.beg_y = matrix.f + y1*matrix.a + x1*matrix.b;
+
+        box.end_x = matrix.e + x2*matrix.a - y2*matrix.b;
+        box.end_y = matrix.f + y2*matrix.a + x2*matrix.b;
 
         box.x5 = cxy.x;
         box.y5 = cxy.y; 

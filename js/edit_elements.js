@@ -46,34 +46,20 @@ dw_frame.trasform_el = function(move_node){
         var y2 = parseInt(element.attr("y2")) 
 
         switch( move_node.attr("id") ){
-            case  "node_left_top":
-            new_point = canvas.canculate_rel_point(left_top, element)
+            case  "edits_begin":
+            new_point = canvas.canculate_rel_point(begin, element)
             element.attr({
                 x1: new_point.x,  
                 y1: new_point.y 
             })
             break
-            case "node_right_bottom":
-            new_point = canvas.canculate_rel_point(right_bottom, element)
+            case "edits_end":
+            new_point = canvas.canculate_rel_point(end, element)
             element.attr({
                 x2: new_point.x,
                 y2: new_point.y 
             })
             break
-            case "node_left_bottom":
-            new_point = canvas.canculate_rel_point(left_bottom, element)
-            element.attr({
-                x1: new_point.x,
-                y1: new_point.y
-            })
-            break
-            case "node_right_top":
-            new_point = canvas.canculate_rel_point(right_top, element)
-            element.attr({
-                x2: new_point.x,
-                y2: new_point.y
-            })
-            break 
             case "node_rotate":
             canvas.rotate(element, rotate.x)
             break    
