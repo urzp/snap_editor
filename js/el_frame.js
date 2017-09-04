@@ -61,25 +61,23 @@ dw_frame.init = function(){
 };
 
 dw_frame.draw =  function(element){
-    this.current_el = element;
     if (dw_frame.inited == false){dw_frame.init()};
-    this.get_frame(element);
+    this.current_el = element;
     var box = this.get_frame(element);
-    var box1 =  element.getBBox();
 
+    if ( box.x1 || box.x2 ||  box.x3 || box.x4 ) { 
+        this.nodes.left_top.attr({cx:box.x1,cy:box.y1, r:4 });   
+        this.nodes.right_top.attr({cx:box.x2,cy:box.y2, r:4 });
+        this.nodes.right_bottom.attr({cx:box.x3,cy:box.y3, r:4 });
+        this.nodes.left_bottom.attr({cx:box.x4,cy:box.y4, r:4 }); 
 
-    this.nodes.left_top.attr({cx:box.x1,cy:box.y1, r:4 });   
-    this.nodes.right_top.attr({cx:box.x2,cy:box.y2, r:4 });
-    this.nodes.right_bottom.attr({cx:box.x3,cy:box.y3, r:4 });
-    this.nodes.left_bottom.attr({cx:box.x4,cy:box.y4, r:4 }); 
+        this.edges.top.attr({ x1:box.x1, y1:box.y1, x2:box.x2, y2:box.y2});
+        this.edges.right.attr({ x1:box.x2, y1:box.y2, x2:box.x3, y2:box.y3 });
+        this.edges.bottom.attr({ x1:box.x3, y1:box.y3, x2:box.x4, y2:box.y4 });
+        this.edges.left.attr({ x1:box.x4, y1:box.y4, x2:box.x1, y2:box.y1 });
+    }
+
     if ( box.x5 ) this.nodes.rotate.attr({cx:box.x5,cy:box.y5, r:6}); 
-
-    
-    this.edges.top.attr({ x1:box.x1, y1:box.y1, x2:box.x2, y2:box.y2});
-    this.edges.right.attr({ x1:box.x2, y1:box.y2, x2:box.x3, y2:box.y3 });
-    this.edges.bottom.attr({ x1:box.x3, y1:box.y3, x2:box.x4, y2:box.y4 });
-    this.edges.left.attr({ x1:box.x4, y1:box.y4, x2:box.x1, y2:box.y1 });
-
     if ( box.beg_x ) { this.edits.begin.attr({cx:box.beg_x,cy:box.beg_y, r:4 });}
     if ( box.end_x ) { this.edits.end.attr({cx:box.end_x,cy:box.end_y, r:4 });  } 
     if ( box.sp1_x ) { this.edits.spetial_1.attr({cx:box.sp1_x,cy:box.sp1_y, r:4 });  }
