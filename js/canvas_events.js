@@ -82,7 +82,7 @@ canvas.events = function(){
 
 }
 
-print_pos_mose = function(){
-    mose = get_xy()
-    console.log("x " + mose.x + " y " + mose.y)
-}
+
+
+
+

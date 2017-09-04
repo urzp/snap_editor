@@ -33,37 +33,28 @@ canvas.draw = function(type){
        element = snap.line(cursor.x, cursor.y, cursor.x, cursor.y);   
        element.attr({
         stroke: "#000",
-        strokeWidth: '2',
-        x_start: cursor.x,
-        y_start: cursor.y,
-        transform: "matrix(1 0 0 1 0 0)" });
+        strokeWidth: '2'});
    };
    if (type == 'rectangle'){
        element = snap.rect(cursor.x, cursor.y, 10, 10); 
        element.attr({
         fill:"none",
         stroke:"#000",
-        strokeWidth: '2', 
-        x_start: cursor.x,
-        y_start: cursor.y });    
+        strokeWidth: '2'});    
    }; 
    if (type == 'circle'){
        element = snap.circle(cursor.x, cursor.y,4); 
        element.attr({
         fill:"none",
         stroke:"#000",
-        strokeWidth: '2',
-        x_start: cursor.x,
-        y_start: cursor.y });      
+        strokeWidth: '2'});      
    }; 
    if (type == 'ellipse'){
        element = snap.ellipse(cursor.x, cursor.y,4,4); 
        element.attr({
         fill:"none",
         stroke:"#000",
-        strokeWidth: '2',
-        x_start: cursor.x,
-        y_start: cursor.y, });      
+        strokeWidth: '2'});      
    }; 
    if (type == 'arc'){
         var m_xy = {x:cursor.x, y:cursor.y}
@@ -104,8 +95,8 @@ canvas.draw_end = function(shift){
             y2: y }); 
     };
     if (element.type == "rect"){
-        var x_start = parseInt( canvas.current_el.attr('x_start') );
-        var y_start = parseInt( canvas.current_el.attr('y_start') );
+        var x_start = parseInt( canvas.current_el.attr('x') );
+        var y_start = parseInt( canvas.current_el.attr('y') );
         var width =  Math.abs(cursor.x - x_start);
         var height = Math.abs( cursor.y - y_start);
         if (shift){
@@ -157,14 +148,7 @@ canvas.draw_end = function(shift){
     get_xy(); 
 };
 
-canvas.tets_arc = function(x,y){
-    var d = this.current_el.attr("d"); 
-    var params = canvas.arc_get_params(d)
-    var r_xy = { x:x, y:y}
-    d = canvas.arc_set_params(null, r_xy, null, null, null, null, d )
-    this.current_el.attr({ d:d });
 
-}
 
 canvas.drag_el = function(dx, dy){
     if(canvas.current_el != null){
@@ -265,76 +249,7 @@ canvas.canculate_distanse = function(point1,point2){
     return Math.sqrt(  (point1.x-point2.x)*(point1.x-point2.x) + (point1.y-point2.y)*(point1.y-point2.y) );
 };
 
-get_xy = function(){
-    var x_el = parseInt(  $( "#svg" ).offset().left );
-    var y_el = parseInt(  $( "#svg" ).offset().top  );
-    var x = event.pageX - x_el;
-    var y = event.pageY - y_el;
-    return {x: x, y: y};
-};
 
-deg = function(angle){
-    return angle * (180 / Math.PI);
-};
-
-rad = function(angle){
-    return angle * ( Math.PI/ 180);
-};
 
 //************************* TESTS FUNCTIONS ************************************
 
-canvas.matrix_data = function(){
-    var cxy = this.get_center(this.current_el);
-    var matrix =this.current_el.matrix;
-    
-    var x1rot = parseInt( dw_frame.nodes.left_top.attr("cx") );
-    var y1rot = parseInt( dw_frame.nodes.left_top.attr("cy") );
-
-    var mdx = parseInt( cxy.x + (matrix.e-cxy.x)*matrix.a + (matrix.f - cxy.y)*matrix.b );
-    var mdy = parseInt( cxy.y + (matrix.f-cxy.y)*matrix.a - (matrix.e - cxy.x)*matrix.b );
-
-    var nx = parseInt( cxy.x + (x1rot-cxy.x)*matrix.a + (y1rot - cxy.y)*matrix.b ); 
-    var ny = parseInt( cxy.y + (y1rot - cxy.y)*matrix.a - (x1rot-cxy.x)*matrix.b );
-
-    console.log("angle "+ this.current_el.attr("angle")); 
-    console.log("x1 "+ this.current_el.attr("x") + "  x1rot " + x1rot + " nx "+ nx + " mdx " + mdx); 
-    console.log("y1 "+ this.current_el.attr("y") + "  y1rot " + y1rot + " ny "+ ny + " mdy " + mdy); 
-    console.log("matrix")
-    console.log("a:" + deg(Math.acos(matrix.a)) +" "+ matrix.a );
-    console.log("b:" + deg(Math.asin(matrix.b)) +" "+ matrix.b );
-    console.log("c:" + deg(Math.asin(matrix.c)) +" "+ matrix.c );
-    console.log("d:" + deg(Math.acos(matrix.d)) +" "+ matrix.d );
-    console.log("e:" + matrix.e );
-    console.log("f:" + matrix.f );
-};
-
-
-
-canvas.test_move = function(nx,ny){
-    var element =this.current_el;
-    var matrix = element.matrix;
-    var new_point;
-    var cxy = canvas.get_center(element);
-    var x = parseInt(element.attr("x")); 
-    var y = parseInt(element.attr("y"));
-    var w = parseInt(element.attr("width")); 
-    var h = parseInt(element.attr("height")); 
-
-    //var new_point = {x: x - dx, y: y - dy}
-    var new_point = {x:nx, y:ny};
-
-    var new_point_rel = canvas.canculate_rel_point(new_point, element);
-
-    
-    width = w  + (x - new_point_rel.x);
-    height = h + (y - new_point_rel.y);
-
-
-    element.attr({
-        width: width,
-        height: height,
-        x: new_point_rel.x,
-        y: new_point_rel.y
-    });
-
-};

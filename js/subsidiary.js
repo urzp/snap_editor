@@ -38,27 +38,27 @@ canvas.arc_get_params = function(d){
 }
 
 
+get_xy = function(){
+    var x_el = parseInt(  $( "#svg" ).offset().left );
+    var y_el = parseInt(  $( "#svg" ).offset().top  );
+    var x = event.pageX - x_el;
+    var y = event.pageY - y_el;
+    return {x: x, y: y};
+};
+
+deg = function(angle){
+    return angle * (180 / Math.PI);
+};
+
+rad = function(angle){
+    return angle * ( Math.PI/ 180);
+};
+
+print_pos_mose = function(){
+    mose = get_xy()
+    console.log("x " + mose.x + " y " + mose.y)
+}
+
 //+++++++++++++++++++++++++++++++++++++++++++++ tests +++++++++++++++++++++++++++++++++++
 
 
-canvas.test_arc_set_params = function(){
-	var m_xy = {x:10,y:10}
-	var r_xy = {x:20,y:20}
-	var end_xy = {x:10,y:20}
-	var x_rotation = 0
-	var large_arc = 0
-	var sweep = 0 
-	console.log(this.arc_set_params(m_xy, r_xy, x_rotation, large_arc, sweep, end_xy) )
-}
-
-canvas.test_arc_set_params_2 = function(){
-	var m_xy = {x:50,y:50}
-
-	var end_xy = {x:100,y:200}
-	var x_rotation = 0
-	var large_arc = 1
-	var sweep = 0 
-	var d = "M10,10 A20,20 1 0 0 10,20"
-	console.log(d)
-	console.log(this.arc_set_params(m_xy, null, x_rotation, large_arc, null, end_xy, d) )
-}
