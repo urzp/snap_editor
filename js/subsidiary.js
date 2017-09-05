@@ -27,9 +27,9 @@ canvas.arc_set_params = function(m_xy, r_xy, x_rotation, large_arc, sweep, end_x
 canvas.arc_get_params = function(d){
 	if (d != null){
 		var d_spl =  d.split(/[MA, ]/)
-		var m_xy = {x:d_spl[1], y:d_spl[2]}
+		var m_xy = {x:parseInt(d_spl[1]), y:parseInt(d_spl[2])}
 		var r_xy = {x:d_spl[4], y:d_spl[5]}
-		var end_xy = {x:d_spl[9], y:d_spl[10]}
+		var end_xy = {x:parseInt(d_spl[9]), y:parseInt(d_spl[10])}
 		var x_rotation = parseInt(d_spl[6])
 		var large_arc = d_spl[7]
 		var sweep = d_spl[8]
@@ -50,6 +50,20 @@ canvas.get_center_circle = function(p1,p2,p3){
 	var y0 = (1/2)*(x1*(x2^2-x3^2+y2^2-y3^2)+x2*(-x1^2+x3^2-y1^2+y3^2)+x3*(x1^2-x2^2+y1^2-y2^2))/(x1*(y2-y3)+x2*(y3-y1)+x3*(y1-y2))
 
 	return {x:x0, y:y0}
+}
+
+get_radius_circ = function(p1,p2,p3){
+	return get_distanse(p1,p3)/( 2*( p2.y - p3.y ) / get_distanse(p2,p3) )
+}
+
+get_h = function(r,d){
+	return parseInt( (r + Math.sqrt( 4*(r**2) - d**2 ) / 2) )
+}
+
+get_center_line = function(p1,p2){
+	var x = p1.x + (p2.x - p1.x)/2
+	var y = p1.y + (p2.y - p1.y)/2
+	return {x:x, y:y}
 }
 
 get_xy = function(){

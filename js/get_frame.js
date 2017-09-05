@@ -102,8 +102,21 @@ dw_frame.get_frame = function(element){
         var x_rotation = arc_params.x_rotation
         var large_arc = arc_params.large_arc
         var sweep = arc_params.sweep
-        var sp1_x = cxy.x + ( box1.x2 - cxy.x )*Math.sin(rad(x_rotation)) 
-        var sp1_y = cxy.y - (cxy.y - box1.y )*Math.cos(rad(x_rotation)) 
+        var se = get_distanse(m_xy,end_xy) 
+        var cos_angle = ( end_xy.x - m_xy.x )/ se
+        var sin_angle = ( end_xy.y - m_xy.y )/ se
+        var sp1_y, sp1_x
+        
+
+        
+        if (r_xy.x > get_distanse(m_xy,end_xy) / 2 ){ 
+            sp1_y = get_center_line(m_xy,end_xy).y - get_h( parseInt( r_xy.x ), parseInt( se ) )*cos_angle
+            sp1_x = get_center_line(m_xy,end_xy).x + get_h( parseInt( r_xy.x ), parseInt( se ) )*sin_angle
+        } else {
+            sp1_y = get_center_line(m_xy,end_xy).y - r_xy.y*cos_angle 
+            sp1_x = get_center_line(m_xy,end_xy).x + r_xy.y*sin_angle
+
+        }
 
         box.beg_x = matrix.e + m_xy.x*matrix.a - m_xy.y*matrix.b
         box.beg_y = matrix.f + m_xy.y*matrix.a + m_xy.x*matrix.b;

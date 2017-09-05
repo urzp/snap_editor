@@ -138,8 +138,11 @@ canvas.draw_end = function(shift){
         var params = canvas.arc_get_params(d)
         var m_xy = params.m_xy
         var r_xy = params.r_xy
+        r_xy.x = get_distanse( xy, m_xy)/2
+        r_xy.y = r_xy.x
+
                 
-        d = canvas.arc_set_params(null, null, null, null, null, {x:x, y:y}, d )
+        d = canvas.arc_set_params(null, r_xy, null, null, null, {x:x, y:y}, d )
         element.attr({
             d:d });
     }; 
