@@ -139,8 +139,7 @@ canvas.draw_end = function(shift){
         var m_xy = params.m_xy
         var r_xy = params.r_xy
                 
-        r_xy.x = 5//canvas.canculate_distanse(m_xy, xy) 
-        d = canvas.arc_set_params(null, r_xy, null, null, null, {x:x, y:y}, d )
+        d = canvas.arc_set_params(null, null, null, null, null, {x:x, y:y}, d )
         element.attr({
             d:d });
     }; 
@@ -249,6 +248,9 @@ canvas.canculate_distanse = function(point1,point2){
     return Math.sqrt(  (point1.x-point2.x)*(point1.x-point2.x) + (point1.y-point2.y)*(point1.y-point2.y) );
 };
 
+get_distanse = function(point1,point2){
+    return Math.sqrt(  (point1.x-point2.x)*(point1.x-point2.x) + (point1.y-point2.y)*(point1.y-point2.y) );
+};
 
 
 //************************* TESTS FUNCTIONS ************************************

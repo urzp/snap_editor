@@ -38,6 +38,20 @@ canvas.arc_get_params = function(d){
 }
 
 
+canvas.get_center_circle = function(p1,p2,p3){
+	var x1 = p1.x
+	var y1 = p1.y
+	var x2 = p2.x
+	var y2 = p2.y
+	var x3 = p3.x
+	var y3 = p3.y
+
+	var x0 = -(1/2)*(y1*(x2^2-x3^2+y2^2-y3^2)+y2*(-x1^2+x3^2-y1^2+y3^2)+y3*(x1^2-x2^2+y1^2-y2^2))/(x1*(y2-y3)+x2*(y3-y1)+x3*(y1-y2))
+	var y0 = (1/2)*(x1*(x2^2-x3^2+y2^2-y3^2)+x2*(-x1^2+x3^2-y1^2+y3^2)+x3*(x1^2-x2^2+y1^2-y2^2))/(x1*(y2-y3)+x2*(y3-y1)+x3*(y1-y2))
+
+	return {x:x0, y:y0}
+}
+
 get_xy = function(){
     var x_el = parseInt(  $( "#svg" ).offset().left );
     var y_el = parseInt(  $( "#svg" ).offset().top  );

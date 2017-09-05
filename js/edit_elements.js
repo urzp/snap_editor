@@ -192,14 +192,17 @@ dw_frame.trasform_el = function(move_node){
         var box = element.getBBox()
 
         switch( move_node.attr("id") ){
-            case  "node_left_top":
+            case  "edits_spetial_1":
                 mose = get_xy()
 
-                r_xy.x = Math.abs(m_xy.x - mose.x)
-                if (r_xy.x <= r_xmin ) {r_xy.x = r_xmin}
-                r_xy.y = Math.abs(m_xy.y - mose.y)
-
-                //console.log(r_xy)
+                if (r_xy.y < r_xmin){
+                    r_xy.y = Math.abs(m_xy.y - mose.y)
+                    r_xy.x = r_xmin
+                };
+                if (r_xy.y >= r_xmin){ 
+                    r_xy.y = get_distanse(m_xy,mose)/( 2*( end_xy.y - mose.y ) / get_distanse(end_xy,mose) )
+                    r_xy.x = r_xy.y
+                };
 
                 var d = canvas.arc_set_params(null, r_xy, null, null, null, null, element.attr("d"))
                 element.attr({d:d})
@@ -213,7 +216,7 @@ dw_frame.trasform_el = function(move_node){
                 var d = canvas.arc_set_params(null, null, null, null, null, end, element.attr("d"))
                 element.attr({d:d})
             break
-            case  "edits_spetial_1":
+            case  "edits_spetial_2":
                 var r = canvas.canculate_distanse(cxy , sp1)
                 var ang = parseInt(deg( Math.asin((sp1.x - cxy.x)/r) ) )
                 var d = canvas.arc_set_params(null, null, ang, null, null, null, element.attr("d"))
