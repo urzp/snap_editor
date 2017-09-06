@@ -65,6 +65,7 @@ dw_frame.get_frame = function(element){
     if (element.type == "ellipse"){
         var x =  parseInt(element.attr("cx"));
         var y =  parseInt(element.attr("cy"));
+        
         var rx = parseInt(element.attr("rx")); 
         var ry = parseInt(element.attr("ry")); 
         var x1 = parseInt(x - rx)

@@ -229,7 +229,7 @@ canvas.last_element = function(){
 
 };
 
-canvas.canculate_rel_point = function(point,element){
+canvas.canculate_rel_point = function(point,element){ // for edit
     var matrix = element.matrix;
     var cxy = this.get_center(element);
     var mdx = cxy.x + (matrix.e-cxy.x)*matrix.a + (matrix.f - cxy.y)*matrix.b; 
@@ -239,7 +239,7 @@ canvas.canculate_rel_point = function(point,element){
     return {x:new_x, y:new_y};
 };
 
-canvas.with_matrix = function(point,element){
+canvas.with_matrix = function(point,element){ // for get frame
     var matrix = element.matrix;
     var new_x = matrix.e + point.x*matrix.a - point.y*matrix.b
     var new_y = matrix.f + point.y*matrix.a + point.x*matrix.b
