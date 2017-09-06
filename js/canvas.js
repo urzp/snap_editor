@@ -57,13 +57,13 @@ canvas.draw = function(type){
         strokeWidth: '2'});      
    }; 
    if (type == 'arc'){
-        var m_xy = {x:cursor.x, y:cursor.y}
+        var beg_xy = {x:cursor.x, y:cursor.y}
         var end_xy = {x:cursor.x + 50, y:cursor.y }
         var r_xy = {x:1, y:1}
         var x_rotation = 0
         var large_arc = 1
         var sweep = 1 
-        var d = this.arc_set_params(m_xy, r_xy, x_rotation, large_arc, sweep, end_xy)
+        var d = this.arc_set_params(beg_xy, r_xy, x_rotation, large_arc, sweep, end_xy)
         element = snap.path(d); 
         element.attr({
         fill:"none",
@@ -136,9 +136,9 @@ canvas.draw_end = function(shift){
         var x = xy.x;
         var y = xy.y;
         var params = canvas.arc_get_params(d)
-        var m_xy = params.m_xy
+        var beg_xy = params.m_xy
         var r_xy = params.r_xy
-        r_xy.x = get_distanse( xy, m_xy)/2
+        r_xy.x = get_distanse( xy, beg_xy)/2
         r_xy.y = r_xy.x
 
                 

@@ -181,33 +181,32 @@ dw_frame.trasform_el = function(move_node){
     };
     if (element.type == "path"){
         var arc_params = canvas.arc_get_params(element.attr("d"))
-        var m_xy = arc_params.m_xy
+        var beg_xy = arc_params.m_xy
         var r_xy = arc_params.r_xy
         var end_xy = arc_params.end_xy
         var x_rotation = arc_params.x_rotation
         var large_arc = arc_params.large_arc
         var sweep = arc_params.sweep
-        var r_xmin = parseInt( get_distanse(end_xy,m_xy)  / 2 )
+        var r_xmin = parseInt( get_distanse(end_xy,beg_xy)  / 2 )
 
         var box = element.getBBox()
 
         switch( move_node.attr("id") ){
             case  "edits_spetial_1":
                 mose = get_xy()
-                var c_se = get_center_line(m_xy, end_xy )
+                var st_end_cent = get_center_line(beg_xy, end_xy )
+                var mose_st_end_cent = get_distanse(st_end_cent, mose)   
+                var ang = get_angle_line(beg_xy, end_xy).ang_deg
 
-                if ( mose.y >= m_xy.y - r_xmin){
-                    r_xy.y = parseInt( get_distanse(c_se , mose) )
+                if ( mose_st_end_cent <= r_xmin){
+                    r_xy.y = parseInt( mose_st_end_cent )
                     r_xy.x = r_xmin
                 };
-                if (mose.y < m_xy.y - r_xmin){ 
-                    r_xy.y = parseInt( get_distanse(m_xy,mose)/( 2*( end_xy.y - mose.y ) / get_distanse(end_xy,mose) ) ) // R = AB/2Sin(a)
+                if (mose_st_end_cent >  r_xmin){ 
+                    r_xy.y = get_radius_circ(beg_xy, end_xy, mose)
                     r_xy.x = r_xy.y
                 };
-
-                console.log("rx " + r_xy.x + " ry " + r_xy.y + " r_xmin " + r_xmin)
-
-                var d = canvas.arc_set_params(null, r_xy, null, null, null, null, element.attr("d"))
+                var d = canvas.arc_set_params(null, r_xy, ang, null, null, null, element.attr("d"))
                 element.attr({d:d})
 
             break
@@ -219,7 +218,7 @@ dw_frame.trasform_el = function(move_node){
                 element.attr({d:d})
             break
             case  "edits_end":
-                var rx = get_distanse( m_xy, end)/2
+                var rx = get_distanse( beg_xy, end)/2
                 var ry = rx
                 var rxy = {x:rx,y:ry}
                 var d = canvas.arc_set_params(null, rxy, null, null, null, end, element.attr("d"))

@@ -134,3 +134,29 @@ dw_frame.coordinats = function(){
     console.log( "right_bottom " + "x: " + right_bottom.x + " y: " + right_bottom.y);
     console.log( "left_bottom " + "x: " + left_bottom.x + " y: " + left_bottom.y);
 };
+
+test_rotate = function(){
+	var point = {x: 100, y: 10}
+	var centr = {x: 100, y: 100}
+	var ang = 0
+
+	var point2 = get_rotate(point, centr, ang)
+	console.log("p: x=" +point.x +"  y=" + point.y + " cent: x=" + centr.x + " y=" + centr.y + " ang=" + ang + " new_point x=" + point2.x + " y=" + point2.y)
+	ang = 90
+	var point2 = get_rotate(point, centr, ang)
+	console.log("p: x=" +point.x +"  y=" + point.y + " cent: x=" + centr.x + " y=" + centr.y + " ang=" + ang + " new_point x=" + point2.x + " y=" + point2.y)
+	ang = 180
+	var point2 = get_rotate(point, centr, ang)
+	console.log("p: x=" +point.x +"  y=" + point.y + " cent: x=" + centr.x + " y=" + centr.y + " ang=" + ang + " new_point x=" + point2.x + " y=" + point2.y)
+		ang = 270
+	var point2 = get_rotate(point, centr, ang)
+	console.log("p: x=" +point.x +"  y=" + point.y + " cent: x=" + centr.x + " y=" + centr.y + " ang=" + ang + " new_point x=" + point2.x + " y=" + point2.y)
+
+}
+
+test_h = function(){
+	var b ={x:0, y:3.12}
+	var e ={x:5, y:3.12}
+	var p ={x:2.5, y:0}
+	get_radius_circ(b,e,p)
+}

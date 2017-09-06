@@ -52,8 +52,14 @@ canvas.get_center_circle = function(p1,p2,p3){
 	return {x:x0, y:y0}
 }
 
-get_radius_circ = function(p1,p2,p3){
-	return get_distanse(p1,p3)/( 2*( p2.y - p3.y ) / get_distanse(p2,p3) )
+get_radius_circ = function(beg, end, p){
+	var ep = get_distanse(end, p)
+	var bp = get_distanse(beg,p)
+	var be = get_distanse(beg, end)
+	var half_l = (ep+bp+be)/2
+	var h = 2*Math.sqrt(half_l*((half_l-be)*(half_l-bp)*(half_l-ep)))/be
+	var sin_e = h/ep
+	return bp/ (2*sin_e)
 }
 
 get_h = function(r,d){
@@ -61,14 +67,31 @@ get_h = function(r,d){
 }
 
 get_center_line = function(p1,p2){
-	var x = p1.x + (p2.x - p1.x)/2
-	var y = p1.y + (p2.y - p1.y)/2
+	var x = parseInt( p1.x + (p2.x - p1.x)/2 )
+	var y = parseInt( p1.y + (p2.y - p1.y)/2 )
 	return {x:x, y:y}
 }
 
-get_distanse = function(point1,point2){
+get_angle_line =function(beg, end){
+	var b_e = get_distanse( beg, end )
+	var cos = (end.x - beg.x)/b_e
+	var sin = (end.y - beg.y)/b_e
+	var ang = Math.acos(cos)
+	if (end.y < beg.y ) { ang = 2*Math.PI - ang}
+	var ang_deg = deg(ang)
+	return {cos: cos, sin: sin, ang:ang, ang_deg: ang_deg}
+}
+
+get_distanse = function(point1,point2){ 
     return Math.sqrt(  (point1.x-point2.x)*(point1.x-point2.x) + (point1.y-point2.y)*(point1.y-point2.y) );
 };
+
+get_rotate = function(point , center, angle_d ){
+	var r = get_distanse(point, center )
+	var new_x = center.x + r * Math.sin( rad(angle_d) )
+	var new_y = center.y - r * Math.cos( rad(angle_d) )
+	return {x:new_x ,y:new_y}
+}
 
 get_xy = function(){
     var x_el = parseInt(  $( "#svg" ).offset().left );
