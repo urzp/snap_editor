@@ -187,33 +187,42 @@ dw_frame.trasform_el = function(move_node){
         var x_rotation = arc_params.x_rotation
         var large_arc = arc_params.large_arc
         var sweep = arc_params.sweep
-        var r_xmin = ( end_xy.x - m_xy.x ) / 2
+        var r_xmin = parseInt( get_distanse(end_xy,m_xy)  / 2 )
 
         var box = element.getBBox()
 
         switch( move_node.attr("id") ){
             case  "edits_spetial_1":
                 mose = get_xy()
+                var c_se = get_center_line(m_xy, end_xy )
 
-                if (r_xy.y < r_xmin){
-                    r_xy.y = Math.abs(m_xy.y - mose.y)
+                if ( mose.y >= m_xy.y - r_xmin){
+                    r_xy.y = parseInt( get_distanse(c_se , mose) )
                     r_xy.x = r_xmin
                 };
-                if (r_xy.y >= r_xmin){ 
-                    r_xy.y = get_distanse(m_xy,mose)/( 2*( end_xy.y - mose.y ) / get_distanse(end_xy,mose) )
+                if (mose.y < m_xy.y - r_xmin){ 
+                    r_xy.y = parseInt( get_distanse(m_xy,mose)/( 2*( end_xy.y - mose.y ) / get_distanse(end_xy,mose) ) ) // R = AB/2Sin(a)
                     r_xy.x = r_xy.y
                 };
+
+                console.log("rx " + r_xy.x + " ry " + r_xy.y + " r_xmin " + r_xmin)
 
                 var d = canvas.arc_set_params(null, r_xy, null, null, null, null, element.attr("d"))
                 element.attr({d:d})
 
             break
             case  "edits_begin":
-                var d = canvas.arc_set_params(begin, null, null, null, null, null, element.attr("d"))
+                var rx = get_distanse( begin, end_xy)/2
+                var ry = rx
+                var rxy = {x:rx,y:ry}
+                var d = canvas.arc_set_params(begin, rxy, null, null, null, null, element.attr("d"))
                 element.attr({d:d})
             break
             case  "edits_end":
-                var d = canvas.arc_set_params(null, null, null, null, null, end, element.attr("d"))
+                var rx = get_distanse( m_xy, end)/2
+                var ry = rx
+                var rxy = {x:rx,y:ry}
+                var d = canvas.arc_set_params(null, rxy, null, null, null, end, element.attr("d"))
                 element.attr({d:d})
             break
             case  "edits_spetial_2":

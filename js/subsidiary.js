@@ -66,6 +66,10 @@ get_center_line = function(p1,p2){
 	return {x:x, y:y}
 }
 
+get_distanse = function(point1,point2){
+    return Math.sqrt(  (point1.x-point2.x)*(point1.x-point2.x) + (point1.y-point2.y)*(point1.y-point2.y) );
+};
+
 get_xy = function(){
     var x_el = parseInt(  $( "#svg" ).offset().left );
     var y_el = parseInt(  $( "#svg" ).offset().top  );
