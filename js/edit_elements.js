@@ -193,7 +193,7 @@ dw_frame.trasform_el = function(move_node){
 
         switch( move_node.attr("id") ){
             case  "edits_spetial_1":
-                mose = get_xy()
+                mose = canvas.canculate_rel_point(get_xy(),element)
                 var st_end_cent = get_center_line(beg_xy, end_xy )
                 var mose_st_end_cent = get_distanse(st_end_cent, mose)   
                 var ang = get_angle_line(beg_xy, end_xy).ang_deg
@@ -211,6 +211,7 @@ dw_frame.trasform_el = function(move_node){
 
             break
             case  "edits_begin":
+                begin = canvas.canculate_rel_point(begin, element)
                 var rx = get_distanse( begin, end_xy)/2
                 var ry = rx
                 var rxy = {x:rx,y:ry}
@@ -218,16 +219,11 @@ dw_frame.trasform_el = function(move_node){
                 element.attr({d:d})
             break
             case  "edits_end":
+                end = canvas.canculate_rel_point(end, element)
                 var rx = get_distanse( beg_xy, end)/2
                 var ry = rx
                 var rxy = {x:rx,y:ry}
                 var d = canvas.arc_set_params(null, rxy, null, null, null, end, element.attr("d"))
-                element.attr({d:d})
-            break
-            case  "edits_spetial_2":
-                var r = canvas.canculate_distanse(cxy , sp1)
-                var ang = parseInt(deg( Math.asin((sp1.x - cxy.x)/r) ) )
-                var d = canvas.arc_set_params(null, null, ang, null, null, null, element.attr("d"))
                 element.attr({d:d})
             break
 

@@ -96,33 +96,34 @@ dw_frame.get_frame = function(element){
         var bbox = element.getBBox()
         var arc_params = canvas.arc_get_params(element.attr("d"))
 
-        var m_xy = arc_params.m_xy
+        var beg_xy = arc_params.m_xy
         var r_xy = arc_params.r_xy
         var end_xy = arc_params.end_xy
         var x_rotation = arc_params.x_rotation
         var large_arc = arc_params.large_arc
         var sweep = arc_params.sweep
-        var se = get_distanse(m_xy,end_xy) 
-        var cos_angle = ( end_xy.x - m_xy.x )/ se
-        var sin_angle = ( end_xy.y - m_xy.y )/ se
+        var se = get_distanse(beg_xy,end_xy) 
+        var cos_angle = ( end_xy.x - beg_xy.x )/ se
+        var sin_angle = ( end_xy.y - beg_xy.y )/ se
         var sp1_y, sp1_x
         
+        beg_xy = canvas.with_matrix(beg_xy, element)
+        end_xy = canvas.with_matrix(end_xy, element)
 
+        box.beg_x = beg_xy.x
+        box.beg_y = beg_xy.y
+
+        box.end_x =  end_xy.x
+        box.end_y =  end_xy.y
         
-        if (r_xy.x > get_distanse(m_xy,end_xy) / 2 ){ 
-            sp1_y = get_center_line(m_xy,end_xy).y - get_h( parseInt( r_xy.x ), parseInt( se ) )*cos_angle
-            sp1_x = get_center_line(m_xy,end_xy).x + get_h( parseInt( r_xy.x ), parseInt( se ) )*sin_angle
+        if (r_xy.x > get_distanse(beg_xy,end_xy) / 2 ){ 
+            sp1_y = get_center_line(beg_xy,end_xy).y - get_h( parseInt( r_xy.x ), parseInt( se ) )*cos_angle
+            sp1_x = get_center_line(beg_xy,end_xy).x + get_h( parseInt( r_xy.x ), parseInt( se ) )*sin_angle
         } else {
-            sp1_y = get_center_line(m_xy,end_xy).y - r_xy.y*cos_angle 
-            sp1_x = get_center_line(m_xy,end_xy).x + r_xy.y*sin_angle
+            sp1_y = get_center_line(beg_xy,end_xy).y - r_xy.y*cos_angle 
+            sp1_x = get_center_line(beg_xy,end_xy).x + r_xy.y*sin_angle
 
         }
-
-        box.beg_x = matrix.e + m_xy.x*matrix.a - m_xy.y*matrix.b
-        box.beg_y = matrix.f + m_xy.y*matrix.a + m_xy.x*matrix.b;
-
-        box.end_x =  matrix.e + end_xy.x*matrix.a - end_xy.y*matrix.b
-        box.end_y =  matrix.f + end_xy.y*matrix.a + end_xy.x*matrix.b;
 
         box.sp1_x = sp1_x;
         box.sp1_y = sp1_y; 

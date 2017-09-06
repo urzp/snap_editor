@@ -239,6 +239,13 @@ canvas.canculate_rel_point = function(point,element){
     return {x:new_x, y:new_y};
 };
 
+canvas.with_matrix = function(point,element){
+    var matrix = element.matrix;
+    var new_x = matrix.e + point.x*matrix.a - point.y*matrix.b
+    var new_y = matrix.f + point.y*matrix.a + point.x*matrix.b
+    return {x:new_x, y:new_y}
+}
+
 canvas.canculate_matrix_transf = function(element){
     var matrix = element.matrix;
     var cxy = this.get_center(element);
