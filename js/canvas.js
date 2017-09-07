@@ -69,7 +69,15 @@ canvas.draw = function(type){
         fill:"none",
         stroke:"#000",
         strokeWidth: '2' });      
-   };       
+   };  
+   if (type == "triangle"){
+
+        element = snap.polygon(cursor.x, cursor.y, cursor.x + 100, cursor.y, cursor.x + 50, cursor.y - 50);
+        element.attr({
+        fill:"none",
+        stroke:"#000",
+        strokeWidth: '2'});   
+   };     
 
    element.attr({id: this.count, class: "figure"});
    this.elements.push(element);
@@ -145,7 +153,23 @@ canvas.draw_end = function(shift){
         d = canvas.arc_set_params(null, r_xy, null, null, null, {x:x, y:y}, d )
         element.attr({
             d:d });
-    }; 
+    };
+    if (element.type == "polygon"){
+        var p = element.attr("points")
+        var points = canvas.triangle_get_params(p)
+        var xy = get_xy()
+        var beg_end = get_distanse(points.p1, xy)
+        var centr = get_center_line(points.p1, xy)
+        var ang = get_angle_line(points.p1, xy).ang_deg
+        var h = (beg_end*Math.sqrt(3))/2
+        points.p3 = {x:centr.x, y:centr.y - h}
+        points.p3 = get_rotate(points.p3, centr, ang)
+
+        p = canvas.triangle_set_params(null, xy, points.p3, p)
+        element.attr({
+            points: p
+        });
+    };
     dw_frame.draw(element);
     get_xy(); 
 };

@@ -37,6 +37,19 @@ canvas.arc_get_params = function(d){
 	} else { return null }
 }
 
+canvas.triangle_get_params = function(p){
+	var p1 = {x:parseInt(p[0]), y:parseInt(p[1])} 
+	var p2 = {x:parseInt(p[2]), y:parseInt(p[3])}
+	var p3 = {x:parseInt(p[4]), y:parseInt(p[5])}
+	return {p1:p1, p2:p2, p3:p3}
+}
+
+canvas.triangle_set_params = function(p1, p2, p3, p){
+	if (p1){p[0] = p1.x; p[1] = p1.y}
+	if (p2){p[2] = p2.x; p[3] = p2.y}
+	if (p3){p[4] = p3.x; p[5] = p3.y}
+	return p
+}
 
 canvas.get_center_circle = function(p1,p2,p3){
 	var x1 = p1.x
