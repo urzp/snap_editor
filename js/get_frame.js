@@ -65,7 +65,7 @@ dw_frame.get_frame = function(element){
     if (element.type == "ellipse"){
         var x =  parseInt(element.attr("cx"));
         var y =  parseInt(element.attr("cy"));
-        
+
         var rx = parseInt(element.attr("rx")); 
         var ry = parseInt(element.attr("ry")); 
         var x1 = parseInt(x - rx)
@@ -129,6 +129,23 @@ dw_frame.get_frame = function(element){
         box.sp1_x = sp1_x;
         box.sp1_y = sp1_y; 
 
+    }
+
+    if (element.type == "polygon"){
+        var p = element.attr("points")
+        var points = canvas.triangle_get_params(p)
+
+        box.beg_x = points.p1.x
+        box.beg_y = points.p1.y
+
+        box.end_x =  points.p2.x
+        box.end_y =  points.p2.y
+
+        box.sp1_x = points.p3.x;
+        box.sp1_y = points.p3.y; 
+
+        box.x5 = cxy.x;
+        box.y5 = cxy.y; 
     }
     this.box = box;
     return box;
