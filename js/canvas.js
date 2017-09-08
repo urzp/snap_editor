@@ -160,6 +160,7 @@ canvas.draw_end = function(shift){
         var xy = get_xy()
         var beg_end = get_distanse(points.p1, xy)
         var centr = get_center_line(points.p1, xy)
+        var centr_el = canvas.get_center_small_circle(points.p1,points.p2,points.p3)
         var ang = get_angle_line(points.p1, xy).ang_deg
         var h = (beg_end*Math.sqrt(3))/2
         points.p3 = {x:centr.x, y:centr.y - h}
@@ -167,7 +168,9 @@ canvas.draw_end = function(shift){
 
         p = canvas.triangle_set_params(null, xy, points.p3, p)
         element.attr({
-            points: p
+            points: p,
+            centr_x: centr_el.x,
+            centr_y: centr_el.y
         });
     };
     dw_frame.draw(element);

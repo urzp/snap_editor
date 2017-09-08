@@ -230,5 +230,79 @@ dw_frame.trasform_el = function(move_node){
         }
 
     }
+    if (element.type == "polygon"){
+        switch( move_node.attr("id") ){
+            case  "edits_begin":
+                begin = canvas.canculate_rel_point(begin, element)
+                var p = element.attr("points")
+                var points = canvas.triangle_get_params(p)
+                var centr_el = canvas.get_center_small_circle(points.p1,points.p2,points.p3)
+                p = canvas.triangle_set_params(begin, null, null, p)
+                element.attr({
+                    points: p,
+                centr_x: centr_el.x,
+                centr_y: centr_el.y
+                });
+            break
+            case  "edits_end":
+                end = canvas.canculate_rel_point(end, element)
+                var p = element.attr("points")
+                var points = canvas.triangle_get_params(p)
+                var centr_el = canvas.get_center_small_circle(points.p1,points.p2,points.p3)
+                p = canvas.triangle_set_params(null, end, null, p)
+                element.attr({
+                    points: p,
+                    centr_x: centr_el.x,
+                    centr_y: centr_el.y
+                });
+            break
+            case  "edits_spetial_1":
+                sp1 = canvas.canculate_rel_point(sp1, element)
+                var p = element.attr("points")
+                var points = canvas.triangle_get_params(p)
+                var centr_el = canvas.get_center_small_circle(points.p1,points.p2,points.p3)
+                p = canvas.triangle_set_params(null, null, sp1, p)
+                element.attr({
+                    points: p,
+                    centr_x: centr_el.x,
+                    centr_y: centr_el.y
+                });
+            break
+/*            case "node_rotate":
+                var p = element.attr("points")
+                var points = canvas.triangle_get_params(p)
+                var cent = {x: parseInt(element.attr("centr_x")), y: parseInt(element.attr("centr_y"))}
+                console.log(cent)
+                var mose =get_xy()
+                var ang = mose.x - cent.x
+                points.p1 = get_rotate(points.p1, cent, ang )
+                points.p2 = get_rotate(points.p2, cent, ang )
+                points.p3 = get_rotate(points.p3, cent, ang )
+
+                marker = snap.circle(points.p1.x, points.p1.y,4); 
+                marker.attr({
+                fill:"none",
+                stroke:"#F00",
+                strokeWidth: '2'});  
+
+                marker = snap.circle(points.p2.x, points.p2.y,4); 
+                marker.attr({
+                fill:"none",
+                stroke:"#0F0",
+                strokeWidth: '2'});  
+
+                marker = snap.circle(points.p3.x, points.p3.y,4); 
+                marker.attr({
+                fill:"none",
+                stroke:"#00F",
+                strokeWidth: '2'});  
+
+                p = canvas.triangle_set_params(points.p1, points.p2, points.p3, p)
+                element.attr({
+                    points: p
+                });
+            break   */
+        }
+    }
     dw_frame.draw(element);
 }

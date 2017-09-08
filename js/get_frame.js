@@ -134,6 +134,10 @@ dw_frame.get_frame = function(element){
     if (element.type == "polygon"){
         var p = element.attr("points")
         var points = canvas.triangle_get_params(p)
+        points.p1 = canvas.with_matrix(points.p1, element)
+        points.p2 = canvas.with_matrix(points.p2, element)
+        points.p3 = canvas.with_matrix(points.p3, element)
+        var centr = canvas.get_center_small_circle(points.p1, points.p2, points.p3)
 
         box.beg_x = points.p1.x
         box.beg_y = points.p1.y
@@ -144,8 +148,8 @@ dw_frame.get_frame = function(element){
         box.sp1_x = points.p3.x;
         box.sp1_y = points.p3.y; 
 
-        box.x5 = cxy.x;
-        box.y5 = cxy.y; 
+        // box.x5 = centr.x//( points.p1.x + points.p2.x + points.p3.x )/3//centr.x;
+        // box.y5 = centr.y//( points.p1.y + points.p2.y + points.p3.y )/3//centr.y; 
     }
     this.box = box;
     return box;

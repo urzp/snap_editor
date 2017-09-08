@@ -51,19 +51,45 @@ canvas.triangle_set_params = function(p1, p2, p3, p){
 	return p
 }
 
-canvas.get_center_circle = function(p1,p2,p3){
-	var x1 = p1.x
-	var y1 = p1.y
-	var x2 = p2.x
-	var y2 = p2.y
-	var x3 = p3.x
-	var y3 = p3.y
+canvas.get_center_big_circle = function(p1,p2,p3){
+	var Xa = p1.x
+	var Ya = p1.y
+	var Xc = p2.x
+	var Yc = p2.y
+	var Xb = p3.x
+	var Yb = p3.y
 
-	var x0 = -(1/2)*(y1*(x2^2-x3^2+y2^2-y3^2)+y2*(-x1^2+x3^2-y1^2+y3^2)+y3*(x1^2-x2^2+y1^2-y2^2))/(x1*(y2-y3)+x2*(y3-y1)+x3*(y1-y2))
-	var y0 = (1/2)*(x1*(x2^2-x3^2+y2^2-y3^2)+x2*(-x1^2+x3^2-y1^2+y3^2)+x3*(x1^2-x2^2+y1^2-y2^2))/(x1*(y2-y3)+x2*(y3-y1)+x3*(y1-y2))
+	var BC = (Xb**2+Yb**2-Xc**2-Yc**2)
+	var CA = (Xc**2+Yc**2-Xa**2-Ya**2)
+	var AB = (Xa**2+Ya**2-Xb**2-Yb**2)
+	var denom =  Xa*(Yb-Yc)+Xb*(Yc-Ya)+Xc*(Ya-Yb) 
+
+	var x0 = -(1/2)*(  Ya*BC + Yb*CA + Yc*AB )
+	x0 = x0/denom
+	var y0 = (1/2)*( Xa*BC + Xb*CA  + Xc*AB )
+	y0 = y0/denom
 
 	return {x:x0, y:y0}
 }
+
+canvas.get_center_small_circle = function(pA,pB,pC){
+	var Xa = pA.x
+	var Ya = pA.y
+	var Xc = pC.x
+	var Yc = pC.y
+	var Xb = pB.x
+	var Yb = pB.y
+
+	var a = get_distanse(pC,pB)
+	var b = get_distanse(pA,pC)
+	var c = get_distanse(pA,pB)
+	var p = a+b+c 
+	
+	var x0 = parseInt( ( a*Xa + b*Xb + c*Xc )/p )
+	var y0 = parseInt( ( a*Ya + b*Yb + c*Yc )/p )
+	return {x:x0, y:y0}
+}
+
 
 get_radius_circ = function(beg, end, p){
 	var ep = get_distanse(end, p)
@@ -101,8 +127,9 @@ get_distanse = function(point1,point2){
 
 get_rotate = function(point , center, angle_d ){
 	var r = get_distanse(point, center )
-	var new_x = center.x + r * Math.sin( rad(angle_d) )
-	var new_y = center.y - r * Math.cos( rad(angle_d) )
+	var ang_beg = get_angle_line(point, center).ang_deg  + 270
+	var new_x = parseInt(center.x + r * Math.sin( rad(angle_d + ang_beg) ))
+	var new_y = parseInt(center.y - r * Math.cos( rad(angle_d + ang_beg) ))
 	return {x:new_x ,y:new_y}
 }
 
