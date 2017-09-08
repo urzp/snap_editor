@@ -1,5 +1,6 @@
 
 canvas = {
+    next_point: null,
     elements:[],
     current_el:{},
     count:0
@@ -35,6 +36,17 @@ canvas.draw = function(type){
         type: "line",
         stroke: "#000",
         strokeWidth: '2'});
+   };
+   if (type == 'path'){
+        this.next_point = 1;
+        var beg_xy = {x:cursor.x, y:cursor.y}
+        element = snap.path("M"+beg_xy.x + " " + beg_xy.y);
+        element.attr({
+        type: "path",
+        fill:"none",
+        stroke:"#000",
+        strokeWidth: '2'});  
+
    };
    if (type == 'rectangle'){
        element = snap.rect(cursor.x, cursor.y, 10, 10); 
@@ -95,7 +107,7 @@ canvas.draw = function(type){
 canvas.draw_end = function(shift){ 
     var element = this.current_el;
     var cursor = get_xy();
-    if (element.type == "line"){
+    if (element.attr("type") == "line"){
         var x =cursor.x;
         var y =cursor.y;
         var x1 = parseInt( element.attr("x1") );
@@ -108,7 +120,19 @@ canvas.draw_end = function(shift){
             x2: x,
             y2: y }); 
     };
-    if (element.type == "rect"){
+    if (element.attr("type") == "path"){
+        var x =cursor.x;
+        var y =cursor.y;
+        var d = element.attr("d");
+        var points = canvas.path_get_params(d)
+        points[this.next_point] = {x:x, y:y}
+        var d = canvas.path_set_params(points)
+        //console.log(d)
+        element.attr({
+            d: d
+        })
+    }
+    if (element.attr("type") == "rect"){
         var x_start = parseInt( canvas.current_el.attr('x') );
         var y_start = parseInt( canvas.current_el.attr('y') );
         var width =  Math.abs(cursor.x - x_start);
@@ -122,7 +146,7 @@ canvas.draw_end = function(shift){
             width: width ,
             height: height }); 
     };
-    if (element.type == "circle"){
+    if (element.attr("type") == "circle"){
         var cx = parseInt(this.current_el.attr("cx")); 
         var cy = parseInt(this.current_el.attr("cy")); 
         var x = get_xy().x;
@@ -132,7 +156,7 @@ canvas.draw_end = function(shift){
         var r = Math.sqrt( Math.pow(rx,2) + Math.pow(ry,2) );
         element.attr({ r:r });
     };
-    if (element.type == "ellipse"){
+    if (element.attr("type") == "ellipse"){
         var cx = parseInt(this.current_el.attr("cx")); 
         var cy = parseInt(this.current_el.attr("cy")); 
         var x = get_xy().x;
@@ -143,7 +167,7 @@ canvas.draw_end = function(shift){
             rx:rx,
             ry,ry });
     }; 
-    if (element.type == "path"){
+    if (element.attr("type") == "arc"){
 
         var d = element.attr("d"); 
         var xy = get_xy()
@@ -160,7 +184,7 @@ canvas.draw_end = function(shift){
         element.attr({
             d:d });
     };
-    if (element.type == "polygon"){
+    if (element.attr("type") == "triangle"){
         var p = element.attr("points")
         var points = canvas.triangle_get_params(p)
         var xy = get_xy()

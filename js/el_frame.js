@@ -16,7 +16,7 @@ dw_frame ={
    edits:{},
     attr_edits:{
         fill:"#FFF",
-       stroke: "#C7AA29",
+       stroke: "#30839b",
        strokeWidth: '2', 
        class:"frame_node"
    },

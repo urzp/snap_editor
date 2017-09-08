@@ -37,6 +37,34 @@ canvas.arc_get_params = function(d){
 	} else { return null }
 }
 
+canvas.path_get_params = function(d){
+	var points =[], point, x, y
+	var points_string =  d.split(/[MAL, ]/)
+	var length  = points_string.length 
+	$.each(points_string,function(index,val){
+		if (val == ""){
+			x = parseInt(points_string[index+1])
+			y = parseInt(points_string[index+2])
+			point = {x:x, y:y}
+			points.push(point)
+		}
+	});
+
+	return points
+}
+
+canvas.path_set_params = function(points){
+	var d
+	$.each(points,function(index,val){
+		if (index == 0 ){ 
+			d = "M" + val.x + " " + val.y  
+		}else{
+			d = d +" L" + val.x + " " + val.y 
+		}	
+	})
+	return d
+}
+
 canvas.triangle_get_params = function(p){
 	var p1 = {x:parseInt(p[0]), y:parseInt(p[1])} 
 	var p2 = {x:parseInt(p[2]), y:parseInt(p[3])}
@@ -84,7 +112,7 @@ canvas.get_center_small_circle = function(pA,pB,pC){
 	var b = get_distanse(pA,pC)
 	var c = get_distanse(pA,pB)
 	var p = a+b+c 
-	
+
 	var x0 = parseInt( ( a*Xa + b*Xb + c*Xc )/p )
 	var y0 = parseInt( ( a*Ya + b*Yb + c*Yc )/p )
 	return {x:x0, y:y0}

@@ -8,6 +8,7 @@ tool.init = function(){
 tool.buttons_events = function(){
     $(".pointer").click(function(){ tool.select('pointer') })   
     $(".line").click(function(){ tool.select('line') })
+    $(".path").click(function(){ tool.select('path') })
     $(".triangle").click(function(){ tool.select('triangle') })
     $(".rec").click(function(){ tool.select('rectangle') }) 
     $(".circle").click(function(){ tool.select('circle') })
@@ -23,6 +24,9 @@ tool.select = function(name){
         this.css_pointer(true)
         break
         case 'line':
+        this.css_pointer(false)
+        break
+        case 'path':
         this.css_pointer(false)
         break
         case 'triangle':
@@ -56,6 +60,7 @@ tool.css_pointer  = function (on){
 tool.css_buttons = function(name){
     $(".pointer").removeClass("active") 
     $(".line").removeClass("active")
+    $(".path").removeClass("active")
     $(".triangle").removeClass("active")
     $(".rec").removeClass("active")  
     $(".circle").removeClass("active") 
@@ -68,6 +73,9 @@ tool.css_buttons = function(name){
         break
         case 'line':
         $(".line").addClass("active") 
+        break
+        case 'path':
+        $(".path").addClass("active") 
         break
         case 'triangle':
         $(".triangle").addClass("active") 

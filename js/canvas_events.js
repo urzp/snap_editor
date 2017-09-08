@@ -4,6 +4,7 @@ canvas.events = function(){
     })
 
     $( "#svg" ).dblclick(function(){
+        if (canvas.next_point > 0 ){canvas.next_point = null}
     })   
     
     $("#svg").mousemove(function(event){
@@ -17,14 +18,20 @@ canvas.events = function(){
     $("#svg").mousedown(function( event ){
         print_pos_mose()
         if( check_use_frame() ){ tool.select('pointer') }     
-            if (check_tool_not_pointer() ){ 
-                canvas.draw(tool.type)     
-            }else{      
-                canvas.select( event.target.getAttribute("id"))
+        if (check_tool_not_pointer() ){ 
+
+            if (canvas.next_point != null){
+                canvas.next_point ++
+                canvas.draw_end(false)
+            }else{
+                canvas.draw(tool.type)  
+            }
+               
+        }else{      
+            canvas.select( event.target.getAttribute("id"))
             //console.log("drag")
             //canvas.get_grap_pos()
             //canvas.current_el.drag(canvas.drag_el)
-
         }        
     }) 
 
