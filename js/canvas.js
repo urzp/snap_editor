@@ -121,13 +121,10 @@ canvas.draw_end = function(shift){
             y2: y }); 
     };
     if (element.attr("type") == "path"){
-        var x =cursor.x;
-        var y =cursor.y;
         var d = element.attr("d");
         var points = canvas.path_get_params(d)
-        points[this.next_point] = {x:x, y:y}
+        points[this.next_point] = cursor
         var d = canvas.path_set_params(points)
-        //console.log(d)
         element.attr({
             d: d
         })
