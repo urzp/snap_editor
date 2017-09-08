@@ -4,7 +4,7 @@ dw_frame.get_frame = function(element){
     var matrix = element.matrix;
     var box1 =  element.getBBox();
 
-    if (element.type == "line"){ 
+    if (element.attr("type") == "line"){ 
 
         var x1 = parseInt(element.attr("x1")); 
         var y1 = parseInt(element.attr("y1")); 
@@ -21,7 +21,7 @@ dw_frame.get_frame = function(element){
         box.y5 = cxy.y; 
 
     }
-    if (element.type == "rect"){
+    if (element.attr("type") == "rect"){
 
         var x = parseInt(element.attr("x")); 
         var y = parseInt(element.attr("y")); 
@@ -44,7 +44,7 @@ dw_frame.get_frame = function(element){
         box.y5 = cxy.y; 
 
     }
-    if (element.type == "circle"){
+    if (element.attr("type") == "circle"){
 
         box.x1 = box1.x;
         box.y1 = box1.y;
@@ -62,7 +62,7 @@ dw_frame.get_frame = function(element){
         box.y5 = cxy.y; 
 
     }
-    if (element.type == "ellipse"){
+    if (element.attr("type") == "ellipse"){
         var x =  parseInt(element.attr("cx"));
         var y =  parseInt(element.attr("cy"));
 
@@ -93,7 +93,7 @@ dw_frame.get_frame = function(element){
         box.y5 = cxy.y; 
 
     }
-    if (element.type == "path"){
+    if (element.attr("type") == "arc"){
         var bbox = element.getBBox()
         var arc_params = canvas.arc_get_params(element.attr("d"))
 
@@ -131,7 +131,7 @@ dw_frame.get_frame = function(element){
 
     }
 
-    if (element.type == "polygon"){
+    if (element.attr("type") == "triangle"){
         var p = element.attr("points")
         var points = canvas.triangle_get_params(p)
         points.p1 = canvas.with_matrix(points.p1, element)

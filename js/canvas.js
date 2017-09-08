@@ -32,12 +32,14 @@ canvas.draw = function(type){
     if (type == 'line'){
        element = snap.line(cursor.x, cursor.y, cursor.x, cursor.y);   
        element.attr({
+        type: "line",
         stroke: "#000",
         strokeWidth: '2'});
    };
    if (type == 'rectangle'){
        element = snap.rect(cursor.x, cursor.y, 10, 10); 
        element.attr({
+        type: "rect",
         fill:"none",
         stroke:"#000",
         strokeWidth: '2'});    
@@ -45,6 +47,7 @@ canvas.draw = function(type){
    if (type == 'circle'){
        element = snap.circle(cursor.x, cursor.y,4); 
        element.attr({
+        type: "circle",
         fill:"none",
         stroke:"#000",
         strokeWidth: '2'});      
@@ -52,6 +55,7 @@ canvas.draw = function(type){
    if (type == 'ellipse'){
        element = snap.ellipse(cursor.x, cursor.y,4,4); 
        element.attr({
+        type: "ellipse",
         fill:"none",
         stroke:"#000",
         strokeWidth: '2'});      
@@ -66,6 +70,7 @@ canvas.draw = function(type){
         var d = this.arc_set_params(beg_xy, r_xy, x_rotation, large_arc, sweep, end_xy)
         element = snap.path(d); 
         element.attr({
+        type: "arc",
         fill:"none",
         stroke:"#000",
         strokeWidth: '2' });      
@@ -74,6 +79,7 @@ canvas.draw = function(type){
 
         element = snap.polygon(cursor.x, cursor.y, cursor.x + 100, cursor.y, cursor.x + 50, cursor.y - 50);
         element.attr({
+        type: "triangle",
         fill:"none",
         stroke:"#000",
         strokeWidth: '2'});   

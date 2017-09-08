@@ -65,7 +65,7 @@ dw_frame.trasform_el = function(move_node){
             break    
         }        
     }
-    if (element.type == "rect"){
+    if (element.attr("type") == "rect"){
 
         var x = parseInt(element.attr("x")); 
         var y = parseInt(element.attr("y")); 
@@ -127,13 +127,13 @@ dw_frame.trasform_el = function(move_node){
 
         }; 
     };
-    if (element.type == "circle"){
+    if (element.attr("type") == "circle"){
         var r =Math.abs( cxy.x - move_node.attr("cx") );
         element.attr({
             r: r
         }); 
     };
-    if (element.type == "ellipse"){
+    if (element.attr("type") == "ellipse"){
         var x =  parseInt(element.attr("cx"));
         var y =  parseInt(element.attr("cy"));
         switch( move_node.attr("id") ){
@@ -179,7 +179,7 @@ dw_frame.trasform_el = function(move_node){
         };
 
     };
-    if (element.type == "path"){
+    if (element.attr("type") == "arc"){
         var arc_params = canvas.arc_get_params(element.attr("d"))
         var beg_xy = arc_params.m_xy
         var r_xy = arc_params.r_xy
@@ -230,7 +230,7 @@ dw_frame.trasform_el = function(move_node){
         }
 
     }
-    if (element.type == "polygon"){
+    if (element.attr("type") == "triangle"){
         switch( move_node.attr("id") ){
             case  "edits_begin":
                 begin = canvas.canculate_rel_point(begin, element)
