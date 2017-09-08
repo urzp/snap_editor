@@ -20,7 +20,7 @@ dw_frame ={
        strokeWidth: '2', 
        class:"frame_node"
    },
-   path_noses:[],
+   path_nodes:[],
     attr_path_nodes:{
         fill:"#FFF",
        stroke: "#30839b",
@@ -93,33 +93,32 @@ dw_frame.draw =  function(element){
     if ( box.end_x ) { this.edits.end.attr({cx:box.end_x,cy:box.end_y, r:4 });  } 
     if ( box.sp1_x ) { this.edits.spetial_1.attr({cx:box.sp1_x,cy:box.sp1_y, r:4 });  }
 
-    if ( element.attr("type") == "path" ){
-       dw_frame.draw_for_path(element) 
-    }
     
     this.move_forvard();   
 };
 
 dw_frame.draw_for_path = function(element){
-    dw_frame.clear_path_noses()
+    dw_frame.clear_path_nodes()
     var points = canvas.path_get_params(element.attr("d"))
     $.each(points, function(index,val) {
         dw_frame.add_path_node(val, index)
     })
 } 
 
-dw_frame.clear_path_noses = function(){
-    $.each(this.path_noses, function(i,v){
+dw_frame.clear_path_nodes = function(){
+    $.each(this.path_nodes, function(i,v){
         v.remove()
     })
-    this.path_noses = []
+    this.path_nodes = []
 }
 
 dw_frame.add_path_node = function(position, index){
-    node = snap.circle(position.x, position.y, 6);
+    position = canvas.with_matrix(position, canvas.current_el)
+    node = snap.circle(position.x, position.y, 4);
     node.attr(this.attr_path_nodes);
     node.attr({id: "path_nodes_"+index});
-    this.path_noses.push(node);
+    node.drag(dw_frame.moveFunc, dw_frame.beforeMove );
+    this.path_nodes.push(node);
 }
 
 
@@ -132,6 +131,9 @@ dw_frame.move_forvard = function(){
         last_el.after(val);
     });
     $.each(this.edits,function(index,val){
+        last_el.after(val);
+    });
+    $.each(this.path_nodes,function(index,val){
         last_el.after(val);
     });
 };

@@ -1,5 +1,5 @@
 dw_frame.trasform_el = function(move_node){
-
+    
     var element = this.current_el;
     var matrix = element.matrix;
     var cxy = canvas.get_center(element);
@@ -37,7 +37,7 @@ dw_frame.trasform_el = function(move_node){
         y: parseInt(this.edits.spetial_1.attr("cy"))
     }
 
-    if (element.type == "line"){
+    if (element.attr("type") == "line"){
 
         var new_point
         var x1 = parseInt(element.attr("x1")) 
@@ -64,6 +64,18 @@ dw_frame.trasform_el = function(move_node){
             canvas.rotate(element, rotate.x)
             break    
         }        
+    }
+
+    if (element.attr("type") == "path"){
+        var id  = (move_node.attr("id").split('path_nodes_'))[1]
+        var d = element.attr("d");
+        var points = canvas.path_get_params(d)
+        points[id] = canvas.canculate_rel_point(get_xy(), element)
+        var d = canvas.path_set_params(points)
+        element.attr({
+            d: d
+        })
+        //console.log(id)
     }
     if (element.attr("type") == "rect"){
 

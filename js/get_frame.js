@@ -21,6 +21,9 @@ dw_frame.get_frame = function(element){
         box.y5 = cxy.y; 
 
     }
+    if (element.attr("type") == "path"){ 
+        dw_frame.draw_for_path(element) 
+    }
     if (element.attr("type") == "rect"){
 
         var x = parseInt(element.attr("x")); 
