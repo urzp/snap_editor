@@ -110,6 +110,21 @@ dw_frame.clear_path_nodes = function(){
         v.remove()
     })
     this.path_nodes = []
+
+}
+
+dw_frame.delelete_point  = function(){
+    var index = canvas.current_point_path
+    this.path_nodes[index].remove()
+    var points = canvas.path_get_params(canvas.current_el.attr("d"))
+    points.splice(index,1)
+    var d = canvas.path_set_params(points)
+    canvas.current_el.attr({
+        d: d
+    })
+    canvas.next_point --
+    canvas.current_point_path = canvas.next_point
+
 }
 
 dw_frame.add_path_node = function(position, index){
@@ -161,6 +176,8 @@ dw_frame.remove = function(){
         val.remove();
     })
     this.inited = false;
+
+    dw_frame.clear_path_nodes()
 }
 
 

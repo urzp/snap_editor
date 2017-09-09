@@ -22,12 +22,17 @@
 
 .btn{
     height: 5vh;
+    width: 70px;
     margin: 2vh;
     border-radius: 10px;
     border-style: solid;
     cursor: pointer;
     background-color: #888;
     text-align: center;
+}
+
+.delete_point{
+    width: 90px;
 }
 
 

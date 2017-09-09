@@ -68,6 +68,7 @@ dw_frame.trasform_el = function(move_node){
 
     if (element.attr("type") == "path"){
         var id  = (move_node.attr("id").split('path_nodes_'))[1]
+        canvas.current_point_path = parseInt(id)
         var d = element.attr("d");
         var points = canvas.path_get_params(d)
         points[id] = canvas.canculate_rel_point(get_xy(), element)

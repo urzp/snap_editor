@@ -1,6 +1,7 @@
 
 canvas = {
     next_point: null,
+    current_point_path: null,
     elements:[],
     current_el:{},
     count:0
@@ -39,6 +40,7 @@ canvas.draw = function(type){
    };
    if (type == 'path'){
         this.next_point = 1;
+        this.current_point_path = 1;
         var beg_xy = {x:cursor.x, y:cursor.y}
         element = snap.path("M"+beg_xy.x + " " + beg_xy.y);
         element.attr({
@@ -124,6 +126,7 @@ canvas.draw_end = function(shift){
         var d = element.attr("d");
         var points = canvas.path_get_params(d)
         points[this.next_point] = cursor
+        this.current_point_path = this.next_point;
         var d = canvas.path_set_params(points)
         element.attr({
             d: d
