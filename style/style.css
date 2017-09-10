@@ -44,6 +44,10 @@
     width: 110px;
 }
 
+.fill_element {
+    width: 100px;
+}
+
 
 .canvas_deck{
     margin-left: 10%;

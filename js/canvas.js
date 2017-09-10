@@ -28,6 +28,7 @@ canvas.dragable = function(element){
 };
 
 canvas.draw = function(type){
+    canvas.unselect()
     var element = null;
     this.count++;
     var cursor = get_xy();
@@ -207,7 +208,14 @@ canvas.draw_end = function(shift){
     get_xy(); 
 };
 
+canvas.fill_element = function(){
+    if (canvas.current_el.attr("fill") == "none"){
+        canvas.current_el.attr({fill: "#000"})
+    } else {
+        canvas.current_el.attr({fill: "none"})
+    }
 
+}
 
 canvas.drag_el = function(dx, dy){
     if(canvas.current_el != null){
@@ -240,9 +248,10 @@ canvas.rotate = function(element , dx ){
 };
 
 canvas.select = function(id){
-
+    
     var found = this.elements.find(function(element){ if (element.attr("id") == id){return element}; });
     if (found != null) {
+        canvas.unselect()
         this.current_el = found;
         found.before(this.last_element()); 
         dw_frame.draw(found);

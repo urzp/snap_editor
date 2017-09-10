@@ -17,6 +17,7 @@ tool.buttons_events = function(){
 
     $(".delete_point").click(function(){ dw_frame.delelete_point() }) 
     $(".complite_path").click(function(){ dw_frame.complite_path() }) 
+    $(".fill_element").click(function(){ canvas.fill_element() }) 
        
 }
 
