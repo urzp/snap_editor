@@ -114,23 +114,38 @@ dw_frame.clear_path_nodes = function(){
 }
 
 dw_frame.delelete_point  = function(){
-    var index = canvas.current_point_path
-    this.path_nodes[index].remove()
-    var points = canvas.path_get_params(canvas.current_el.attr("d"))
-    points.splice(index,1)
-    var d = canvas.path_set_params(points)
-    canvas.current_el.attr({
-        d: d
-    })
-    canvas.next_point --
-    canvas.current_point_path = canvas.next_point
+    if (canvas.current_point_path != null) {
+        var index = canvas.current_point_path
+        var points = canvas.path_get_params(canvas.current_el.attr("d"))
+        canvas.next_point --
+        console.log("delete")
+        if (points.length <= 1 ) {
+            canvas.delete()
+        } else {
+            this.path_nodes[index].remove()
+            
+            points.splice(index,1)
+            var d = canvas.path_set_params(points)
+            canvas.current_el.attr({
+                d: d
+            })
+        }
+        canvas.current_point_path = null;
+    };
 
+}
+
+dw_frame.complite_path = function(){
+    canvas.next_point = null
+    canvas.current_point_path = null
+    dw_frame.draw(canvas.current_el)
 }
 
 dw_frame.add_path_node = function(position, index){
     position = canvas.with_matrix(position, canvas.current_el)
     node = snap.circle(position.x, position.y, 4);
     node.attr(this.attr_path_nodes);
+    if (canvas.current_point_path ==  index) { node.attr({stroke: "#F00"}) }
     node.attr({id: "path_nodes_"+index});
     node.drag(dw_frame.moveFunc, dw_frame.beforeMove );
     this.path_nodes.push(node);

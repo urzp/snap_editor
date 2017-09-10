@@ -4,7 +4,7 @@ canvas.events = function(){
     })
 
     $( "#svg" ).dblclick(function(){
-        if (canvas.next_point > 0 ){canvas.next_point = null}
+        if (canvas.next_point > 0 ){dw_frame.complite_path()}
     })   
     
     $("#svg").mousemove(function(event){

@@ -246,6 +246,8 @@ canvas.select = function(id){
         this.current_el = found;
         found.before(this.last_element()); 
         dw_frame.draw(found);
+
+        if (found.attr("type") == "path") { canvas.next_point = canvas.count_points_path(found) - 1}
         return found;     
     };
     if (found == null){
@@ -259,6 +261,8 @@ canvas.unselect = function(){
 };
 
 canvas.delete = function(){
+    this.next_point = null
+    this.next_point = null
     this.current_el.remove(); 
     this.current_el.attr({unused: true});
     this.current_el = null;

@@ -6,6 +6,11 @@
 .menu{
     height: 8vh;
     background-color: #ccc;
+
+}
+
+.menu > .btn{
+    display: inline-block;
 }
 
 .tools_canvas{
@@ -31,8 +36,12 @@
     text-align: center;
 }
 
-.delete_point{
+.delete_point {
     width: 90px;
+}
+
+.complite_path{
+    width: 110px;
 }
 
 

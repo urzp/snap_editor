@@ -15,7 +15,9 @@ tool.buttons_events = function(){
     $(".ellipse").click(function(){ tool.select('ellipse') }) 
     $(".arc").click(function(){ tool.select('arc') })    
 
-    $(".delete_point").click(function(){ dw_frame.delelete_point() })    
+    $(".delete_point").click(function(){ dw_frame.delelete_point() }) 
+    $(".complite_path").click(function(){ dw_frame.complite_path() }) 
+       
 }
 
 tool.select = function(name){

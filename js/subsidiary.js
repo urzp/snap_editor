@@ -53,6 +53,13 @@ canvas.path_get_params = function(d){
 	return points
 }
 
+canvas.count_points_path = function(element){
+	if (element.attr("type") == "path"){
+		points = canvas.path_get_params(element.attr("d"))
+		return points.length
+	}
+}
+
 canvas.path_set_params = function(points){
 	var d
 	$.each(points,function(index,val){
