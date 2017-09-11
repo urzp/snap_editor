@@ -51,6 +51,18 @@ canvas.draw = function(type){
         strokeWidth: '2'});  
 
    };
+   if (type == 'polygon'){
+        this.next_point = 1;
+        this.current_point_path = 1;
+        var beg_xy = {x:cursor.x, y:cursor.y}
+        element = snap.polygon(beg_xy.x, beg_xy.y);
+        element.attr({
+        type: "polygon",
+        fill:"none",
+        stroke:"#000",
+        strokeWidth: '2'});  
+
+   };
    if (type == 'rectangle'){
        element = snap.rect(cursor.x, cursor.y, 10, 10); 
        element.attr({
@@ -131,6 +143,15 @@ canvas.draw_end = function(shift){
         var d = canvas.path_set_params(points)
         element.attr({
             d: d
+        })
+    }
+    if (element.attr("type") == "polygon"){
+        var params = element.attr("points")
+        params[this.next_point * 2] = cursor.x
+        params[this.next_point * 2 + 1 ] = cursor.y
+        this.current_point_path = this.next_point;
+        element.attr({
+            points: params
         })
     }
     if (element.attr("type") == "rect"){

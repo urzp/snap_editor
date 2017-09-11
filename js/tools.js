@@ -9,6 +9,7 @@ tool.buttons_events = function(){
     $(".pointer").click(function(){ tool.select('pointer') })   
     $(".line").click(function(){ tool.select('line') })
     $(".path").click(function(){ tool.select('path') })
+    $(".polygon").click(function(){ tool.select('polygon') })
     $(".triangle").click(function(){ tool.select('triangle') })
     $(".rec").click(function(){ tool.select('rectangle') }) 
     $(".circle").click(function(){ tool.select('circle') })
@@ -32,6 +33,9 @@ tool.select = function(name){
         this.css_pointer(false)
         break
         case 'path':
+        this.css_pointer(false)
+        break
+        case 'polygon':
         this.css_pointer(false)
         break
         case 'triangle':
@@ -66,6 +70,7 @@ tool.css_buttons = function(name){
     $(".pointer").removeClass("active") 
     $(".line").removeClass("active")
     $(".path").removeClass("active")
+    $(".polygon").removeClass("active")
     $(".triangle").removeClass("active")
     $(".rec").removeClass("active")  
     $(".circle").removeClass("active") 
@@ -81,6 +86,9 @@ tool.css_buttons = function(name){
         break
         case 'path':
         $(".path").addClass("active") 
+        break
+        case 'polygon':
+        $(".polygon").addClass("active") 
         break
         case 'triangle':
         $(".triangle").addClass("active") 

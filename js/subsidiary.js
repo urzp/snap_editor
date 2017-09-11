@@ -72,6 +72,31 @@ canvas.path_set_params = function(points){
 	return d
 }
 
+canvas.poligon_get_points = function(p){
+	var arr = [], point, x, y
+	var length = p.length 
+	$.each(p,function(index,val){	
+		if ((index < length - 1)&&((index % 2) == 0)){
+			x = parseInt(p[index])
+			y = parseInt(p[index+1])
+			point = {x:x, y:y}
+			arr.push(point)
+		}
+	});
+	return arr
+}
+
+canvas.poligon_set_params = function(points){
+	var p = []
+	var length = points.length 
+	$.each(points,function(index,val){
+		p.push(val.x)
+		p.push(val.y) 
+	})
+	return p
+
+}
+
 canvas.triangle_get_params = function(p){
 	var p1 = {x:parseInt(p[0]), y:parseInt(p[1])} 
 	var p2 = {x:parseInt(p[2]), y:parseInt(p[3])}

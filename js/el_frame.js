@@ -97,6 +97,16 @@ dw_frame.draw =  function(element){
     this.move_forvard();   
 };
 
+dw_frame.draw_for_polygon = function(element){
+    dw_frame.clear_path_nodes()
+    var points = canvas.poligon_get_points(element.attr("points"))
+    $.each(points, function(index,val) {
+        dw_frame.add_path_node(val, index)
+    })
+
+}
+
+
 dw_frame.draw_for_path = function(element){
     dw_frame.clear_path_nodes()
     var points = canvas.path_get_params(element.attr("d"))

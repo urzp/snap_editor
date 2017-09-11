@@ -24,6 +24,9 @@ dw_frame.get_frame = function(element){
     if (element.attr("type") == "path"){ 
         dw_frame.draw_for_path(element) 
     }
+    if (element.attr("type") == "polygon"){ 
+        dw_frame.draw_for_polygon(element) 
+    }
     if (element.attr("type") == "rect"){
 
         var x = parseInt(element.attr("x")); 
