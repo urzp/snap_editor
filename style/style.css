@@ -36,16 +36,11 @@
     text-align: center;
 }
 
-.delete_point {
-    width: 90px;
-}
 
-.complite_path{
-    width: 110px;
-}
 
-.fill_element {
+.fill_element, .delete_point, .complite_path, .resume_path{
     width: 100px;
+
 }
 
 

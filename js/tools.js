@@ -17,12 +17,14 @@ tool.buttons_events = function(){
     $(".arc").click(function(){ tool.select('arc') })    
 
     $(".delete_point").click(function(){ dw_frame.delelete_point() }) 
-    $(".complite_path").click(function(){ dw_frame.complite_path() }) 
-    $(".fill_element").click(function(){ canvas.fill_element() }) 
+    $(".complite_path").click(function(){ tool.select('pointer'); canvas.complite_path() }) 
+    $(".resume_path").click(function(){  canvas.resume_path() }) 
+    $(".fill_element").click(function(){  canvas.fill_element() }) 
        
 }
 
 tool.select = function(name){
+    this.reset_any()
     this.type = name
     this.css_buttons(name)
     switch (name){
@@ -106,4 +108,9 @@ tool.css_buttons = function(name){
         $(".arc").addClass("active") 
         break
     }
+}
+
+tool.reset_any = function(){
+    canvas.next_point = null
+    canvas.current_point_path = null
 }

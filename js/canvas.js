@@ -229,14 +229,6 @@ canvas.draw_end = function(shift){
     get_xy(); 
 };
 
-canvas.fill_element = function(){
-    if (canvas.current_el.attr("fill") == "none"){
-        canvas.current_el.attr({fill: "#000"})
-    } else {
-        canvas.current_el.attr({fill: "none"})
-    }
-
-}
 
 canvas.drag_el = function(dx, dy){
     if(canvas.current_el != null){
@@ -287,6 +279,8 @@ canvas.select = function(id){
 
 canvas.unselect = function(){
     this.current_el = null;
+    this.next_point = null
+    this.current_point_path = null
     dw_frame.remove(); 
 };
 

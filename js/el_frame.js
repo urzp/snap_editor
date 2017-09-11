@@ -145,11 +145,7 @@ dw_frame.delelete_point  = function(){
 
 }
 
-dw_frame.complite_path = function(){
-    canvas.next_point = null
-    canvas.current_point_path = null
-    dw_frame.draw(canvas.current_el)
-}
+
 
 dw_frame.add_path_node = function(position, index){
     position = canvas.with_matrix(position, canvas.current_el)
