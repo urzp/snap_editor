@@ -38,7 +38,7 @@
 
 
 
-.fill_element, .delete_point, .complite_path, .resume_path{
+.fill_element, .delete, .delete_point, .complite_path, .resume_path{
     width: 100px;
 
 }

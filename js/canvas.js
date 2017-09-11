@@ -121,7 +121,7 @@ canvas.draw = function(type){
 
 canvas.draw_end = function(shift){ 
     var element = this.current_el;
-    var cursor = get_xy();
+    var cursor  = canvas.canculate_rel_point(get_xy(), element)// get_xy();
     if (element.attr("type") == "line"){
         var x =cursor.x;
         var y =cursor.y;

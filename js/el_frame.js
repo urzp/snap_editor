@@ -123,7 +123,7 @@ dw_frame.clear_path_nodes = function(){
 
 }
 
-dw_frame.delelete_point  = function(){
+dw_frame.delete_point  = function(){
     if (canvas.current_point_path != null) {
         var index = canvas.current_point_path
         var points = canvas.path_get_params(canvas.current_el.attr("d"))

@@ -16,7 +16,8 @@ tool.buttons_events = function(){
     $(".ellipse").click(function(){ tool.select('ellipse') }) 
     $(".arc").click(function(){ tool.select('arc') })    
 
-    $(".delete_point").click(function(){ dw_frame.delelete_point() }) 
+    $(".delete").click(function(){ canvas.delete(); tool.select('pointer'); }) 
+    $(".delete_point").click(function(){ dw_frame.delete_point() }) 
     $(".complite_path").click(function(){ tool.select('pointer'); canvas.complite_path() }) 
     $(".resume_path").click(function(){  canvas.resume_path() }) 
     $(".fill_element").click(function(){  canvas.fill_element() }) 

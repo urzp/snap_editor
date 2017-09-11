@@ -81,7 +81,7 @@ dw_frame.trasform_el = function(move_node){
         var id  = (move_node.attr("id").split('path_nodes_'))[1]
         canvas.current_point_path = parseInt(id)
         var points = element.attr("points")
-        var cursor = get_xy()
+        var cursor = canvas.canculate_rel_point(get_xy(), element)
         points[id *2 ] = cursor.x
         points[id *2 +1 ] = cursor.y
         element.attr({
