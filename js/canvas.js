@@ -9,6 +9,9 @@ canvas = {
 
 canvas.init = function(){
     snap = Snap("#svg");
+    this.pointer = {
+        selecting: false
+    }
     this.events();
 };
 

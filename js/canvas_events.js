@@ -1,6 +1,11 @@
 canvas.events = function(){
 
-    $( "#svg" ).click(function(event){    
+    $( "#svg" ).click(function(event){  
+        if (canvas.pointer.selecting){
+            canvas.pointer.selecting = false; 
+            canvas.delete()
+        } 
+        
     })
 
     $( "#svg" ).dblclick(function(){
@@ -9,7 +14,7 @@ canvas.events = function(){
     
     $("#svg").mousemove(function(event){
 
-        if ( check_draw_event() ) {
+        if ( check_draw_event() || canvas.pointer.selecting ) {
             if(event.shiftKey){canvas.draw_end(true)
             }else{ canvas.draw_end(false)}
         } 
@@ -27,9 +32,15 @@ canvas.events = function(){
                 canvas.draw(tool.type)  
             }
                
-        }else{      
-            canvas.select( event.target.getAttribute("id"))
-            canvas.draw(tool.type)
+        }else{ 
+            var target_id = event.target.getAttribute("id")
+            if  (target_id == "svg"){
+                canvas.pointer.selecting = true;
+                canvas.draw(tool.type)
+            }else{
+                canvas.select( target_id )
+            }    
+            
             //console.log("drag")
             //canvas.get_grap_pos()
             //canvas.current_el.drag(canvas.drag_el)
@@ -72,8 +83,7 @@ canvas.events = function(){
    } 
 
    check_draw_event =function(){
-       //if( (event.which == MOUSE_LEFT)&&(tool.type != "pointer") ){
-        if( (event.which == MOUSE_LEFT) ){
+       if( (event.which == MOUSE_LEFT)&&(tool.type != "pointer") ){
            return true
        }else{
            return false
