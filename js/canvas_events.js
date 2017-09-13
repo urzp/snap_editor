@@ -29,6 +29,7 @@ canvas.events = function(){
                
         }else{      
             canvas.select( event.target.getAttribute("id"))
+            canvas.draw(tool.type)
             //console.log("drag")
             //canvas.get_grap_pos()
             //canvas.current_el.drag(canvas.drag_el)
@@ -71,7 +72,8 @@ canvas.events = function(){
    } 
 
    check_draw_event =function(){
-       if( (event.which == MOUSE_LEFT)&&(tool.type != "pointer") ){
+       //if( (event.which == MOUSE_LEFT)&&(tool.type != "pointer") ){
+        if( (event.which == MOUSE_LEFT) ){
            return true
        }else{
            return false

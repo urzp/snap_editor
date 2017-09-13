@@ -32,6 +32,16 @@ canvas.draw = function(type){
     var element = null;
     this.count++;
     var cursor = get_xy();
+    if (type == 'pointer'){
+        console.log("pointer")
+       element = snap.rect(cursor.x, cursor.y, 10, 10); 
+       element.attr({
+        type: "pointer",
+        opacity: 0.5,
+        fill:"#5FC0CE",
+        stroke:"#015965",
+        strokeWidth: '2'});    
+   }; 
     if (type == 'line'){
        element = snap.line(cursor.x, cursor.y, cursor.x, cursor.y);   
        element.attr({
@@ -122,6 +132,20 @@ canvas.draw = function(type){
 canvas.draw_end = function(shift){ 
     var element = this.current_el;
     var cursor  = canvas.canculate_rel_point(get_xy(), element)// get_xy();
+    if (element.attr("type") == "pointer"){
+        var x_start = parseInt( canvas.current_el.attr('x') );
+        var y_start = parseInt( canvas.current_el.attr('y') );
+        var width =  Math.abs(cursor.x - x_start);
+        var height = Math.abs( cursor.y - y_start);
+        if (shift){
+            if (height > width) {width = height} else {height = width};
+        };
+        if (cursor.x < x_start) { element.attr({x:cursor.x}) };
+        if (cursor.y < y_start) { element.attr({y:cursor.y}) };
+        element.attr({
+            width: width ,
+            height: height }); 
+    };
     if (element.attr("type") == "line"){
         var x =cursor.x;
         var y =cursor.y;
