@@ -94,7 +94,7 @@ dw_frame.draw =  function(element){
     if ( box.sp1_x ) { this.edits.spetial_1.attr({cx:box.sp1_x,cy:box.sp1_y, r:4 });  }
 
     
-    this.move_forvard();   
+    this.move_forvard(element);   
 };
 
 dw_frame.draw_for_polygon = function(element){
@@ -158,7 +158,7 @@ dw_frame.add_path_node = function(position, index){
 }
 
 
-dw_frame.move_forvard = function(){
+/*dw_frame.move_forvard = function(){
     var last_el = canvas.last_element();
     $.each(this.nodes,function(index,val){
         last_el.after(val);
@@ -171,6 +171,22 @@ dw_frame.move_forvard = function(){
     });
     $.each(this.path_nodes,function(index,val){
         last_el.after(val);
+    });
+};*/
+
+dw_frame.move_forvard = function(element){
+
+    $.each(this.nodes,function(index,val){
+        element.after(val);
+    });
+    $.each(this.edges,function(index,val){
+        element.after(val);
+    });
+    $.each(this.edits,function(index,val){
+        element.after(val);
+    });
+    $.each(this.path_nodes,function(index,val){
+        element.after(val);
     });
 };
 

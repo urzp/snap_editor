@@ -2,7 +2,7 @@ canvas.events = function(){
 
     $( "#svg" ).click(function(event){  
         if (canvas.pointer.selecting){
-            canvas.pointer.selecting = false; 
+            canvas.pointer.selecting = false;
             canvas.delete()
         } 
         

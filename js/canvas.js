@@ -3,6 +3,7 @@ canvas = {
     next_point: null,
     current_point_path: null,
     elements:[],
+    selected_el:[],
     current_el:{},
     count:0
 };
@@ -43,7 +44,8 @@ canvas.draw = function(type){
         opacity: 0.5,
         fill:"#5FC0CE",
         stroke:"#015965",
-        strokeWidth: '2'});    
+        strokeWidth: '2'});  
+        this.pointer.frame = element;  
    }; 
     if (type == 'line'){
        element = snap.line(cursor.x, cursor.y, cursor.x, cursor.y);   
@@ -148,6 +150,7 @@ canvas.draw_end = function(shift){
         element.attr({
             width: width ,
             height: height }); 
+        this.selecting()
     };
     if (element.attr("type") == "line"){
         var x =cursor.x;
@@ -304,6 +307,48 @@ canvas.select = function(id){
     };
 };
 
+canvas.selecting = function(){
+    var box_selector = canvas.current_el.getBBox()
+    var box_el
+    this.selected_el = []
+    this.elements.forEach(function(element, index){
+        box_el = element.getBBox()
+        if ((element.attr("type")!="pointer")&&canvas.include(box_selector,box_el)){
+
+            //this.draw_simple_frame(element)
+            canvas.selected_el.push(element)
+        }
+    })
+}
+
+
+canvas.include = function(box_selector, box_el){
+    var el_left_top =     {x:box_el.x,  y:box_el.y}
+    var el_right_top =    {x:box_el.x2, y:box_el.y}
+    var el_right_bottum = {x:box_el.x2, y:box_el.y2}
+    var el_left_bottum =  {x:box_el.x,  y:box_el.y2}
+
+    var sel_left_top =     {x:box_selector.x,  y:box_selector.y}
+    var sel_right_top =    {x:box_selector.x2, y:box_selector.y}
+    var sel_right_bottum = {x:box_selector.x2, y:box_selector.y2}
+    var sel_left_bottum =  {x:box_selector.x,  y:box_selector.y2}
+
+    var left_top_include  = canvas.point_between(el_left_top, sel_left_top, sel_right_bottum )
+    var right_top_include  = canvas.point_between(el_right_top, sel_left_top, sel_right_bottum )
+    var right_bottum_include  = canvas.point_between(el_right_bottum, sel_left_top, sel_right_bottum )
+    var left_bottum_include  = canvas.point_between(el_left_bottum, sel_left_top, sel_right_bottum )
+
+    return (left_top_include||right_top_include||right_bottum_include||left_bottum_include)
+}
+
+
+canvas.point_between = function(point, begin, end){
+    if ( ( point == null )||( begin == null )||( end == null ) ) { return  false }
+    var x_between  = ( (point.x >= begin.x)&&(point.x <= end.x) )
+    var y_between  = ( (point.y >= begin.y)&&(point.y <= end.y) )
+    return (x_between&&y_between)
+}
+
 canvas.unselect = function(){
     this.current_el = null;
     this.next_point = null
@@ -312,6 +357,13 @@ canvas.unselect = function(){
 };
 
 canvas.delete = function(){
+    var id = canvas.current_el.id 
+    this.elements.find(function(element, index, array){
+        if (element.id == id) {
+         array.splice(index,1)
+        
+          }
+    })
     this.next_point = null
     this.next_point = null
     this.current_el.remove(); 

@@ -160,3 +160,24 @@ test_h = function(){
 	var p ={x:2.5, y:0}
 	get_radius_circ(b,e,p)
 }
+
+
+test_between = function(){
+	var p = {x: 10, y: 10}
+	var b = {x: 5, y: 5}
+	var e = {x:20, y: 20}
+	var res = canvas.point_between(p,b,e)
+	console.log(res)
+
+	var p = {x: 10, y: 10}
+	var b = {x: 15, y: 5}
+	var e = {x:20, y: 20}
+	var res = canvas.point_between(p,b,e)
+	console.log(res)
+
+	var p = null
+	var b = {x: 5, y: 5}
+	var e = {x:20, y: 9}
+	var res = canvas.point_between(p,b,e)
+	console.log(res)
+}
