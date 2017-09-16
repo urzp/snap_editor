@@ -312,15 +312,53 @@ canvas.selecting = function(){
     var box_el
     this.selected_el = []
     this.elements.forEach(function(element, index){
+        canvas.delete_simple_frame(element)
         box_el = element.getBBox()
         if ((element.attr("type")!="pointer")&&canvas.include(box_selector,box_el)){
-
-            //this.draw_simple_frame(element)
+            canvas.draw_simple_frame(element)
             canvas.selected_el.push(element)
         }
     })
+    //var g = snap.g(canvas.selected_el)
+    //this.dragable(g);
 }
 
+
+canvas.draw_simple_frame = function (element){
+    var box = element.getBBox()
+    element.simple_frame = {}
+    var frame = element.simple_frame
+    var attr = {
+        stroke: "#30839b",
+        strokeWidth: '1', 
+        class:"frame_node",
+        'stroke-dasharray': '5,5' 
+        }
+    frame.top = snap.line(box.x,box.y,box.x2,box.y)
+    frame.bottom = snap.line(box.x,box.y2,box.x2,box.y2)
+    frame.left = snap.line(box.x,box.y,box.x,box.y2)
+    frame.right = snap.line(box.x2,box.y,box.x2,box.y2)
+    frame.top.attr(attr)
+    frame.bottom.attr(attr)
+    frame.left.attr(attr)
+    frame.right.attr(attr)
+    if (frame.g){frame.g.remove()}
+    frame.g = snap.g(element, frame.top, frame.bottom, frame.left, frame.right)
+    element.undrag()
+    this.dragable(frame.g);
+    //console.log(g)
+    
+} 
+
+canvas.delete_simple_frame = function(element){
+    var frame = element.simple_frame
+    if (frame != null){
+        frame.top.remove()
+        frame.bottom.remove()
+        frame.left.remove()
+        frame.right.remove()
+    }
+}
 
 canvas.include = function(box_selector, box_el){
     var el_left_top =     {x:box_el.x,  y:box_el.y}
