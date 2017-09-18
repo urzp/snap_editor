@@ -310,17 +310,40 @@ canvas.select = function(id){
 canvas.selecting = function(){
     var box_selector = canvas.current_el.getBBox()
     var box_el
-    this.selected_el = []
+    canvas.ungroupe(canvas.g, this.selected_el)
+    
     this.elements.forEach(function(element, index){
         canvas.delete_simple_frame(element)
         box_el = element.getBBox()
         if ((element.attr("type")!="pointer")&&canvas.include(box_selector,box_el)){
             canvas.draw_simple_frame(element)
             canvas.selected_el.push(element)
+            canvas.selected_el.push(element.simple_frame.top)
+            canvas.selected_el.push(element.simple_frame.bottom)
+            canvas.selected_el.push(element.simple_frame.left)
+            canvas.selected_el.push(element.simple_frame.right)
+            element.undrag()
         }
     })
-    //var g = snap.g(canvas.selected_el)
-    //this.dragable(g);
+    
+    
+    canvas.g = snap.group().add(canvas.selected_el)
+    this.dragable(canvas.g);
+}
+
+canvas.ungroupe = function(groupe, elements){
+    if ( (groupe == null)||( elements == null) ){ return null}
+    var matrix = groupe.matrix
+    elements.forEach( function(element, index){
+        if (matrix != null ){
+            var origTransform = element.transform().local;
+            var transform = origTransform + (origTransform ? "T" : "t") + [matrix.e, matrix.f];
+            element.attr({transform:transform});
+        }
+        snap.add(element)
+    })
+    canvas.g.remove()
+    this.selected_el = []
 }
 
 
@@ -342,10 +365,10 @@ canvas.draw_simple_frame = function (element){
     frame.bottom.attr(attr)
     frame.left.attr(attr)
     frame.right.attr(attr)
-    if (frame.g){frame.g.remove()}
-    frame.g = snap.g(element, frame.top, frame.bottom, frame.left, frame.right)
-    element.undrag()
-    this.dragable(frame.g);
+    //console.log(element.simple_frame.g)
+    //frame.g = snap.g(element, frame.top, frame.bottom, frame.left, frame.right)
+    //element.undrag()
+    //this.dragable(frame.g);
     //console.log(g)
     
 } 
@@ -433,6 +456,8 @@ canvas.last_element = function(){
 
 canvas.canculate_rel_point = function(point,element){ // for edit
     var matrix = element.matrix;
+    
+    if (matrix == null){ return point }
     var cxy = this.get_center(element);
     var mdx = cxy.x + (matrix.e-cxy.x)*matrix.a + (matrix.f - cxy.y)*matrix.b; 
     var mdy = cxy.y + (matrix.f-cxy.y)*matrix.a - (matrix.e - cxy.x)*matrix.b; 
