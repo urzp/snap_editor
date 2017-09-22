@@ -119,9 +119,9 @@ canvas.get_center_big_circle = function(p1,p2,p3){
 	var Xb = p3.x
 	var Yb = p3.y
 
-	var BC = (Xb**2+Yb**2-Xc**2-Yc**2)
-	var CA = (Xc**2+Yc**2-Xa**2-Ya**2)
-	var AB = (Xa**2+Ya**2-Xb**2-Yb**2)
+	var BC = (Xb*Xb+Yb*Yb-Xc*Xc-Yc*Yc)
+	var CA = (Xc*Xc+Yc*Yc-Xa*Xa-Ya*Ya)
+	var AB = (Xa*Xa+Ya*Ya-Xb*Xb-Yb*Yb)
 	var denom =  Xa*(Yb-Yc)+Xb*(Yc-Ya)+Xc*(Ya-Yb) 
 
 	var x0 = -(1/2)*(  Ya*BC + Yb*CA + Yc*AB )
@@ -162,7 +162,7 @@ get_radius_circ = function(beg, end, p){
 }
 
 get_h = function(r,d){
-	return parseInt( (r + Math.sqrt( 4*(r**2) - d**2 ) / 2) )
+	return parseInt( (r + Math.sqrt( 4*(r*r) - d*d ) / 2) )
 }
 
 get_center_line = function(p1,p2){
