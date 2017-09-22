@@ -445,8 +445,7 @@ canvas.last_element = function(){
     var count_el = parseInt( snap.node.childElementCount );
     for(var i = count_el -1; i>1; i--){
         var last_el = snap.node.children[i];
-
-        if (last_el.attributes.class.value == "figure"){
+        if ((last_el.attributes.class != null )&&(last_el.attributes.class.value == "figure")){
           var last_el_id = last_el.attributes.id.value;  
           var index = parseInt( last_el_id ) -1;
           i = 0;
