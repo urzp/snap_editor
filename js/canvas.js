@@ -341,6 +341,8 @@ canvas.ungroupe = function(groupe, elements){
             element.attr({transform:transform});
         }
         snap.add(element)
+        canvas.dragable(element)
+
     })
     canvas.g.remove()
     this.selected_el = []
