@@ -1,6 +1,7 @@
 canvas.events = function(){
 
     $( "#svg" ).click(function(event){  
+    	canvas.stop_move = false
         if (canvas.pointer.selecting){
         	finish_select()
         } 
@@ -35,7 +36,7 @@ canvas.events = function(){
             var target_id = event.target.getAttribute("id")
             if  (target_id == "svg"){
                 canvas.pointer.selecting = true;
-                canvas.draw(tool.type)
+                canvas.draw(tool.type) // drawing selecting frame
             }else{
                 canvas.select( target_id )
             }    

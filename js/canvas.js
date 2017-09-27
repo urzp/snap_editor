@@ -5,7 +5,8 @@ canvas = {
     elements:[],
     selected_el:[],
     current_el:{},
-    count:0
+    count:0,
+    stop_move: false 
 };
 
 canvas.init = function(){
@@ -18,20 +19,29 @@ canvas.init = function(){
 
 
 canvas.dragable = function(element){
-    dragMove = function(dx, dy, ev, x, y) {
-        var transform = origTransform + (origTransform ? "T" : "t") + [dx, dy];
-        element.attr({ transform: transform });
-        dw_frame.draw(canvas.current_el);     
-    }
+    
+    
 
-    beforeMove = function(){
-        origTransform = element.transform().local;
-    };
+        dragMove = function(dx, dy, ev, x, y) {
+            //console.log(canvas.stop_move)
+            if (canvas.stop_move == false ){
+                var transform = origTransform + (origTransform ? "T" : "t") + [dx, dy];
+                element.attr({ transform: transform });
+                dw_frame.draw(canvas.current_el);  
+            }   
+        }
 
-    element.drag(dragMove, beforeMove);
+        beforeMove = function(){
+            //console.log("before move")
+            origTransform = element.transform().local;
+        };
+
+        element.drag(dragMove, beforeMove);
+
 };
 
 canvas.draw = function(type){
+    canvas.stop_move = true
     canvas.unselect()
     var element = null;
     this.count++;
