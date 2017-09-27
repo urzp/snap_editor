@@ -37,7 +37,6 @@ canvas.draw = function(type){
     this.count++;
     var cursor = get_xy();
     if (type == 'pointer'){
-        console.log("pointer")
        element = snap.rect(cursor.x, cursor.y, 10, 10); 
        element.attr({
         type: "pointer",
@@ -296,7 +295,7 @@ canvas.select = function(id){
     if (found != null) {
         canvas.unselect()
         this.current_el = found;
-        found.before(this.last_element()); 
+        //this.set_element_front_of_all(found)
         dw_frame.draw(found);
 
         if (found.attr("type") == "path") { canvas.next_point = canvas.count_points_path(found) - 1}
@@ -439,6 +438,14 @@ canvas.get_center = function(element){
     var box = element.getBBox();
     this.current_el_center = {x:box.cx, y:box.cy };
     return this.current_el_center; 
+};
+
+canvas.set_element_front_of_all = function(element){
+    var last_el = this.last_element()
+    if (last_el != null){
+     element.before(last_el);        
+    }
+
 };
 
 canvas.last_element = function(){
