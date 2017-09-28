@@ -157,6 +157,25 @@ dw_frame.get_frame = function(element){
         // box.x5 = centr.x//( points.p1.x + points.p2.x + points.p3.x )/3//centr.x;
         // box.y5 = centr.y//( points.p1.y + points.p2.y + points.p3.y )/3//centr.y; 
     }
+
+    if (element.type == "g"){
+
+        box.x1 = box1.x;
+        box.y1 = box1.y;
+
+        box.x2 = box1.x2;
+        box.y2 = box1.y;
+
+        box.x3 = box1.x2;
+        box.y3 = box1.y2;
+
+        box.x4 = box1.x;
+        box.y4 = box1.y2;    
+
+        box.x5 = cxy.x;
+        box.y5 = cxy.y; 
+
+    }
     this.box = box;
     return box;
 }
