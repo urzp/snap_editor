@@ -21,6 +21,8 @@ tool.buttons_events = function(){
     $(".complite_path").click(function(){ tool.select('pointer'); canvas.complite_path() }) 
     $(".resume_path").click(function(){  canvas.resume_path() }) 
     $(".fill_element").click(function(){  canvas.fill_element() }) 
+    $(".groupe").click(function(){  canvas.groupe() }) 
+    $(".ungroupe").click(function(){  canvas.ungroupe() }) 
        
 }
 

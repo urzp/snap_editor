@@ -319,7 +319,7 @@ canvas.select = function(id){
 canvas.selecting = function(){
     var box_selector = canvas.current_el.getBBox()
     var box_el
-    canvas.ungroupe(canvas.g, this.selected_el)
+    canvas.ungroupe(canvas.g, this.selected_el, false)
     
     this.elements.forEach(function(element, index){
         canvas.delete_simple_frame(element)
@@ -340,7 +340,35 @@ canvas.selecting = function(){
     this.dragable(canvas.g);
 }
 
-canvas.ungroupe = function(groupe, elements){
+canvas.groupe = function(){
+    // need cancel for selected null
+    var groupe = []
+    var svg_groupe
+    var elements = this.selected_el
+    elements.forEach( function(element, index){
+        if (element.attr("class") !=  "frame_node"){
+            groupe.push(element)
+        }
+    } )
+    canvas.ungroupe(canvas.g, this.selected_el, true)
+    svg_groupe = snap.group().add(groupe)
+    this.dragable(svg_groupe)
+    canvas.remove_elements(groupe)
+    canvas.elements.push(groupe)
+
+}
+
+canvas.remove_elements = function(groupe){
+    groupe.forEach( function(g_element){
+        canvas.elements.forEach( function (element, index, elements){
+            if (g_element == element){
+                elements.splice(index,1)
+            }
+        })
+    })
+}
+
+canvas.ungroupe = function(groupe, elements, delete_el){
     if ( (groupe == null)||( elements == null) ){ return null}
     var matrix = groupe.matrix
     elements.forEach( function(element, index){
@@ -349,8 +377,11 @@ canvas.ungroupe = function(groupe, elements){
             var transform = origTransform + (origTransform ? "T" : "t") + [matrix.e, matrix.f];
             element.attr({transform:transform});
         }
-        snap.add(element)
-        canvas.dragable(element)
+        if (delete_el == false){
+            snap.add(element)
+            canvas.dragable(element)
+        }
+        
 
     })
     canvas.g.remove()

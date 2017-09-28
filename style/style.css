@@ -39,7 +39,7 @@
 
 
 
-.fill_element, .delete, .delete_point, .complite_path, .resume_path{
+.fill_element, .delete, .delete_point, .complite_path, .resume_path, .groupe, .ungroupe{
     width: 10%;
     margin: 1vh 1%;
 
