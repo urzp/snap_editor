@@ -301,7 +301,26 @@ canvas.rotate = function(element , dx ){
 
 canvas.select = function(id){
     
-    var found = this.elements.find(function(element){ if (element.attr("id") == id){return element}; });
+    var found = this.elements.find(function(element){ 
+        
+        if (element.type != "g" ){
+            if (element.attr("id") == id){return element}; 
+        }else{
+
+            var g_elements = element.selectAll(".figure").items
+            var g_find = g_elements.find(function(g_element){
+                if (g_element.attr("id") == id) return true
+            })
+            if (g_find != null){
+                return element
+            }
+
+        }
+        
+    });
+
+    console.log(found)
+
     if (found != null) {
         canvas.unselect()
         this.current_el = found;
@@ -354,7 +373,7 @@ canvas.groupe = function(){
     svg_groupe = snap.group().add(groupe)
     this.dragable(svg_groupe)
     canvas.remove_elements(groupe)
-    canvas.elements.push(groupe)
+    canvas.elements.push(svg_groupe)
 
 }
 
