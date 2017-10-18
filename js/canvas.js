@@ -338,7 +338,7 @@ canvas.select = function(id){
 canvas.selecting = function(){
     var box_selector = canvas.current_el.getBBox()
     var box_el
-    canvas.ungroupe(canvas.g, this.selected_el, false)
+    canvas.regroupe(canvas.g, this.selected_el, false)
     
     this.elements.forEach(function(element, index){
         canvas.delete_simple_frame(element)
@@ -369,7 +369,7 @@ canvas.groupe = function(){
             groupe.push(element)
         }
     } )
-    canvas.ungroupe(canvas.g, this.selected_el, true)
+    canvas.regroupe(canvas.g, this.selected_el, true)
     svg_groupe = snap.group().add(groupe)
     this.dragable(svg_groupe)
     canvas.remove_elements(groupe)
@@ -387,7 +387,8 @@ canvas.remove_elements = function(groupe){
     })
 }
 
-canvas.ungroupe = function(groupe, elements, delete_el){
+canvas.regroupe = function(groupe, elements, delete_el){
+
     if ( (groupe == null)||( elements == null) ){ return null}
     var matrix = groupe.matrix
     elements.forEach( function(element, index){
@@ -399,13 +400,12 @@ canvas.ungroupe = function(groupe, elements, delete_el){
         if (delete_el == false){
             snap.add(element)
             canvas.dragable(element)
-        }
-        
-
+        } 
     })
     canvas.g.remove()
     this.selected_el = []
 }
+
 
 
 canvas.draw_simple_frame = function (element){
